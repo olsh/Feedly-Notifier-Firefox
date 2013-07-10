@@ -1,0 +1,101 @@
+@font-face {
+    font-family: 'Open Sans Condensed';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url(opensanscondensed.woff) format('woff');
+}
+
+.button{
+    background-color: #6cc655;
+    border: 1px solid rgba( 0, 0, 0, 0.2 );
+    color: #E8E8E8;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 5px 15px;
+    font-weight: bold;
+    color: #FFF;
+    margin: 0px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2), inset 0px 0px 1px rgba(255, 255, 255, 1);
+    text-decoration: none;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.mark-read {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    *margin-right: .3em;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("glyphicons-halflings.png");
+    background-position: -120px -120px;
+    background-repeat: no-repeat;
+}
+
+.mark-read:hover{
+    background-position: -96px -120px;
+}
+
+#login, #popup-content {
+    display: none;
+}
+
+.item{
+    width: 350px;
+}
+
+#feed-empty,
+.title{
+    font-family: "Open Sans Condensed";
+    color: #444;
+}
+
+#feed-empty{
+    text-align: center;
+}
+
+#popup-content{
+    min-width: 140px;
+}
+
+#feedly{
+    margin-bottom: 10px;
+}
+
+#feedly img{
+    margin-right: 5px;
+    vertical-align: bottom;
+}
+
+#website{
+    font-family: sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.title{
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.blog-title{
+    color: gray;
+}
+
+.blog-title a, .blog-title span{
+    color: gray;
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.blog-title span{
+    font-family: "Open Sans Condensed";
+}
+
+.blog-title a{
+    cursor: pointer;
+    text-decoration: none;
+}
