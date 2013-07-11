@@ -1,8 +1,15 @@
-$(document).ready(function () {
+function getToken() {
     try {
-        var feedlyToken = JSON.parse(localStorage.getItem('session@cloud'))['feedlyToken'];
-        self.port.emit("accessTokenReceived", feedlyToken);
+        var sessionData = localStorage.getItem("session@cloud");
+        if (sessionData) {
+            var feedlyToken = JSON.parse(localStorage.getItem('session@cloud'))['feedlyToken'];
+            self.port.emit("accessTokenReceived", feedlyToken);
+        }else{
+            setTimeout(getToken, 3000);
+        }
     } catch (exception) {
 
     }
-});
+}
+
+getToken();

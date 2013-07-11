@@ -12,7 +12,7 @@
 </div>
 <div id="popup-content">
     <div id="feedly">
-        <img src="/images/icon.png"><span id="website">Feedly website</span>
+        <img src="/images/icon.png"><a href="http://feedly.com" target="_blank">Feedly website</a>
     </div>
     <div id="feed"></div>
     <div id="feed-empty"></div>
@@ -23,10 +23,10 @@
 <script src="scripts/jquery.tmpl.min.js"></script>
 <script id="entryTemplate" type="text/x-jquery-tmpl">
     <div class="item" data-id="${id}">
-        <a href="${url}" class="title">${title}</a>
+        <a target="_blank" href="${url}" class="title">${title}</a>
         <span class="mark-read" title="Mark as read"></span>
         <div class="blog-title">
-            <a href="${blogUrl}">${blog}</a>,
+            <a target="_blank" href="${blogUrl}">${blog}</a>,
             <span class="timeago" title="${date}"></span>
         </div>
         <div class="content">{{html content}}</div>
