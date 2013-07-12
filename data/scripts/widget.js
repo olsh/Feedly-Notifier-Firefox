@@ -23,3 +23,8 @@ window.addEventListener('click', function(event) {
     }
     event.preventDefault();
 }, true);
+
+self.port.on("decrementFeedsCount", function(decrementCount){
+    var counter = document.getElementById("counter");
+    counter.innerHTML = Number(counter.innerHTML) - decrementCount;
+});

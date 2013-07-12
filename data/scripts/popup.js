@@ -27,6 +27,7 @@ function renderFeeds(data) {
     if (data.isLoggedIn === false) {
         $("#login").show();
     } else {
+        $("#login").hide();
         $("#popup-content").show();
 
         if (data.feeds.length === 0) {
