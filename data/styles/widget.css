@@ -1,0 +1,20 @@
+body{
+    cursor: default;
+}
+
+#container{
+    width: 16px;
+    height: 16px;
+}
+
+#counter{
+    margin-top: -22px;
+    font-size: 14px;
+    font-weight: bolder;
+    height: 14px;
+    color: red;
+}
+
+#image{
+    max-height: 16px;
+}

@@ -1,9 +1,25 @@
 {
-  "name": "feedly-notifier",
-  "fullName": "Feedly notifier",
-  "id": "jid1-BOjn8b0IM7kH2w",
-  "description": "a basic add-on",
-  "author": "Feedly notifier dev team",
-  "license": "MPL 2.0",
-  "version": "0.1"
+    "name": "feedly-notifier",
+    "fullName": "Feedly Notifier",
+    "id": "jid1-BOjn8b0IM7kH2w",
+    "description": "Feedly notifier is a tiny extension that keeps you up to date with your feedly subscriptions.",
+    "author": "Dmitriy Samodov, Oleg Shevchenko",
+    "license": "MPL 2.0",
+    "version": "0.1",
+    "preferences": [
+        {
+            "name": "updateInterval",
+            "title": "Interval period",
+            "description": "Interval of feeds update in minutes",
+            "type": "integer",
+            "value": 2
+        },
+        {
+            "name": "markReadOnClick",
+            "title": "Auto mark as read",
+            "description": "Auto mark as read on news open",
+            "type": "bool",
+            "value": true
+        }
+    ]
 }
