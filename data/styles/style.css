@@ -5,6 +5,10 @@
     src: local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url(opensanscondensed.woff) format('woff');
 }
 
+body{
+    overflow-x: hidden;
+}
+
 .button{
     background-color: #6cc655;
     border: 1px solid rgba( 0, 0, 0, 0.2 );
@@ -45,6 +49,7 @@
 
 .item{
     width: 350px;
+    padding-right: 20px;
 }
 
 #feed-empty,
