@@ -22,8 +22,8 @@ body{
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2), inset 0px 0px 1px rgba(255, 255, 255, 1);
     text-decoration: none;
     border-radius: 3px;
-    -webkit-appearance: none;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .mark-read {
@@ -49,13 +49,14 @@ body{
 
 .item{
     width: 350px;
-    padding-right: 20px;
+    padding-right: 25px;
 }
 
 #feed-empty,
 .title{
     font-family: "Open Sans Condensed";
     color: #444;
+    margin-right: 15px;
 }
 
 #feed-empty{
@@ -104,4 +105,14 @@ body{
 .blog-title a{
     cursor: pointer;
     text-decoration: none;
+}
+
+#loading{
+    width: 32px;
+    height: 32px;
+    margin: 10px;
+}
+
+#loading img{
+    margin-right: 25px;
 }

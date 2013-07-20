@@ -16,18 +16,12 @@ self.port.on("onFeedsUpdate", function(data){
     var counter = document.getElementById("counter");
     if(data.unreadFeedsCount > 0){
         counter.innerHTML = data.unreadFeedsCount;
+        counter.style.display = "block";
     }else{
         counter.innerHTML = "";
+        counter.style.display = "none";
     }
 });
-
-window.addEventListener('click', function(event) {
-    if(event.button == 0 && event.shiftKey == false)
-    {
-        self.port.emit('getFeeds');
-    }
-    event.preventDefault();
-}, true);
 
 self.port.on("decrementFeedsCount", function(decrementCount){
     var counter = document.getElementById("counter");

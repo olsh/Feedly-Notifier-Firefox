@@ -8,13 +8,20 @@ body{
 }
 
 #counter{
-    margin-top: -22px;
-    font-size: 14px;
-    font-weight: bolder;
-    height: 14px;
-    color: red;
+    background-color: #CC0000;
+    border-radius: 3px 3px 3px 3px;
+    color: white;
+    cursor: default;
+    float: right;
+    font-size: 10px;
+    height: 10px;
+    line-height: 10px;
+    margin-top: -10px;
+    padding: 1px;
+    display: none;
 }
 
 #image{
-    max-height: 16px;
+    height: 16px;
+    float: left;
 }

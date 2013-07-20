@@ -1,32 +1,39 @@
-document.documentElement.addEventListener('feeds-updated', function(event) {
-    renderFeeds(event.detail);
-}, false);
+self.port.on("feedsUpdated", function(feedsData){
+    renderFeeds(feedsData);
+});
 
-document.documentElement.addEventListener('feeds-mark-as-read', function(event) {
-    removeFeedFromList(event.detail);
-}, false);
+self.port.on("feedMarkedAsRead", function(feedsData){
+    removeFeedFromList(feedsData);
+});
+
+self.port.on("showLoader", function(){
+    showLoader();
+});
 
 function requestFeeds(){
-    $("body").children("div").hide();
-    $("#loading").show();
-    var event = new CustomEvent('CustomEvent');
-    event.initCustomEvent("get-feeds", true, true, null);
-    document.documentElement.dispatchEvent(event);
+    self.port.emit("getFeeds", null);
 }
 
 function markAsRead(feedId, isLinkOpened) {
-    var event = document.createEvent('CustomEvent');
-    event.initCustomEvent("mark-read", true, true, {feedId: feedId, isLinkOpened: isLinkOpened});
-    document.documentElement.dispatchEvent(event);
+    self.port.emit("markRead",{feedId: feedId, isLinkOpened: isLinkOpened});
 }
 
 function removeFeedFromList(feedId){
-    $(".item[data-id='"+ feedId + "']").fadeOut();
-    if ($("#feed").find(".item[data-is-read!='true']").size() === 0) {
-        requestFeeds();
-    }
+    $(".item[data-id='"+ feedId + "']").fadeOut("fast", function(){
+        $(window).trigger("resize");
+        if ($("#feed").find(".item:visible").size() === 0) {
+            requestFeeds();
+        }
+    });
+}
+
+function showLoader(){
+    $("body").children("div").hide();
+    $("#loading").show();
     resizeWindows();
 }
+
+window.onresize = resizeWindows;
 
 function renderFeeds(data) {
     $("#loading").hide();
@@ -42,7 +49,20 @@ function renderFeeds(data) {
             $("#feed-empty").html("No unread articles");
         } else {
             $("#feed-empty").html("");
-            $('#entryTemplate').tmpl(data.feeds).appendTo('#feed');
+
+            var feeds = data.feeds;
+            var container = $("#feed");
+            for(var i = 0; i < feeds.length; i++){
+                var item = $("<div class='item'/>").attr("data-id", feeds[i].id)
+                    .append($("<a target='_blank' href='" + feeds[i].url + "' class='title' />").text(feeds[i].title + " "))
+                    .append($("<span class='mark-read' title='Mark as read' />"));
+                var blogTitle = $("<div class='blog-title' />")
+                    .append($("<a target='_blank' href='" + feeds[i].blogUrl + "' />").text(feeds[i].blog + ", "))
+                    .append($("<span class='timeago' title='" + feeds[i].date + "' />"));
+
+                item.append(blogTitle);
+                container.append(item);
+            }
             $(".timeago").timeago();
         }
     }
@@ -50,20 +70,16 @@ function renderFeeds(data) {
 }
 
 function resizeWindows(){
-    var body = $(document);
+    var scrollOffset = 25;
     var maxWidth = 500;
     var maxHeight = 600;
-    var width = body.width() > maxWidth ? maxWidth : body.width();
-    var height = body.height() > maxHeight ? maxHeight : body.height();
-    var event = document.createEvent('CustomEvent');
-    event.initCustomEvent("resize-panel", true, true, {width: width, height: height});
-    document.documentElement.dispatchEvent(event);
+    var width = document.body.scrollWidth > maxWidth ? maxWidth : document.body.scrollWidth;
+    var height = document.body.scrollHeight > maxHeight ? maxHeight : document.body.scrollHeight ;
+    self.port.emit("resizePanel", {width: width, height: height + scrollOffset});
 }
 
 $("#login").click(function () {
-    var event = document.createEvent('CustomEvent');
-    event.initCustomEvent("update-token", true, true, null);
-    document.documentElement.dispatchEvent(event);
+    self.port.emit("updateToken", null);
 });
 
 $("#feed").on("mousedown", "a.title", function (event) {
