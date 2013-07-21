@@ -3,8 +3,8 @@ body{
 }
 
 #container{
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
 }
 
 #counter{
@@ -12,16 +12,17 @@ body{
     border-radius: 3px 3px 3px 3px;
     color: white;
     cursor: default;
+    display: none;
     float: right;
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: bolder;
     height: 10px;
     line-height: 10px;
-    margin-top: -10px;
+    margin-top: -12px;
     padding: 1px;
-    display: none;
 }
 
 #image{
-    height: 16px;
+    height: 24px;
     float: left;
 }

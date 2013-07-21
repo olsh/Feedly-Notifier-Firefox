@@ -1,7 +1,7 @@
 var widgetGlobal = {
     icons: {
-        default: "images/icon.png",
-        inactive: "images/icon_inactive.png"
+        default: "images/icon24.png",
+        inactive: "images/icon24_inactive.png"
     }
 }
 
