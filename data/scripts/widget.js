@@ -26,4 +26,7 @@ self.port.on("onFeedsUpdate", function(data){
 self.port.on("decrementFeedsCount", function(decrementCount){
     var counter = document.getElementById("counter");
     counter.innerHTML = Number(counter.innerHTML) - decrementCount;
+    if(Number(counter.innerHTML) < 1){
+        counter.style.display = "none";
+    }
 });

@@ -26,6 +26,20 @@
             "value": true
         },
         {
+            "name": "showFullFeedContent",
+            "title": "Show full article content",
+            "description": "Show full content of article in the expanded feed (if possible)",
+            "type": "bool",
+            "value": false
+        },
+        {
+            "name": "showDesktopNotifications",
+            "title": "Show desktop notifications",
+            "description": "Show desktop notifications on new feeds",
+            "type": "bool",
+            "value": true
+        },
+        {
             "type": "control",
             "label": "Logout",
             "name": "logout",

@@ -26,12 +26,14 @@ body{
     margin-right: 20px;
 }
 
-.mark-read {
+.mark-read,
+.show-content,
+.icon-ok{
     display: inline-block;
     width: 14px;
     height: 14px;
     margin-top: 1px;
-    *margin-right: .3em;
+    margin-right: .3em;
     line-height: 14px;
     vertical-align: text-top;
     background-image: url("glyphicons-halflings.png");
@@ -39,8 +41,21 @@ body{
     background-repeat: no-repeat;
 }
 
+.icon-ok{
+    background-position: -288px 0;
+    margin-right: 5px;
+}
+
 .mark-read:hover{
     background-position: -96px -120px;
+}
+
+#mark-all-read{
+    cursor: pointer;
+}
+
+.show-content{
+    background-position: -313px -119px;
 }
 
 #login, #popup-content {
@@ -50,6 +65,15 @@ body{
 .item{
     width: 350px;
     padding-right: 25px;
+}
+
+.item .content{
+    display: none;
+}
+
+.rtl{
+    direction: rtl;
+    text-align: right;
 }
 
 #feed-empty,
@@ -76,11 +100,20 @@ body{
     vertical-align: bottom;
 }
 
-#website{
+#website,
+#mark-all-read{
     font-family: sans-serif;
     font-size: 11px;
     text-decoration: none;
-    color: gray;
+    color: black;
+}
+
+#mark-all-read{
+    cursor: pointer;
+}
+
+#all-read-section{
+    float:right;
 }
 
 .title{
