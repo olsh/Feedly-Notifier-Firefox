@@ -10,32 +10,29 @@
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
     "dependencies": ["toolbarwidget", "addon-sdk"],
+    "translators": ["Jérémy Hagège"],
     "preferences": [
         {
             "name": "updateInterval",
-            "title": "Interval period",
-            "description": "Interval of feeds update in minutes",
+            "title": "",
             "type": "integer",
             "value": 2
         },
         {
             "name": "markReadOnClick",
-            "title": "Auto mark as read",
-            "description": "Auto mark as read on news open",
+            "title": "",
             "type": "bool",
             "value": true
         },
         {
             "name": "showFullFeedContent",
-            "title": "Show full article content",
-            "description": "Show full content of article in the expanded feed (if possible)",
+            "title": "",
             "type": "bool",
             "value": false
         },
         {
             "name": "showDesktopNotifications",
             "title": "Show desktop notifications",
-            "description": "Show desktop notifications on new feeds",
             "type": "bool",
             "value": true
         },
@@ -43,7 +40,7 @@
             "type": "control",
             "label": "Logout",
             "name": "logout",
-            "title": "Logout"
+            "title": ""
         }
     ]
 }

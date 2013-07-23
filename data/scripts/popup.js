@@ -12,6 +12,7 @@ self.port.on("feedMarkedAsRead", function(feedsData){
 
 self.port.on("showLoader", function(){
     showLoader();
+    resizeWindows();
 });
 
 function requestFeeds(){
@@ -36,27 +37,34 @@ function removeFeedFromList(feedIds){
 function showLoader(){
     $("body").children("div").hide();
     $("#loading").show();
-    resizeWindows();
+}
+
+function showLogin(){
+    $("body").children("div").hide();
+    $("#login").show();
+}
+
+function showContent(){
+    $("body").children("div").hide();
+    $("#popup-content").show();
 }
 
 function renderFeeds(data) {
-    $("#loading").hide();
+
     $("#feed").empty();
 
     popupGlobal.feeds = data.feeds;
     if (data.isLoggedIn === false) {
-        $("#login").show();
+        showLogin();
     } else {
-        $("#login").hide();
-        $("#popup-content").show();
 
         if (data.feeds.length === 0) {
-            $("#feed-empty").html("No unread articles");
+            $("#feed-empty").show();
             $("#all-read-section").hide();
         } else {
             $("#all-read-section").show();
+            $("#feed-empty").hide();
 
-            $("#feed-empty").html("");
             var feeds = data.feeds;
             var container = $("#feed");
             for(var i = 0; i < feeds.length; i++){
@@ -78,6 +86,7 @@ function renderFeeds(data) {
             }
             $(".timeago").timeago();
         }
+        showContent();
     }
     resizeWindows();
 }
@@ -122,11 +131,10 @@ $("#feed").on("click", ".show-content", function(){
         }
         if(content){
             contentContainer.html(content);
-            //For open new tab without closing popup
+            //For open links in new tab
             contentContainer.find("a").each(function(key, value){
                 var link = $(value);
-                link.data("link", link.attr("href"));
-                link.attr("href", "javascript:void(0)");
+                link.attr("target", "_blank");
             });
         }
     }
