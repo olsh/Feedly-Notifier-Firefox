@@ -6,7 +6,7 @@
     "author": "Dmitriy Samodov, Oleg Shevchenko",
     "license": "MPL 2.0",
     "version": "1.0.0",
-    "homepage": "https://github.com/olsh/Feedly-Notifier-Firefox",
+    "homepage": "http://olsh.github.io/Feedly-Notifier-Firefox",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
     "dependencies": ["toolbarwidget", "addon-sdk"],
