@@ -1,28 +1,15 @@
-body{
-    cursor: default;
-}
-
-#container{
-    width: 24px;
-    height: 24px;
-}
-
-#counter{
-    background-color: #CC0000;
-    border-radius: 3px 3px 3px 3px;
-    color: white;
-    cursor: default;
-    display: none;
+#feedlynotifier:after {
     float: right;
-    font-size: 12px;
-    font-weight: bolder;
-    height: 10px;
-    line-height: 10px;
-    margin-top: -12px;
-    padding: 1px;
-}
-
-#image{
-    height: 24px;
-    float: left;
+    position: relative;
+    display: block;
+    font-family: arial;
+    font-size: 10px;
+    font-weight: bold;
+    content: attr(badge);
+    background-color: #b60c00;
+    color: white;
+    margin: 8px 0 0 -18px;
+    padding: 0 2px;
+    border-radius: 6px;
+    line-height: 11px;
 }
