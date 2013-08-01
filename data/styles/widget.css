@@ -26,3 +26,21 @@ body{
     height: 24px;
     float: left;
 }
+
+#feedlynotifier.mainbutton:after {
+    position: relative;
+    z-index: 9;
+    display: block;
+    font-family: arial;
+    font-size: 10px;
+    font-weight: 600;
+    content: attr(value);
+    background-color: #7F3300;
+    color: white;
+    margin: 8px 0 0 -6px;
+    padding: 0 2px;
+    border-radius: 6px;
+}
+#feedlynotifier.mainbutton[label=""]:after {
+    background-color: transparent;
+}
