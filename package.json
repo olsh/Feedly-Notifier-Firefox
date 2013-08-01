@@ -9,7 +9,6 @@
     "version": "1.1.0",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
-    "dependencies": ["toolbarwidget", "addon-sdk"],
     "translators": ["Jérémy Hagège"],
     "preferences": [
         {
