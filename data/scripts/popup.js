@@ -26,7 +26,7 @@ function markAsRead(feedIds, isLinkOpened) {
 function removeFeedFromList(feedIds){
     for(var i = 0; i < feedIds.length; i++){
         $(".item[data-id='"+ feedIds[i] + "']").fadeOut("fast", function(){
-            $(window).trigger("resize");
+            resizeWindows();
             if ($("#feed").find(".item:visible").size() === 0) {
                 requestFeeds();
             }
@@ -94,12 +94,15 @@ function renderFeeds(data) {
 window.onresize = resizeWindows;
 
 function resizeWindows(){
-    var scrollOffset = 25;
-    var maxWidth = 700;
     var maxHeight = 600;
-    var width = document.body.scrollWidth > maxWidth ? maxWidth : document.body.scrollWidth;
-    var height = document.body.scrollHeight > maxHeight ? maxHeight : document.body.scrollHeight ;
-    self.port.emit("resizePanel", {width: width, height: height + scrollOffset});
+    var width = $("body").outerWidth(true);
+    var height = $("body").outerHeight(true);
+    if(height > maxHeight){
+        height = maxHeight;
+        width += getScrollbarWidth();
+    }
+    var height = height > maxHeight ? maxHeight : height ;
+    self.port.emit("resizePanel", {width: width, height: height});
 }
 
 $("#login").click(function () {
@@ -156,3 +159,14 @@ $("#popup-content").on("click", "#mark-all-read",function(event){
     });
     markAsRead(feedIds);
 });
+
+function getScrollbarWidth()
+{
+    var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div></div>');
+    $('body').append(div);
+    var w1 = $('div', div).innerWidth();
+    div.css('overflow-y', 'auto');
+    var w2 = $('div', div).innerWidth();
+    $(div).remove();
+    return (w1 - w2);
+}
