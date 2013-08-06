@@ -31,9 +31,15 @@
         },
         {
             "name": "showDesktopNotifications",
-            "title": "Show desktop notifications",
+            "title": "",
             "type": "bool",
             "value": true
+        },
+        {
+            "name": "openSiteOnIconClick",
+            "title": "",
+            "type": "bool",
+            "value": false
         },
         {
             "type": "control",
