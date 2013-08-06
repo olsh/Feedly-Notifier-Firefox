@@ -57,7 +57,6 @@ function renderFeeds(data) {
     if (data.isLoggedIn === false) {
         showLogin();
     } else {
-
         if (data.feeds.length === 0) {
             $("#feed-empty").show();
             $("#all-read-section").hide();
@@ -68,10 +67,14 @@ function renderFeeds(data) {
             var feeds = data.feeds;
             var container = $("#feed");
             for(var i = 0; i < feeds.length; i++){
-                var item = $("<div class='item'/>").attr("data-id", feeds[i].id)
-                    .append($("<a target='_blank' href='" + feeds[i].url + "' class='title' />").text(feeds[i].title + " "))
-                    .append($("<span class='mark-read' title='Mark as read' />"))
-                    .append($("<span class='show-content' title='Show content' />"));
+                var item = $("<div class='item'/>").attr("data-id", feeds[i].id);
+                var articleTitle = $("<span class='article-title' />")
+                                    .append($("<a target='_blank' href='" + feeds[i].url + "' class='title' />").text(feeds[i].title + " "));
+                item.append(articleTitle);
+                var articleMenu = $("<span class='article-menu'/>").append($("<span class='mark-read' title='Mark as read' />"))
+                                                                   .append($("<span class='show-content' title='Show content' />"));
+                item.append(articleMenu);
+
                 var blogTitle = $("<div class='blog-title' />")
                     .append($("<a target='_blank'/>")
                         .attr("href", feeds[i].blogUrl)
@@ -144,9 +147,13 @@ $("#feed").on("click", ".show-content", function(){
     contentContainer.slideToggle(function () {
         $this.css("background-position", contentContainer.is(":visible") ? "-288px -120px" :"-313px -119px");
         if (contentContainer.is(":visible") && contentContainer.text().length > 350){
-            feed.css("width",  "700px");
+            $(".item").css("width",  "700px");
+            $("#feedly").css("width",  "700px");
+            $(".article-title").css("width", "660px");
         } else{
-            feed.css("width",  "350px");
+            $(".item").css("width",  "350px");
+            $("#feedly").css("width",  "350px");
+            $(".article-title").css("width", "310px");
         }
         resizeWindows();
     });
