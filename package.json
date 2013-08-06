@@ -18,6 +18,12 @@
             "value": 2
         },
         {
+            "name": "maxNumberOfFeeds",
+            "title": "",
+            "type": "integer",
+            "value": 20
+        },
+        {
             "name": "markReadOnClick",
             "title": "",
             "type": "bool",
