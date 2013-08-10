@@ -1,31 +1,94 @@
+"use strict";
+
 var popupGlobal = {
-    feeds : []
+    feeds: []
 }
 
-self.port.on("feedsUpdated", function(feedsData){
+window.onresize = resizeWindows;
+
+self.port.on("feedsUpdated", function (feedsData) {
     renderFeeds(feedsData);
 });
 
-self.port.on("feedMarkedAsRead", function(feedsData){
+self.port.on("feedMarkedAsRead", function (feedsData) {
     removeFeedFromList(feedsData);
 });
 
-self.port.on("showLoader", function(){
+self.port.on("showLoader", function () {
     showLoader();
     resizeWindows();
 });
 
-function requestFeeds(){
+$("#login").click(function () {
+    self.port.emit("updateToken", null);
+});
+
+$("#feed").on("mousedown", "a.title", function (event) {
+    if (event.which === 1 || event.which === 2) {
+        markAsRead([$(this).closest(".item").data("id")], true);
+    }
+});
+
+$("#feed").on("click", ".mark-read", function (event) {
+    var feed = $(this).closest(".item");
+    markAsRead([feed.data("id")], false);
+});
+
+$("#feed").on("click", ".show-content", function () {
+    var $this = $(this);
+    var feed = $this.closest(".item");
+    var contentContainer = feed.find(".content");
+    var feedId = feed.data("id");
+    if (contentContainer.html() === "") {
+        var content;
+        for (var i = 0; i < popupGlobal.feeds.length; i++) {
+            if (popupGlobal.feeds[i].id === feedId) {
+                content = popupGlobal.feeds[i].content
+            }
+        }
+        if (content) {
+            contentContainer.html(content);
+            //For open links in new tab
+            contentContainer.find("a").each(function (key, value) {
+                var link = $(value);
+                link.attr("target", "_blank");
+            });
+        }
+    }
+    contentContainer.slideToggle(function () {
+        $this.css("background-position", contentContainer.is(":visible") ? "-288px -120px" : "-313px -119px");
+        if (contentContainer.is(":visible") && contentContainer.text().length > 350) {
+            $(".item").css("width", "700px");
+            $("#feedly").css("width", "700px");
+            $(".article-title").css("width", "660px");
+        } else {
+            $(".item").css("width", "350px");
+            $("#feedly").css("width", "350px");
+            $(".article-title").css("width", "310px");
+        }
+        resizeWindows();
+    });
+});
+
+$("#popup-content").on("click", "#mark-all-read", function (event) {
+    var feedIds = [];
+    $(".item").each(function (key, value) {
+        feedIds.push($(value).data("id"));
+    });
+    markAsRead(feedIds);
+});
+
+function requestFeeds() {
     self.port.emit("getFeeds", null);
 }
 
 function markAsRead(feedIds, isLinkOpened) {
-    self.port.emit("markRead",{feedIds: feedIds, isLinkOpened: isLinkOpened});
+    self.port.emit("markRead", {feedIds: feedIds, isLinkOpened: isLinkOpened});
 }
 
-function removeFeedFromList(feedIds){
-    for(var i = 0; i < feedIds.length; i++){
-        $(".item[data-id='"+ feedIds[i] + "']").fadeOut("fast", function(){
+function removeFeedFromList(feedIds) {
+    for (var i = 0; i < feedIds.length; i++) {
+        $(".item[data-id='" + feedIds[i] + "']").fadeOut("fast", function () {
             resizeWindows();
             if ($("#feed").find(".item:visible").size() === 0) {
                 requestFeeds();
@@ -34,17 +97,17 @@ function removeFeedFromList(feedIds){
     }
 }
 
-function showLoader(){
+function showLoader() {
     $("body").children("div").hide();
     $("#loading").show();
 }
 
-function showLogin(){
+function showLogin() {
     $("body").children("div").hide();
     $("#login").show();
 }
 
-function showContent(){
+function showContent() {
     $("body").children("div").hide();
     $("#popup-content").show();
 }
@@ -66,13 +129,13 @@ function renderFeeds(data) {
 
             var feeds = data.feeds;
             var container = $("#feed");
-            for(var i = 0; i < feeds.length; i++){
+            for (var i = 0; i < feeds.length; i++) {
                 var item = $("<div class='item'/>").attr("data-id", feeds[i].id);
                 var articleTitle = $("<span class='article-title' />")
-                                    .append($("<a target='_blank' href='" + feeds[i].url + "' class='title' />").text(feeds[i].title + " "));
+                    .append($("<a target='_blank' href='" + feeds[i].url + "' class='title' />").text(feeds[i].title + " "));
                 item.append(articleTitle);
                 var articleMenu = $("<span class='article-menu'/>").append($("<span class='mark-read' title='Mark as read' />"))
-                                                                   .append($("<span class='show-content' title='Show content' />"));
+                    .append($("<span class='show-content' title='Show content' />"));
                 item.append(articleMenu);
 
                 var blogTitle = $("<div class='blog-title' />")
@@ -94,81 +157,19 @@ function renderFeeds(data) {
     resizeWindows();
 }
 
-window.onresize = resizeWindows;
-
-function resizeWindows(){
+function resizeWindows() {
     var maxHeight = 600;
     var width = $("body").outerWidth(true);
     var height = $("body").outerHeight(true);
-    if(height > maxHeight){
+    if (height > maxHeight) {
         height = maxHeight;
         width += getScrollbarWidth();
     }
-    var height = height > maxHeight ? maxHeight : height ;
+    var height = height > maxHeight ? maxHeight : height;
     self.port.emit("resizePanel", {width: width, height: height});
 }
 
-$("#login").click(function () {
-    self.port.emit("updateToken", null);
-});
-
-$("#feed").on("mousedown", "a.title", function (event) {
-    if(event.which === 1 || event.which === 2){
-        markAsRead([$(this).closest(".item").data("id")], true);
-    }
-});
-
-$("#feed").on("click", ".mark-read", function (event) {
-    var feed = $(this).closest(".item");
-    markAsRead([feed.data("id")], false);
-});
-
-$("#feed").on("click", ".show-content", function(){
-    var $this = $(this);
-    var feed = $this.closest(".item");
-    var contentContainer = feed.find(".content");
-    var feedId = feed.data("id");
-    if(contentContainer.html() === ""){
-        var content;
-        for(var i = 0; i < popupGlobal.feeds.length; i++){
-            if(popupGlobal.feeds[i].id === feedId){
-                content = popupGlobal.feeds[i].content
-            }
-        }
-        if(content){
-            contentContainer.html(content);
-            //For open links in new tab
-            contentContainer.find("a").each(function(key, value){
-                var link = $(value);
-                link.attr("target", "_blank");
-            });
-        }
-    }
-    contentContainer.slideToggle(function () {
-        $this.css("background-position", contentContainer.is(":visible") ? "-288px -120px" :"-313px -119px");
-        if (contentContainer.is(":visible") && contentContainer.text().length > 350){
-            $(".item").css("width",  "700px");
-            $("#feedly").css("width",  "700px");
-            $(".article-title").css("width", "660px");
-        } else{
-            $(".item").css("width",  "350px");
-            $("#feedly").css("width",  "350px");
-            $(".article-title").css("width", "310px");
-        }
-        resizeWindows();
-    });
-});
-
-$("#popup-content").on("click", "#mark-all-read",function(event){
-    var feedIds = [];
-    $(".item").each(function(key, value){
-        feedIds.push($(value).data("id"));
-    });
-    markAsRead(feedIds);
-});
-
-function getScrollbarWidth()
-{
+function getScrollbarWidth() {
     var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div></div>');
     $('body').append(div);
     var w1 = $('div', div).innerWidth();
