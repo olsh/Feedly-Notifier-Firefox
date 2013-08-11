@@ -1,0 +1,3 @@
+# Doesn't change line breaks 
+# and compute diff for minified JS files
+*.min.js binary
