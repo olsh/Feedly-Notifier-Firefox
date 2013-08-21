@@ -67,7 +67,15 @@ body{
 
 .item{
     width: 350px;
-    padding-left: 5px;
+    padding: 2px 0 2px 5px;
+}
+
+.item:hover{
+    background-color: #F5F5F4;
+}
+
+.item .content{
+    background-color: white;
 }
 
 #feed .item:not(:last-child){
@@ -172,7 +180,12 @@ body{
 }
 
 .blog-title{
+    display: table-cell;
     color: gray;
+}
+
+.blog-title > * {
+    vertical-align: middle;
 }
 
 .blog-title a, .blog-title span{
