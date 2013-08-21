@@ -89,8 +89,9 @@ function markAsRead(feedIds, isLinkOpened) {
 function removeFeedFromList(feedIds) {
     for (var i = 0; i < feedIds.length; i++) {
         $(".item[data-id='" + feedIds[i] + "']").fadeOut("fast", function () {
+            $(this).remove();
             resizeWindows();
-            if ($("#feed").find(".item:visible").size() === 0) {
+            if ($("#feed").find(".item").size() === 0) {
                 requestFeeds();
             }
         });
