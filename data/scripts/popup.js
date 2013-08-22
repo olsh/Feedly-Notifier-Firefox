@@ -143,7 +143,7 @@ function renderFeeds(data) {
                     .append($("<img class='blog-icon' />").attr("src", feeds[i].blogIcon))
                     .append($("<a target='_blank'/>")
                         .attr("href", feeds[i].blogUrl)
-                        .text(feeds[i].blog + ", ")
+                        .text(" " + feeds[i].blog + ", ")
                         .addClass(feeds[i].titleDirection))
                     .append($("<span class='timeago' />").attr("title", feeds[i].isoDate));
 

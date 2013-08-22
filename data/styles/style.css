@@ -179,22 +179,13 @@ body{
     display: inline-block;
 }
 
-.blog-title{
-    display: table-cell;
-    color: gray;
-}
-
 .blog-title > * {
     vertical-align: middle;
 }
 
 .blog-title a, .blog-title span{
     color: gray;
-    font-family: sans-serif;
     font-size: 11px;
-}
-
-.blog-title span{
     font-family: "Open Sans Condensed";
 }
 
