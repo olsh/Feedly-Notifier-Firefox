@@ -202,3 +202,8 @@ body{
     cursor: pointer;
     text-decoration: none;
 }
+
+.blog-icon{
+    width: 16px;
+    height: 16px;
+}

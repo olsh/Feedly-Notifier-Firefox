@@ -140,7 +140,7 @@ function renderFeeds(data) {
                 item.append(articleMenu);
 
                 var blogTitle = $("<div class='blog-title' />")
-                    .append($("<img class='icon-blog' />").attr("src", feeds[i].blogIcon))
+                    .append($("<img class='blog-icon' />").attr("src", feeds[i].blogIcon))
                     .append($("<a target='_blank'/>")
                         .attr("href", feeds[i].blogUrl)
                         .text(feeds[i].blog + ", ")
