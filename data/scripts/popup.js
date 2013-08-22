@@ -140,7 +140,7 @@ function renderFeeds(data) {
                 item.append(articleMenu);
 
                 var blogTitle = $("<div class='blog-title' />")
-                    .append($("<img class='icon-blog' />").attr("src", "https://www.google.com/s2/favicons?domain=" + feeds[i].blogUrl + "&alt=feed"))
+                    .append($("<img class='icon-blog' />").attr("src", feeds[i].blogIcon))
                     .append($("<a target='_blank'/>")
                         .attr("href", feeds[i].blogUrl)
                         .text(feeds[i].blog + ", ")
