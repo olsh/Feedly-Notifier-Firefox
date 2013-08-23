@@ -1,0 +1,3 @@
+[submodule "toolbarwidget-jplib"]
+	path = packages/toolbarwidget-jplib
+	url = git://github.com/Rob--W/toolbarwidget-jplib.git

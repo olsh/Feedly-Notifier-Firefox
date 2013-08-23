@@ -10,6 +10,7 @@
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
     "translators": ["Jérémy Hagège"],
+    "dependencies": ["toolbarwidget", "addon-sdk"],
     "preferences": [
         {
             "name": "updateInterval",
