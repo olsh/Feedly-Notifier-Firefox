@@ -7,6 +7,10 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 **Changelog**
 
+v1.2.5 (2013.08.24)
+
+* Fixed bug with "Open Feedly site on icon click"
+
 v1.2.4 (2013.08.24)
 
 * UI bug fixed on MacOS & some *nix platforms
