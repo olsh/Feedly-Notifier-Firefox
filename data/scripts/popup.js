@@ -169,7 +169,10 @@ function resizeWindows() {
         width += getScrollbarWidth();
     }
     var height = height > maxHeight ? maxHeight : height;
-    self.port.emit("resizePanel", {width: width, height: height});
+
+    //For fix bug with scroll on Mac
+    var verticalMargin = 2;
+    self.port.emit("resizePanel", {width: width, height: height + verticalMargin});
 }
 
 function getScrollbarWidth() {
