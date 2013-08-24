@@ -8,6 +8,8 @@ var widgetGlobal = {
 };
 
 self.port.on("onFeedsUpdate", function (data) {
+    if (!document) return; //Prevent bug when widget didn't initialized yet, but events already emit
+
     var icon = document.getElementById("icon");
     if (data.isLoggedIn) {
         icon.src = widgetGlobal.icons.default;
