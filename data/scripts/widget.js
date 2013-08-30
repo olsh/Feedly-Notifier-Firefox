@@ -10,14 +10,14 @@ var widgetGlobal = {
 self.port.on("onFeedsUpdate", function (data) {
     if (!document) return; //Prevent bug when widget didn't initialized yet, but events already emit
 
-    var icon = document.getElementById("icon");
+    var icon = document.getElementById("feedly-notifier-icon");
     if (data.isLoggedIn) {
         icon.src = widgetGlobal.icons.default;
     } else {
         icon.src = widgetGlobal.icons.inactive;
     }
 
-    var counter = document.getElementById("counter");
+    var counter = document.getElementById("feedly-notifier-counter");
     if (data.unreadFeedsCount > 0) {
         counter.innerHTML = data.unreadFeedsCount > 9999 ? "&#8734" /* ∞ */ : data.unreadFeedsCount;
         counter.style.display = "block";
@@ -28,7 +28,7 @@ self.port.on("onFeedsUpdate", function (data) {
 });
 
 self.port.on("decrementFeedsCount", function (decrementCount) {
-    var counter = document.getElementById("counter");
+    var counter = document.getElementById("feedly-notifier-counter");
     counter.innerHTML = Number(counter.innerHTML) - decrementCount;
     if (Number(counter.innerHTML) < 1) {
         counter.style.display = "none";
