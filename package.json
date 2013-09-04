@@ -6,7 +6,7 @@
     "author": "Dmitriy Samodov, Oleg Shevchenko",
     "license": "MPL 2.0",
     "homepage": "http://olsh.github.io/Feedly-Notifier-Firefox",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
     "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni"],
@@ -47,6 +47,12 @@
             "title": "",
             "type": "bool",
             "value": false
+        },
+        {
+            "name": "showCounter",
+            "title": "",
+            "type": "bool",
+            "value": true
         },
         {
             "type": "control",
