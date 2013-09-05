@@ -7,6 +7,11 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 **Changelog**
 
+v1.2.7 (2013.09.04)
+
+* Added ability to hide counter
+* Italian translation (by Giuliano Masseroni)
+
 v1.2.6 (2013.08.31)
 
 * Brazilian Portuguese translation (by Jucá Costa)
