@@ -34,3 +34,20 @@ self.port.on("decrementFeedsCount", function (decrementCount) {
         counter.style.display = "none";
     }
 });
+
+self.port.on("startWidgetUpdateAnimation", function (){
+    document.getElementById("feedly-notifier-counter").style.display = "none";
+
+});
+
+self.port.on("stopWidgetUpdateAnimation", function (){
+    document.getElementById("feedly-notifier-counter").style.display = "block";
+
+});
+
+window.addEventListener("click", function (event) {
+    if (event.button === 1) {
+        self.port.emit("middle-click", null);
+    }
+    event.preventDefault();
+}, true);
