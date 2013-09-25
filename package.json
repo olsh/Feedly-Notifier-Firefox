@@ -55,6 +55,12 @@
             "value": true
         },
         {
+            "name": "playSound",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "type": "control",
             "label": "Logout",
             "name": "logout",
