@@ -24,14 +24,17 @@ $("#login").click(function () {
 });
 
 $("#feed").on("mousedown", "a.title", function (event) {
+    var inBackground;
     if (event.which === 1 || event.which === 2) {
-        markAsRead([$(this).closest(".item").data("id")], true);
+        inBackground = (event.ctrlKey || event.which === 2);
     }
+    var self = $(this);
+    openFeedTab(self.data("link"), inBackground, self.closest(".item").data("id"));
 });
 
 $("#feed").on("click", ".mark-read", function (event) {
     var feed = $(this).closest(".item");
-    markAsRead([feed.data("id")], false);
+    markAsRead([feed.data("id")]);
 });
 
 $("#feed").on("click", ".show-content", function () {
@@ -78,12 +81,16 @@ $("#popup-content").on("click", "#mark-all-read", function (event) {
     markAsRead(feedIds);
 });
 
+function openFeedTab(url, inBackground, feedId) {
+    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId});
+}
+
 function requestFeeds() {
     self.port.emit("getFeeds", null);
 }
 
-function markAsRead(feedIds, isLinkOpened) {
-    self.port.emit("markRead", {feedIds: feedIds, isLinkOpened: isLinkOpened});
+function markAsRead(feedIds) {
+    self.port.emit("markRead", feedIds);
 }
 
 function removeFeedFromList(feedIds) {
@@ -133,7 +140,7 @@ function renderFeeds(data) {
             for (var i = 0; i < feeds.length; i++) {
                 var item = $("<div class='item'/>").attr("data-id", feeds[i].id);
                 var articleTitle = $("<span class='article-title' />")
-                    .append($("<a target='_blank' href='" + feeds[i].url + "' class='title' />").text(feeds[i].title + " "));
+                    .append($("<a data-link='" + feeds[i].url + "' href='javascript:void(0)' class='title' />").text(feeds[i].title + " "));
                 item.append(articleTitle);
                 var articleMenu = $("<span class='article-menu'/>").append($("<span class='mark-read' title='Mark as read' />"))
                     .append($("<span class='show-content' title='Show content' />"));
