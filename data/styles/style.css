@@ -5,11 +5,14 @@
     src: local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url(opensanscondensed.woff) format('woff');
 }
 
+*{
+    -moz-user-select: none;
+}
+
 body{
     overflow-x: hidden;
     display: inline-block;
     background-color: white;
-    -moz-user-select: none;
 }
 
 .button{
