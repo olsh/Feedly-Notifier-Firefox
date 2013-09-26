@@ -9,7 +9,7 @@
     "version": "2.1.0",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
-    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni"],
+    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566"],
     "dependencies": ["toolbarwidget", "addon-sdk"],
     "preferences": [
         {
