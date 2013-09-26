@@ -12,7 +12,7 @@ html, body{
     text-align: center;
 }
 
-#feedly-notifier-icon{
+#feedly-notifier-container img{
     vertical-align: top;
     max-width: 100%;
     max-height: 100%;
@@ -30,4 +30,9 @@ html, body{
     padding: 0 2px;
     border-radius: 3px;
     line-height: 1;
+}
+
+#feedly-notifier-loader{
+    position: absolute;
+    bottom: 0;
 }

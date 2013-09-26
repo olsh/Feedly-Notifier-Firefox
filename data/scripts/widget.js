@@ -37,12 +37,12 @@ self.port.on("decrementFeedsCount", function (decrementCount) {
 
 self.port.on("startWidgetUpdateAnimation", function (){
     document.getElementById("feedly-notifier-counter").style.display = "none";
-
+    document.getElementById("feedly-notifier-loader").style.display = "inline-block";
 });
 
 self.port.on("stopWidgetUpdateAnimation", function (){
     document.getElementById("feedly-notifier-counter").style.display = "block";
-
+    document.getElementById("feedly-notifier-loader").style.display = "none";
 });
 
 window.addEventListener("click", function (event) {
