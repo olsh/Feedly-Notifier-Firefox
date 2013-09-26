@@ -34,5 +34,6 @@ html, body{
 
 #feedly-notifier-loader{
     position: absolute;
+    display: none;
     bottom: 0;
 }
