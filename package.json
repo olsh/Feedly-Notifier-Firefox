@@ -25,6 +25,12 @@
             "value": 20
         },
         {
+            "name": "oldestFeedsFirst",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "markReadOnClick",
             "title": "",
             "type": "bool",
@@ -43,6 +49,12 @@
             "value": true
         },
         {
+            "name": "playSound",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "openSiteOnIconClick",
             "title": "",
             "type": "bool",
@@ -53,12 +65,6 @@
             "title": "",
             "type": "bool",
             "value": true
-        },
-        {
-            "name": "playSound",
-            "title": "",
-            "type": "bool",
-            "value": false
         },
         {
             "type": "control",
