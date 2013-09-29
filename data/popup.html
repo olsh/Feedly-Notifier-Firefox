@@ -19,5 +19,26 @@
     <div id="feed"></div>
     <div id="feed-empty" data-l10n-id="NoUnreadArticles"></div>
 </div>
+<script type="text/x-handlebars-template" id="feed-template">
+    {{#feeds}}
+    <div class="item" data-id="{{id}}">
+        <span class="article-title">
+            <a class="title" data-link="{{url}}" href="javascript:void(0)">{{title}} </a>
+        </span>
+
+        <span class="article-menu">
+            <span class="mark-read" title="Mark as read"></span>
+            <span class="show-content" title="Show content"></span>
+        </span>
+
+        <div class="blog-title">
+            <img class="blog-icon" src="{{blogIcon}}">
+            <a target="_blank" href="{{blogUrl}}" class="{{titleDirection}}">{{blog}}</a>
+            <span class="timeago" title="{{isoDate}}"></span>
+        </div>
+        <div class="content {{contentDirection}}"></div>
+    </div>
+    {{/feeds}}
+</script>
 </body>
 </html>

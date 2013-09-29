@@ -63,11 +63,11 @@ $("#feed").on("click", ".show-content", function () {
         if (contentContainer.is(":visible") && contentContainer.text().length > 350) {
             $(".item").css("width", "700px");
             $("#feedly").css("width", "700px");
-            $(".article-title").css("width", "660px");
+            $(".article-title").css("width", "650px");
         } else {
             $(".item").css("width", "350px");
             $("#feedly").css("width", "350px");
-            $(".article-title").css("width", "310px");
+            $(".article-title").css("width", "300px");
         }
         resizeWindows();
     });
@@ -134,32 +134,7 @@ function renderFeeds(data) {
         } else {
             $("#all-read-section").show();
             $("#feed-empty").hide();
-
-            var feeds = data.feeds;
-            var container = $("#feed");
-            for (var i = 0; i < feeds.length; i++) {
-                var item = $("<div class='item'/>").attr("data-id", feeds[i].id);
-                var articleTitle = $("<span class='article-title' />")
-                    .append($("<a data-link='" + feeds[i].url + "' href='javascript:void(0)' class='title' />").text(feeds[i].title + " "));
-                item.append(articleTitle);
-                var articleMenu = $("<span class='article-menu'/>").append($("<span class='mark-read' title='Mark as read' />"))
-                    .append($("<span class='show-content' title='Show content' />"));
-                item.append(articleMenu);
-
-                var blogTitle = $("<div class='blog-title' />")
-                    .append($("<img class='blog-icon' />").attr("src", feeds[i].blogIcon))
-                    .append($("<a target='_blank'/>")
-                        .attr("href", feeds[i].blogUrl)
-                        .text(" " + feeds[i].blog + ", ")
-                        .addClass(feeds[i].titleDirection))
-                    .append($("<span class='timeago' />").attr("title", feeds[i].isoDate));
-
-                var content = $("<div class='content' />").addClass(feeds[i].contentDirection);
-
-                item.append(blogTitle);
-                item.append(content);
-                container.append(item);
-            }
+            $("#feed").append($("#feed-template").mustache({feeds: data.feeds}));
             $(".timeago").timeago();
         }
         showContent();
