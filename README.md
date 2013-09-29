@@ -9,6 +9,7 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 v2.1.2 (2013.09.28)
 
+* Added "Oldest first" option
 * Deutsch translation
 * Fixed bug in French translation
 
