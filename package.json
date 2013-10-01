@@ -1,76 +1,21 @@
 {
-    "name": "feedly-notifier",
-    "fullName": "Feedly Notifier",
-    "id": "jid1-BOjn8b0IM7kH2w",
-    "description": "Feedly notifier is a tiny extension that keeps you up to date with your feedly subscriptions.",
-    "author": "Dmitriy Samodov, Oleg Shevchenko",
-    "license": "MPL 2.0",
-    "homepage": "http://olsh.github.io/Feedly-Notifier-Firefox",
-    "version": "2.1.2",
-    "icon": "data/images/icon48.png",
-    "icon64": "data/images/icon64.png",
-    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck"],
-    "dependencies": ["toolbarwidget", "addon-sdk"],
-    "preferences": [
-        {
-            "name": "updateInterval",
-            "title": "",
-            "type": "integer",
-            "value": 2
-        },
-        {
-            "name": "maxNumberOfFeeds",
-            "title": "",
-            "type": "integer",
-            "value": 20
-        },
-        {
-            "name": "oldestFeedsFirst",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "markReadOnClick",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "name": "showFullFeedContent",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "showDesktopNotifications",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "name": "playSound",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "openSiteOnIconClick",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "showCounter",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "type": "control",
-            "label": "Logout",
-            "name": "logout",
-            "title": ""
-        }
-    ]
+  "name": "Feedly-Notifier-Firefox",
+  "description": "Feedly notifier is a tiny extension that keeps you up to date with your feedly subscriptions.",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-string-replace": "~0.2.4",
+    "grunt-mozilla-addon-sdk": "~0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olsh/Feedly-Notifier-Firefox.git"
+  },
+  "author": "Dmitriy Samodov, Oleg Shevchenko",
+  "bugs": {
+    "url": "https://github.com/olsh/Feedly-Notifier-Firefox/issues"
+  },
+  "sourcePath": "src",
+  "buildPath": "build"
 }

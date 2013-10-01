@@ -1,2 +1,4 @@
-#WebStorm settings folder
-.idea/
+.idea
+node_modules
+build
+tmp
