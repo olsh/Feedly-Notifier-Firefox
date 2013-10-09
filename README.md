@@ -7,6 +7,11 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 **Changelog**
 
+v2.2.0 (2013.10.09)
+
+* Added ability to subscribe to feeds using Feedly Cloud
+* Translations updated
+
 v2.1.2 (2013.09.28)
 
 * Added "Oldest first" option
