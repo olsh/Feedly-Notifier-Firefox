@@ -35,6 +35,11 @@ var FeedlyApiClient = function (accessToken) {
         var url = this.getMethodUrl(methodName, settings.parameters, settings.useSecureConnection);
         var verb = settings.method || "GET";
 
+        // For bypassing the cache
+        if (verb === "GET"){
+            url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+        }
+
         /* Firefox addon SDK support native XMLHttpRequest with limitations,
          * therefore we use sdk/request for get */
         if (verb === "GET" || settings.useSdkRequest) {
