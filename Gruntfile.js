@@ -81,10 +81,19 @@ module.exports = function (grunt) {
                 }
             }
         },
+        "mozilla-cfx": {
+            custom_command: {
+                options: {
+                    extension_dir: "<%= pkg.buildPath %>",
+                    command: "run",
+                    arguments: "-p developer_profile"
+                }
+            }
+        },
         clean: {
             build: {
                 files: [
-                    {expand: true, cwd: "<%= pkg.buildPath %>", src: ["*", "!*.xpi"]}
+                    {expand: true, cwd: "<%= pkg.buildPath %>", src: ["*", "!*.xpi", "!*developer_profile"]}
                 ]
             }
         }
@@ -97,6 +106,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask("build", ["copy", "string-replace:keys", "uglify", "mozilla-addon-sdk", "clean"]);
-    grunt.registerTask("sandbox", ["copy", "string-replace"]);
-    grunt.registerTask("default", ["copy", "string-replace:keys"]);
+    grunt.registerTask("sandbox", ["copy", "string-replace", "mozilla-addon-sdk:download", "mozilla-cfx"]);
+    grunt.registerTask("default", ["copy", "string-replace:keys", "mozilla-addon-sdk:download", "mozilla-cfx"]);
 };

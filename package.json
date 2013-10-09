@@ -6,7 +6,7 @@
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-string-replace": "~0.2.4",
-    "grunt-mozilla-addon-sdk": "~0.1.0",
+    "grunt-mozilla-addon-sdk": "~0.2.0",
     "grunt-contrib-clean": "~0.5.0"
   },
   "repository": {
