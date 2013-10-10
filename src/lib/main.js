@@ -448,7 +448,7 @@ function parseFeeds(feedlyResponse) {
                 contentDirection = item.content.direction;
             }
         }
-        if (content) {
+        if (!content) {
             if (item.summary) {
                 content = item.summary.content;
                 contentDirection = item.summary.direction;
