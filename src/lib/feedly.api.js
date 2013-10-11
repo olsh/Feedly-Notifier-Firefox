@@ -37,7 +37,7 @@ var FeedlyApiClient = function (accessToken) {
 
         // For bypassing the cache
         if (verb === "GET"){
-            url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+            url += ((/\?/).test(url) ? "&" : "?") + "ck=" + (new Date()).getTime();
         }
 
         /* Firefox addon SDK support native XMLHttpRequest with limitations,
