@@ -108,6 +108,10 @@ $("#popup-content").on("click", ".save-feed", function () {
     $this.toggleClass("saved");
 });
 
+$("#popup-content").on("click", "#website", function(){
+    openFeedlyTab();
+});
+
 function openFeedTab(url, inBackground, feedId, isSaved) {
     self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved});
 }
@@ -126,6 +130,10 @@ function markAsRead(feedIds) {
 
 function saveFeed(feedId, saveStatus) {
     self.port.emit("saveFeed", {feedId: feedId, saveStatus: saveStatus});
+}
+
+function openFeedlyTab() {
+    self.port.emit("openFeedlyTab", null);
 }
 
 function removeFeedFromList(feedIds) {

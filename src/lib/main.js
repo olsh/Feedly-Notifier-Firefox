@@ -19,7 +19,7 @@ var userstyles = require("./userstyles");
 
 var appGlobal = {
     feedlyApiClient: feedlyApi.getClient(),
-    feedlyUrl: "feedly.com",
+    feedlyUrl: "https://cloud.feedly.com",
     feedlyTab: null,
     icons: {
         default: "images/icon20.png",
@@ -161,6 +161,10 @@ function controlsInitialization(showPanel, callback){
 
         appGlobal.panel.port.on("saveFeed", function (data) {
             toggleSavedFeed(data.feedId, data.saveStatus);
+        });
+
+        appGlobal.panel.port.on("openFeedlyTab", function () {
+            openFeedlyTab();
         });
     }
 
@@ -598,19 +602,26 @@ function getAccessToken() {
         response_type: "code",
         client_id: appGlobal.clientId,
         redirect_uri: "http://localhost",
-        scope: "https://cloud.feedly.com/subscriptions"
+        scope: "https://cloud.feedly.com/subscriptions",
+        state: "feedlynotifier"
     }, true);
 
     // In some cases onLoad doesn't work properly, thus we use all events for fallback
+    tabs.on("ready", requestToken);
+    tabs.on("load", requestToken);
+    tabs.on("pageshow", requestToken);
+
     tabs.open({
-        url: url,
-        onReady: requestToken,
-        onLoad: requestToken,
-        onPageShow: requestToken
+        url: url
     });
 
     var tokenRequestStarted;
     function requestToken(tab){
+
+        if (!/state=feedlynotifier/.test(tab.url)){
+            return;
+        }
+
         var codeParse = /code=(.+?)(?:&|$)/i;
         var matches = codeParse.exec(tab.url);
 
@@ -633,6 +644,10 @@ function getAccessToken() {
                     ffStorage.storage.accessToken = response.access_token;
                     ffStorage.storage.refreshToken = response.refresh_token;
                     ffStorage.storage.feedlyUserId = response.id;
+
+                    tabs.removeListener("ready", requestToken);
+                    tabs.removeListener("load", requestToken);
+                    tabs.removeListener("pageshow", requestToken);
 
                     tab.close();
                     initialize();
