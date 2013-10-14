@@ -1,7 +1,8 @@
 "use strict";
 
 var Request = require("sdk/request").Request;
-var xhr = require("sdk/net/xhr").XMLHttpRequest;
+var xhr = require("sdk/net/xhr");
+var timers = require("sdk/timers");
 
 var FeedlyApiClient = function (accessToken) {
 
@@ -83,7 +84,7 @@ var FeedlyApiClient = function (accessToken) {
          * and does not yet implement the addEventListener() or removeEventListener() methods.
          * */
         else {
-            var request = new xhr();
+            var request = new xhr.XMLHttpRequest();
             request.open(verb, url, true);
             if (this.accessToken) {
                 request.setRequestHeader("Authorization", "OAuth " + this.accessToken);
@@ -93,6 +94,19 @@ var FeedlyApiClient = function (accessToken) {
             if (settings.body) {
                 body = JSON.stringify(settings.body);
             }
+
+            request.onreadystatechange = function(){
+                if (request.readyState === 4){
+                    if (request.status === 200) {
+                        settings.onSuccess();
+                    } else if (request.status === 401) {
+                        settings.onAuthorizationRequired();
+                    } else {
+                        settings.onError();
+                    }
+                }
+            };
+
             request.send(body);
         }
     };

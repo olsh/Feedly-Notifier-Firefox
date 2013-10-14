@@ -69,13 +69,16 @@ module.exports = function (grunt) {
             }
         },
         "mozilla-addon-sdk": {
-            download: {
+            stable: {
                 options: {
                     revision: "1.14"
                 }
-            },
-            xpi: {
+            }
+        },
+        "mozilla-cfx-xpi": {
+            stable: {
                 options: {
+                    "mozilla-addon-sdk": "stable",
                     extension_dir: "<%= pkg.buildPath %>",
                     dist_dir: "<%= pkg.buildPath %>"
                 }
@@ -84,6 +87,7 @@ module.exports = function (grunt) {
         "mozilla-cfx": {
             custom_command: {
                 options: {
+                    "mozilla-addon-sdk": "stable",
                     extension_dir: "<%= pkg.buildPath %>",
                     command: "run",
                     arguments: "-p developer_profile"
@@ -105,7 +109,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask("build", ["copy", "string-replace:keys", "uglify", "mozilla-addon-sdk", "clean"]);
-    grunt.registerTask("sandbox", ["copy", "string-replace", "mozilla-addon-sdk:download", "mozilla-cfx"]);
-    grunt.registerTask("default", ["copy", "string-replace:keys", "mozilla-addon-sdk:download", "mozilla-cfx"]);
+    grunt.registerTask("build", ["copy", "string-replace:keys", "uglify", "mozilla-addon-sdk", "mozilla-cfx-xpi", "clean"]);
+    grunt.registerTask("sandbox", ["copy", "string-replace", "mozilla-addon-sdk", "mozilla-cfx"]);
+    grunt.registerTask("default", ["copy", "string-replace:keys", "mozilla-addon-sdk", "mozilla-cfx"]);
 };

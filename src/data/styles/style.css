@@ -5,19 +5,19 @@
     src: local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url(opensanscondensed.woff) format('woff');
 }
 
-*{
+* {
     -moz-user-select: none;
 }
 
-body{
+body {
     overflow-x: hidden;
     display: inline-block;
     background-color: white;
 }
 
-.button{
+.button {
     background-color: #6cc655;
-    border: 1px solid rgba( 0, 0, 0, 0.2 );
+    border: 1px solid rgba(0, 0, 0, 0.2);
     font-size: 14px;
     line-height: 17px;
     padding: 5px 15px;
@@ -32,8 +32,9 @@ body{
 
 .mark-read,
 .show-content,
+.save-feed,
 [class^="icon-"],
-[class*=" icon-"]{
+[class*=" icon-"] {
     display: inline-block;
     width: 14px;
     height: 14px;
@@ -44,20 +45,16 @@ body{
     background: url("glyphicons-halflings.png") no-repeat -120px -120px;
 }
 
-.icon-ok{
+.icon-ok {
     background-position: -288px 0;
     margin-right: 5px;
 }
 
-.icon-refresh{
-    background-position: -240px -24px;
-}
-
-.mark-read:hover{
+.mark-read:hover {
     background-position: -96px -120px;
 }
 
-.show-content{
+.show-content {
     background-position: -313px -119px;
 }
 
@@ -65,115 +62,125 @@ body{
     display: none;
 }
 
-.item{
+.item {
     width: 350px;
     padding: 2px 0;
 }
 
-.item:hover{
+.tabs .item{
+    width: 380px;
+}
+
+.item:hover {
     background-color: #F5F5F4;
 }
 
-.item .content{
+.item .content {
     background-color: white;
 }
 
-#feed .item:not(:last-child){
+#feed .item:not(:last-child) {
     border-bottom: solid #d2d2d2 1px;
 }
 
-.item .content{
+.item .content {
     display: none;
     border: 1px solid #6cc655;
     padding: 5px;
     border-radius: 3px;
 }
 
-.content a:link{
+.content a:link {
     color: #6cc655;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.content a:hover{
-    text-decoration:underline;
+.content a:hover {
+    text-decoration: underline;
 }
 
-.content img, .content iframe{
-    max-width: 100%!important;
-	height: auto!important;
+.content img, .content iframe {
+    max-width: 100% !important;
+    height: auto !important;
 }
 
-.rtl{
+.rtl {
     direction: rtl;
     text-align: right;
 }
 
-.article-menu,
-.article-title{
+.article-title {
     display: inline-block;
 }
 
-.article-title{
+.article-title {
     width: 300px;
 }
 
-.article-menu{
+.article-menu {
     vertical-align: top;
+    float: right;
 }
 
 #feed-empty,
-.title{
-    font-family: "Open Sans Condensed",serif;
+.title {
+    font-family: "Open Sans Condensed", serif;
     color: #444;
 }
 
-#feed-empty{
+#feed-empty {
     text-align: center;
 }
 
-#popup-content{
+#popup-content {
     min-width: 140px;
 }
 
-#feedly{
+#feedly {
     margin: 0;
     position: fixed;
     width: 350px;
-    padding: 10px 0;
+    padding: 10px 0 0 0;
     top: 0;
     background-color: white;
 }
 
-#feedly img{
+#feedly img {
     margin-right: 5px;
     vertical-align: bottom;
 }
 
-#feed{
+#feed {
     margin-top: 40px;
 }
 
+.tabs #feed,
+.tabs #feed-saved,
+.tabs #feed-empty {
+    margin-top: 75px;
+}
+
 #website,
-#mark-all-read{
+#mark-all-read {
     font-family: sans-serif;
     font-size: 11px;
     text-decoration: none;
     color: black;
 }
 
-#mark-all-read{
+#mark-all-read {
     cursor: pointer;
 }
 
-#feedly-section{
-    float:left;
+#feedly-section {
+    float: left;
 }
 
-#all-read-section{
-    float:right;
+#all-read-section {
+    float: right;
 }
 
-.title{
+.title {
     font-size: 14px;
     cursor: pointer;
     display: inline-block;
@@ -183,18 +190,72 @@ body{
     vertical-align: middle;
 }
 
-.blog-title a, .blog-title span{
+.blog-title a, .blog-title span {
     color: gray;
     font-size: 11px;
-    font-family: "Open Sans Condensed",serif;
+    font-family: "Open Sans Condensed", serif;
 }
 
-.blog-title a{
+.blog-title a {
     cursor: pointer;
     text-decoration: none;
 }
 
-.blog-icon{
+.clear {
+    clear: both;
+}
+
+.tabs #feedly {
+    border-bottom: 1px solid #6cc655;
+    width: 380px;
+}
+
+.tab {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: #eaeaea;
+    padding: 5px 10px;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    margin: 10px 0 0 0;
+    font-size: 14px;
+    line-height: 17px;
+    color: black;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), inset 0 0 1px rgba(255, 255, 255, 1);
+    text-decoration: none;
+    cursor: pointer;
+    display: none;
+}
+
+.tabs .tab {
+    display: inline-block;
+}
+
+.active-tab {
+    background-color: #6cc655;
+    color: white;
+}
+
+.save-feed {
+    display: none;
+}
+
+.tabs .save-feed {
+    display: inline-block;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+.save-feed{
+    background: url(save.png) no-repeat 0 0;
+}
+
+.saved{
+    background-position: -14px 0px
+}
+
+.blog-icon {
     width: 16px;
     height: 16px;
 }

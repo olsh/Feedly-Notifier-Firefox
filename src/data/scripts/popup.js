@@ -1,7 +1,8 @@
 "use strict";
 
 var popupGlobal = {
-    feeds: []
+    feeds: [],
+    savedFeeds: []
 }
 
 window.onresize = resizeWindows;
@@ -19,17 +20,22 @@ self.port.on("showLoader", function () {
     resizeWindows();
 });
 
+self.port.on("setSavingInterface", function (enable) {
+    setSavingInterface(enable);
+});
+
 $("#login").click(function () {
     self.port.emit("updateToken", null);
 });
 
-$("#feed").on("mousedown", "a.title", function (event) {
+$("#feed, #feed-saved").on("mousedown", "a.title", function (event) {
     var inBackground;
     if (event.which === 1 || event.which === 2) {
         inBackground = (event.ctrlKey || event.which === 2);
     }
     var self = $(this);
-    openFeedTab(self.data("link"), inBackground, self.closest(".item").data("id"));
+    var isSaved = self.closest("#feed-saved").size() > 0;
+    openFeedTab(self.data("link"), inBackground, self.closest(".item").data("id"), isSaved);
 });
 
 $("#feed").on("click", ".mark-read", function (event) {
@@ -37,16 +43,18 @@ $("#feed").on("click", ".mark-read", function (event) {
     markAsRead([feed.data("id")]);
 });
 
-$("#feed").on("click", ".show-content", function () {
+$("#popup-content").on("click", ".show-content", function () {
     var $this = $(this);
     var feed = $this.closest(".item");
     var contentContainer = feed.find(".content");
     var feedId = feed.data("id");
     if (contentContainer.html() === "") {
         var content;
-        for (var i = 0; i < popupGlobal.feeds.length; i++) {
-            if (popupGlobal.feeds[i].id === feedId) {
-                content = popupGlobal.feeds[i].content
+        var feeds = $("#feed").is(":visible") ? popupGlobal.feeds : popupGlobal.savedFeeds;
+
+        for (var i = 0; i < feeds.length; i++) {
+            if (feeds[i].id === feedId) {
+                content = feeds[i].content
             }
         }
         if (content) {
@@ -63,11 +71,11 @@ $("#feed").on("click", ".show-content", function () {
         if (contentContainer.is(":visible") && contentContainer.text().length > 350) {
             $(".item").css("width", "700px");
             $("#feedly").css("width", "700px");
-            $(".article-title").css("width", "650px");
+            $(".article-title").css("width", $("#popup-content").hasClass("tabs") ? "645px" : "660px");
         } else {
-            $(".item").css("width", "350px");
-            $("#feedly").css("width", "350px");
-            $(".article-title").css("width", "300px");
+            $(".item").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
+            $("#feedly").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
+            $(".article-title").css("width", $("#popup-content").hasClass("tabs") ? "325px" : "310px");
         }
         resizeWindows();
     });
@@ -81,16 +89,43 @@ $("#popup-content").on("click", "#mark-all-read", function (event) {
     markAsRead(feedIds);
 });
 
-function openFeedTab(url, inBackground, feedId) {
-    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId});
+$("#feedly").on("click", "#btn-feeds-saved", function () {
+    requestSavedFeeds();
+});
+
+$("#feedly").on("click", "#btn-feeds", function () {
+    requestFeeds();
+});
+
+/* Save or unsave feed */
+$("#popup-content").on("click", ".save-feed", function () {
+    var $this = $(this);
+    var feed = $this.closest(".item");
+    var feedId = feed.data("id");
+    var saveStatus = !$this.data("saved");
+    saveFeed(feedId, saveStatus);
+    $this.data("saved", saveStatus);
+    $this.toggleClass("saved");
+});
+
+function openFeedTab(url, inBackground, feedId, isSaved) {
+    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved});
 }
 
 function requestFeeds() {
-    self.port.emit("getFeeds", null);
+    self.port.emit("getFeeds", false);
+}
+
+function requestSavedFeeds() {
+    self.port.emit("getFeeds", true);
 }
 
 function markAsRead(feedIds) {
     self.port.emit("markRead", feedIds);
+}
+
+function saveFeed(feedId, saveStatus) {
+    self.port.emit("saveFeed", {feedId: feedId, saveStatus: saveStatus});
 }
 
 function removeFeedFromList(feedIds) {
@@ -115,29 +150,76 @@ function showLogin() {
     $("#login").show();
 }
 
-function showContent() {
+function showEmptyContent(isSavedFeedsActive) {
     $("body").children("div").hide();
-    $("#popup-content").show();
+    $("#popup-content").show().children("div").hide().filter("#feed-empty").show();
+    $("#feedly").show().find("#all-read-section").hide();
+}
+
+function showFeeds() {
+    $("body").children("div").hide();
+    $("#popup-content").show().children("div").hide().filter("#feed").show();
+    $("#feedly").show().find("#all-read-section").show();
+    setSavingAsActiveTab(false);
+}
+
+function showSavedFeeds() {
+    $("body").children("div").hide();
+    $("#popup-content").show().children("div").hide().filter("#feed-saved").show().find(".mark-read").hide();
+    $("#feedly").show().find("#all-read-section").hide();
+    setSavingAsActiveTab(true);
+}
+
+function setSavingInterface(enable) {
+    if (enable) {
+        $("#popup-content").addClass("tabs");
+    } else {
+        $("#popup-content").removeClass("tabs");
+    }
+}
+
+function setSavingAsActiveTab(savingActive){
+    if (savingActive) {
+        $("#btn-feeds-saved").addClass("active-tab");
+        $("#btn-feeds").removeClass("active-tab");
+    } else {
+        $("#btn-feeds").addClass("active-tab");
+        $("#btn-feeds-saved").removeClass("active-tab");
+    }
 }
 
 function renderFeeds(data) {
+    if (data.isSavedFeeds){
+        $("#feed-saved").empty();
+        popupGlobal.savedFeeds = data.feeds;
+    } else {
+        $("#feed").empty();
+        popupGlobal.feeds = data.feeds;
+    }
 
-    $("#feed").empty();
-
-    popupGlobal.feeds = data.feeds;
     if (data.isLoggedIn === false) {
         showLogin();
     } else {
+
         if (data.feeds.length === 0) {
-            $("#feed-empty").show();
-            $("#all-read-section").hide();
+            showEmptyContent(data.isSavedFeeds);
+            setSavingAsActiveTab(data.isSavedFeeds);
         } else {
-            $("#all-read-section").show();
-            $("#feed-empty").hide();
-            $("#feed").append($("#feed-template").mustache({feeds: data.feeds}));
-            $(".timeago").timeago();
+            var container;
+            var showFunction;
+            if (data.isSavedFeeds){
+                container = $("#feed-saved");
+                showFunction = showSavedFeeds;
+            } else {
+                container = $("#feed");
+                showFunction = showFeeds;
+            }
+
+            container.append($("#feed-template").mustache({feeds: data.feeds}));
+            container.find(".timeago").timeago();
+
+            showFunction();
         }
-        showContent();
     }
     resizeWindows();
 }

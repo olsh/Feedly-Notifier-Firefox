@@ -31,6 +31,12 @@
             "value": false
         },
         {
+            "name": "abilitySaveFeeds",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "markReadOnClick",
             "title": "",
             "type": "bool",

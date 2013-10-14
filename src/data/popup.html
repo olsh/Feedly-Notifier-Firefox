@@ -13,10 +13,19 @@
 </div>
 <div id="popup-content">
     <div id="feedly">
-        <img src="images/icon.png"><a id="website" href="http://feedly.com" target="_blank" data-l10n-id="FeedlyWebsite"></a>
-        <span id="all-read-section"><i class="icon-ok"></i><span id="mark-all-read" data-l10n-id="MarkAllAsRead"></span></span>
+        <img src="images/icon.png">
+        <a id="website" href="http://feedly.com" target="_blank" data-l10n-id="FeedlyWebsite"></a>
+        <span id="all-read-section">
+            <i class="icon-ok"></i>
+            <span id="mark-all-read" data-l10n-id="MarkAllAsRead"></span>
+        </span>
+
+        <div class="clear"></div>
+        <button id="btn-feeds" class="tab active-tab" data-l10n-id="Feeds"></button>
+        <button id="btn-feeds-saved" class="tab" data-l10n-id="Saved"></button>
     </div>
     <div id="feed"></div>
+    <div id="feed-saved"></div>
     <div id="feed-empty" data-l10n-id="NoUnreadArticles"></div>
 </div>
 <script type="text/x-handlebars-template" id="feed-template">
@@ -27,6 +36,7 @@
         </span>
 
         <span class="article-menu">
+            <span class="save-feed {{#isSaved}} saved {{/isSaved}}" data-saved="{{isSaved}}"></span>
             <span class="mark-read" title="Mark as read"></span>
             <span class="show-content" title="Show content"></span>
         </span>
