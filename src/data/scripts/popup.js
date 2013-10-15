@@ -158,7 +158,7 @@ function showLogin() {
     $("#login").show();
 }
 
-function showEmptyContent(isSavedFeedsActive) {
+function showEmptyContent() {
     $("body").children("div").hide();
     $("#popup-content").show().children("div").hide().filter("#feed-empty").show();
     $("#feedly").show().find("#all-read-section").hide();
@@ -210,7 +210,7 @@ function renderFeeds(data) {
     } else {
 
         if (data.feeds.length === 0) {
-            showEmptyContent(data.isSavedFeeds);
+            showEmptyContent();
             setSavingAsActiveTab(data.isSavedFeeds);
         } else {
             var container;
@@ -243,8 +243,8 @@ function resizeWindows() {
     var height = height > maxHeight ? maxHeight : height;
 
     //For fix bug with scroll on Mac
-    var verticalMargin = 2;
-    self.port.emit("resizePanel", {width: width, height: height + verticalMargin});
+    var margin = 2;
+    self.port.emit("resizePanel", {width: width, height: height + margin});
 }
 
 function getScrollbarWidth() {

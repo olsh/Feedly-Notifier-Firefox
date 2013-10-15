@@ -194,6 +194,7 @@ function controlsInitialization(showPanel, callback){
             stopWidgetUpdateAnimation();
         });
         updateFeeds();
+        updateSavedFeeds();
     });
 }
 
@@ -598,12 +599,13 @@ function toggleSavedFeed(feedId, saveStatus) {
 /* Runs authenticating a user process,
  * then read access token and stores in chrome.storage */
 function getAccessToken() {
+    var state = (new Date()).getTime();
     var url = appGlobal.feedlyApiClient.getMethodUrl("auth/auth", {
         response_type: "code",
         client_id: appGlobal.clientId,
         redirect_uri: "http://localhost",
         scope: "https://cloud.feedly.com/subscriptions",
-        state: "feedlynotifier"
+        state: state
     }, true);
 
     // In some cases onLoad doesn't work properly, thus we use all events for fallback
@@ -618,7 +620,8 @@ function getAccessToken() {
     var tokenRequestStarted;
     function requestToken(tab){
 
-        if (!/state=feedlynotifier/.test(tab.url)){
+        var checkStateRegex = new RegExp("state=" + state);
+        if (!checkStateRegex.test(tab.url)) {
             return;
         }
 
