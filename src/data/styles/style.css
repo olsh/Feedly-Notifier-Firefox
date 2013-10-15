@@ -114,8 +114,14 @@ body {
     display: inline-block;
 }
 
-.article-title {
-    width: 300px;
+.article-title,
+.blog-title {
+    width: 295px;
+}
+
+.tabs .article-title,
+.tabs .blog-title {
+    width: 310px;
 }
 
 .article-menu {

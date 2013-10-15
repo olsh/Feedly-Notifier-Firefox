@@ -496,8 +496,8 @@ function parseFeeds(feedlyResponse) {
         }
 
         //Set title
-        var title = "";
-        var titleDirection = "";
+        var title;
+        var titleDirection;
         if (item.title) {
             if (item.title.indexOf("direction:rtl") !== -1) {
                 //Feedly wraps rtl titles in div, we remove div because desktopNotification supports only text
@@ -518,12 +518,25 @@ function parseFeeds(feedlyResponse) {
             }
         }
 
+        var blog;
+        var blogTitleDirection;
+        if (item.origin && item.origin.title) {
+            if (item.origin.title.indexOf("direction:rtl") !== -1) {
+                //Feedly wraps rtl titles in div, we remove div because desktopNotification supports only text
+                blog = item.origin.title.replace(/<\/?div.*?>/gi, "");
+                blogTitleDirection = "rtl";
+            } else {
+                blog = item.origin.title;
+            }
+        }
+
         return {
             //Feedly wraps rtl titles in div, we remove div because desktopNotification supports only text
             title: title,
             titleDirection: titleDirection,
             url: item.alternate ? item.alternate[0] ? item.alternate[0].href : "" : "",
-            blog: item.origin ? item.origin.title : "",
+            blog: blog,
+            blogTitleDirection: blogTitleDirection,
             blogUrl: blogUrl,
             blogIcon: "https://www.google.com/s2/favicons?domain=" + blogUrl + "&alt=feed",
             id: item.id,
