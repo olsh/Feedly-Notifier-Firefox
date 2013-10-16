@@ -69,13 +69,9 @@ $("#popup-content").on("click", ".show-content", function () {
     contentContainer.slideToggle(function () {
         $this.css("background-position", contentContainer.is(":visible") ? "-288px -120px" : "-313px -119px");
         if (contentContainer.is(":visible") && contentContainer.text().length > 350) {
-            $(".item").css("width", "700px");
-            $("#feedly").css("width", "700px");
-            $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "635px" : "650px");
+            setPopupExpand(true);
         } else {
-            $(".item").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
-            $("#feedly").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
-            $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "310px" : "295px");
+            setPopupExpand(false);
         }
         resizeWindows();
     });
@@ -196,7 +192,21 @@ function setSavingAsActiveTab(savingActive){
     }
 }
 
+function setPopupExpand(isExpand){
+    if (isExpand){
+        $(".item").css("width", "700px");
+        $("#feedly").css("width", "700px");
+        $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "635px" : "650px");
+    } else {
+        $(".item").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
+        $("#feedly").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
+        $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "310px" : "295px");
+    }
+}
+
 function renderFeeds(data) {
+    setPopupExpand(false);
+
     if (data.isSavedFeeds){
         $("#feed-saved").empty();
         popupGlobal.savedFeeds = data.feeds;
