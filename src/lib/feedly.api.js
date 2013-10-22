@@ -97,12 +97,23 @@ var FeedlyApiClient = function (accessToken) {
 
             request.onreadystatechange = function(){
                 if (request.readyState === 4){
+
                     if (request.status === 200) {
-                        settings.onSuccess();
+                        if (typeof settings.onSuccess === "function"){
+                            settings.onSuccess();
+                        }
                     } else if (request.status === 401) {
-                        settings.onAuthorizationRequired();
-                    } else {
-                        settings.onError();
+                        if (typeof settings.onAuthorizationRequired === "function"){
+                            settings.onAuthorizationRequired();
+                        }
+                    } else if (request.status === 400) {
+                        if (typeof settings.onError === "function"){
+                            settings.onError();
+                        }
+                    }
+
+                    if (typeof settings.onComplete === "function"){
+                        settings.onComplete();
                     }
                 }
             };

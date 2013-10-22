@@ -691,6 +691,9 @@ function refreshAccessToken(){
             ffStorage.storage.feedlyUserId = response.id;
             ffStorage.storage.accessToken = response.access_token;
             initialize();
+        },
+        onComplete: function(){
+            ffStorage.storage.authorizationWasRequested = false;
         }
     });
 }
