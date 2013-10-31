@@ -48,6 +48,8 @@ self.port.on("stopWidgetUpdateAnimation", function (){
 window.addEventListener("click", function (event) {
     if (event.button === 1) {
         self.port.emit("middle-click", null);
+    } else if (event.button === 0){
+        self.port.emit("left-click", null);
     }
     event.preventDefault();
 }, true);

@@ -2,7 +2,6 @@
 
 var Request = require("sdk/request").Request;
 var xhr = require("sdk/net/xhr");
-var timers = require("sdk/timers");
 
 var FeedlyApiClient = function (accessToken) {
 

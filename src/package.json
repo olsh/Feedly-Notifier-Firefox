@@ -43,10 +43,28 @@
             "value": true
         },
         {
+            "name": "resetCounterOnClick",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
+            "name": "useSecureConnection",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "showFullFeedContent",
             "title": "",
             "type": "bool",
             "value": false
+        },
+        {
+            "name": "popupFontSize",
+            "title": "",
+            "type": "integer",
+            "value": 100
         },
         {
             "name": "showDesktopNotifications",

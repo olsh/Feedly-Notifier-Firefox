@@ -20,8 +20,9 @@ self.port.on("showLoader", function () {
     resizeWindows();
 });
 
-self.port.on("setSavingInterface", function (enable) {
-    setSavingInterface(enable);
+self.port.on("setPopupInterface", function (interfaceData) {
+    setSavingInterface(interfaceData.abilitySaveFeeds);
+    setFontSize(interfaceData.popupFontSize);
 });
 
 $("#login").click(function () {
@@ -180,6 +181,10 @@ function setSavingInterface(enable) {
     } else {
         $("#popup-content").removeClass("tabs");
     }
+}
+
+function setFontSize(fontSize){
+    $("#feed, #feed-saved").css("font-size", fontSize / 100 + "em");
 }
 
 function setSavingAsActiveTab(savingActive){

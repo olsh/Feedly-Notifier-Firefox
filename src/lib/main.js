@@ -19,7 +19,6 @@ var userstyles = require("./userstyles");
 
 var appGlobal = {
     feedlyApiClient: feedlyApi.getClient(),
-    feedlyUrl: "https://cloud.feedly.com",
     feedlyTab: null,
     icons: {
         default: "images/icon20.png",
@@ -28,6 +27,7 @@ var appGlobal = {
     options: {
         _updateInterval: 1,
         _maxNumberOfFeeds: 20,
+        _popupFontSize: 100,
 
         markReadOnClick: true,
         showDesktopNotifications: true,
@@ -37,6 +37,8 @@ var appGlobal = {
         playSound: false,
         oldestFeedsFirst: false,
         abilitySaveFeeds: false,
+        useSecureConnection: false,
+        resetCounterOnClick: false,
 
         get maxNumberOfFeeds() {
             return this._maxNumberOfFeeds;
@@ -52,6 +54,17 @@ var appGlobal = {
         set updateInterval(value) {
             var defaultValue = 1;
             return this._updateInterval = value ? value >= defaultValue ? value : defaultValue : defaultValue;
+        },
+        get popupFontSize() {
+            return this._popupFontSize;
+        },
+        set popupFontSize(value) {
+            var maxValue = 150;
+            var minValue = 70;
+            if (value && value <= maxValue && value >= minValue) {
+                this._popupFontSize = value;
+            }
+            return this._popupFontSize;
         }
     },
     get globalGroup(){
@@ -59,6 +72,9 @@ var appGlobal = {
     },
     get savedGroup(){
         return "user/" + ffStorage.storage.feedlyUserId + "/tag/global.saved";
+    },
+    get feedlyUrl(){
+        return this.options.useSecureConnection ? "https://cloud.feedly.com/" : "http://cloud.feedly.com/"
     },
     subscribeHandlerConstants: {
         titleVal: "Feedly Cloud",
@@ -196,6 +212,13 @@ function controlsInitialization(showPanel, callback){
         updateFeeds();
         updateSavedFeeds();
     });
+
+    appGlobal.widget.port.on("left-click", function(){
+        if (appGlobal.options.resetCounterOnClick){
+            sendUnreadFeedsCount({unreadFeedsCount: 0, isLoggedIn: appGlobal.isLoggedIn});
+            ffStorage.storage.lastCounterResetTime = new Date().getTime();
+        }
+    });
 }
 
 /* Senders */
@@ -208,7 +231,10 @@ function showPopupLoader() {
 }
 
 function setSavingInterface() {
-    appGlobal.panel.port.emit("setSavingInterface", appGlobal.options.abilitySaveFeeds);
+    appGlobal.panel.port.emit("setPopupInterface", {
+        abilitySaveFeeds: appGlobal.options.abilitySaveFeeds,
+        popupFontSize: appGlobal.options.popupFontSize
+    });
 }
 
 function sendMarkAsReadResult(feedIds) {
@@ -404,23 +430,38 @@ function setActiveStatus() {
  * Callback will be started after function complete
  * */
 function updateCounter(callback) {
-    apiRequestWrapper("markers/counts", {
-        onSuccess: function (response) {
-            var unreadCounts = response.unreadcounts;
-            var unreadFeedsCount = 0;
+    if(appGlobal.options.resetCounterOnClick){
+            if (ffStorage.storage.lastCounterResetTime){
+                var parameters = {
+                    newerThan: ffStorage.storage.lastCounterResetTime
+                };
+            }
+            makeMarkersRequest(parameters);
+    } else {
+        ffStorage.storage.lastCounterResetTime = new Date(0).getTime();
+        makeMarkersRequest();
+    }
 
-            for (var i = 0; i < unreadCounts.length; i++) {
-                if (appGlobal.globalGroup === unreadCounts[i].id) {
-                    unreadFeedsCount = unreadCounts[i].count;
-                    break;
+    function makeMarkersRequest(parameters){
+        apiRequestWrapper("markers/counts", {
+            parameters: parameters,
+            onSuccess: function (response) {
+                var unreadCounts = response.unreadcounts;
+                var unreadFeedsCount = 0;
+
+                for (var i = 0; i < unreadCounts.length; i++) {
+                    if (appGlobal.globalGroup === unreadCounts[i].id) {
+                        unreadFeedsCount = unreadCounts[i].count;
+                        break;
+                    }
+                }
+                sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
+                if (typeof callback === "function") {
+                    callback();
                 }
             }
-            sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
-            if (typeof callback === "function") {
-                callback();
-            }
-        }
-    });
+        });
+    }
 }
 
 /* Runs feeds update and stores unread feeds in cache

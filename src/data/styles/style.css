@@ -75,20 +75,18 @@ body {
     background-color: #F5F5F4;
 }
 
-.item .content {
-    background-color: white;
-}
-
 #feed .item:not(:last-child),
 #feed-saved .item:not(:last-child){
     border-bottom: solid #d2d2d2 1px;
 }
 
 .item .content {
+    font-size: 1em;
     display: none;
     border: 1px solid #6cc655;
     padding: 5px;
     border-radius: 3px;
+    background-color: white;
 }
 
 .content a:link {
@@ -125,6 +123,7 @@ body {
 }
 
 .article-menu {
+    font-size: 12px;
     vertical-align: top;
     float: right;
 }
@@ -193,7 +192,7 @@ body {
 }
 
 .title {
-    font-size: 14px;
+    font-size: 0.9em;
     cursor: pointer;
     display: inline-block;
 }
@@ -204,7 +203,7 @@ body {
 
 .blog-title a, .blog-title span {
     color: gray;
-    font-size: 11px;
+    font-size: 0.7em;
     font-family: "Open Sans Condensed", serif;
 }
 
