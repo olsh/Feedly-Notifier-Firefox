@@ -27,6 +27,10 @@ self.port.on("setPopupInterface", function (interfaceData) {
     setFontSize(interfaceData.popupFontSize);
 });
 
+self.port.on("removeFeedsFromPopup", function (feedIds) {
+    removeFeedFromList(feedIds);
+});
+
 $("#login").click(function () {
     self.port.emit("updateToken", null);
 });
@@ -125,7 +129,6 @@ function requestSavedFeeds() {
 
 function markAsRead(feedIds) {
     self.port.emit("markRead", feedIds);
-    removeFeedFromList(feedIds);
 }
 
 function saveFeed(feedId, saveStatus) {

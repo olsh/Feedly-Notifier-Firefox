@@ -250,6 +250,10 @@ function decrementFeedsCount(number){
     appGlobal.widget.port.emit("decrementFeedsCount", number);
 }
 
+function sendRemoveFeedsFromPopup(feedIds){
+    appGlobal.panel.port.emit("removeFeedsFromPopup", feedIds);
+}
+
 function startWidgetUpdateAnimation(){
     appGlobal.widget.port.emit("startWidgetUpdateAnimation");
 }
@@ -610,6 +614,7 @@ function markAsRead(feedIds) {
             decrementFeedsCount(feedIds.length);
         }
     });
+    sendRemoveFeedsFromPopup(feedIds);
 }
 
 /* Reads all options from the storage */
@@ -749,6 +754,7 @@ function getFeeds(callback) {
         updateFeeds(function () {
             callback({feeds: appGlobal.cachedFeeds.slice(0), isLoggedIn: appGlobal.isLoggedIn});
         }, true);
+        updateCounter();
     }
 }
 
