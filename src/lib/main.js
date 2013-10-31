@@ -37,7 +37,7 @@ var appGlobal = {
         playSound: false,
         oldestFeedsFirst: false,
         abilitySaveFeeds: false,
-        useSecureConnection: false,
+        useSecureConnection: true,
         resetCounterOnClick: false,
 
         get maxNumberOfFeeds() {
@@ -666,7 +666,7 @@ function getAccessToken() {
         redirect_uri: "http://localhost",
         scope: "https://cloud.feedly.com/subscriptions",
         state: state
-    }, true);
+    }, appGlobal.options.useSecureConnection);
 
     // In some cases onLoad doesn't work properly, thus we use all events for fallback
     tabs.on("ready", requestToken);
@@ -695,7 +695,7 @@ function getAccessToken() {
             appGlobal.feedlyApiClient.request("auth/token", {
                 method: "POST",
                 useSdkRequest: true,
-                useSecureConnection: true,
+                useSecureConnection: appGlobal.options.useSecureConnection,
                 parameters: {
                     code: matches[1],
                     client_id: appGlobal.clientId,
@@ -727,7 +727,7 @@ function refreshAccessToken(){
     appGlobal.feedlyApiClient.request("auth/token", {
         method: "POST",
         useSdkRequest: true,
-        useSecureConnection: true,
+        useSecureConnection: appGlobal.options.useSecureConnection,
         parameters: {
             refresh_token: ffStorage.storage.refreshToken,
             client_id: appGlobal.clientId,

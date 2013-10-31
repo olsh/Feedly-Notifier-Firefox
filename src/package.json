@@ -52,7 +52,7 @@
             "name": "useSecureConnection",
             "title": "",
             "type": "bool",
-            "value": false
+            "value": true
         },
         {
             "name": "showFullFeedContent",
