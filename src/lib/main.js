@@ -601,14 +601,15 @@ function markAsRead(feedIds) {
             action: "markAsRead",
             type: "entries",
             entryIds: feedIds
+        },
+        onSuccess: function(){
+            for (var i = 0; i < feedIds.length; i++) {
+                removeFeedFromCache(feedIds[i]);
+            }
+            sendMarkAsReadResult(feedIds);
+            decrementFeedsCount(feedIds.length);
         }
     });
-
-    for (var i = 0; i < feedIds.length; i++) {
-        removeFeedFromCache(feedIds[i]);
-    }
-    decrementFeedsCount(feedIds.length);
-    sendMarkAsReadResult(feedIds);
 }
 
 /* Reads all options from the storage */
@@ -843,4 +844,4 @@ exports.onUnload = function (reason) {
                 .removeContentHandler(appGlobal.subscribeHandlerConstants.typeVal, appGlobal.subscribeHandlerConstants.uriVal);
         }
     }
-}
+};

@@ -12,7 +12,9 @@ self.port.on("feedsUpdated", function (feedsData) {
 });
 
 self.port.on("feedMarkedAsRead", function (feedsData) {
-    removeFeedFromList(feedsData);
+    if ($("#feed").find(".item").size() === 0) {
+        requestFeeds();
+    }
 });
 
 self.port.on("showLoader", function () {
@@ -123,6 +125,7 @@ function requestSavedFeeds() {
 
 function markAsRead(feedIds) {
     self.port.emit("markRead", feedIds);
+    removeFeedFromList(feedIds);
 }
 
 function saveFeed(feedId, saveStatus) {
@@ -139,7 +142,7 @@ function removeFeedFromList(feedIds) {
             $(this).remove();
             resizeWindows();
             if ($("#feed").find(".item").size() === 0) {
-                requestFeeds();
+                showLoader();
             }
         });
     }
