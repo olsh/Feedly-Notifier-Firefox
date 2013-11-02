@@ -7,6 +7,12 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 **Changelog**
 
+v2.4.0 (2013.11.02)
+
+* Added ability to change font size in the popup
+* Added option "Reset counter when extension button is clicked
+* Added option use secure connection (HTTPS)
+
 v2.3.1 (2013.10.15)
 
 * Fixed RTL text support
