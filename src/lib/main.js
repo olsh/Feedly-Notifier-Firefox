@@ -402,6 +402,10 @@ function openFeedlyTab() {
             }
         });
     }
+
+    if (appGlobal.panel.isShowing) {
+        appGlobal.panel.hide();
+    }
 }
 
 function openFeedTab(url, inBackground, feedId, isSaved) {
@@ -411,6 +415,9 @@ function openFeedTab(url, inBackground, feedId, isSaved) {
         onOpen: function(){
             if (appGlobal.options.markReadOnClick && feedId && !isSaved) {
                 markAsRead([feedId]);
+            }
+            if (!inBackground && appGlobal.panel.isShowing) {
+                appGlobal.panel.hide();
             }
         }
     });
