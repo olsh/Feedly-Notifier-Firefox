@@ -39,6 +39,7 @@ var appGlobal = {
         abilitySaveFeeds: false,
         useSecureConnection: true,
         resetCounterOnClick: false,
+        closePopup: false,
 
         get maxNumberOfFeeds() {
             return this._maxNumberOfFeeds;
@@ -403,7 +404,7 @@ function openFeedlyTab() {
         });
     }
 
-    if (appGlobal.panel.isShowing) {
+    if (appGlobal.panel.isShowing && appGlobal.options.closePopup) {
         appGlobal.panel.hide();
     }
 }
@@ -416,7 +417,7 @@ function openFeedTab(url, inBackground, feedId, isSaved) {
             if (appGlobal.options.markReadOnClick && feedId && !isSaved) {
                 markAsRead([feedId]);
             }
-            if (!inBackground && appGlobal.panel.isShowing) {
+            if (!inBackground && appGlobal.panel.isShowing && appGlobal.options.closePopup) {
                 appGlobal.panel.hide();
             }
         }

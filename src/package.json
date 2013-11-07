@@ -67,6 +67,12 @@
             "value": 100
         },
         {
+            "name": "closePopup",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "showDesktopNotifications",
             "title": "",
             "type": "bool",
