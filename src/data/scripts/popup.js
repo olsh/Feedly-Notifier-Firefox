@@ -133,6 +133,7 @@ $("#popup-content").on("click", ".categories > span", function (){
     } else {
         $(".item").show();
     }
+    resizeWindows();
 });
 
 function openFeedTab(url, inBackground, feedId, isSaved) {

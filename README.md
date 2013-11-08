@@ -7,6 +7,12 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 **Changelog**
 
+v2.5.0 (2013.11.08)
+
+* Added ability filter feeds by category in the popup
+* Added option to hide popup when news is opened
+* Added arabic font
+
 v2.4.0 (2013.11.02)
 
 * Added ability to change font size in the popup
