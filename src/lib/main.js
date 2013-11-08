@@ -40,6 +40,7 @@ var appGlobal = {
         useSecureConnection: true,
         resetCounterOnClick: false,
         closePopup: false,
+        showCategories: false,
 
         get maxNumberOfFeeds() {
             return this._maxNumberOfFeeds;
@@ -148,7 +149,7 @@ function controlsInitialization(showPanel, callback){
 
         appGlobal.panel.on("show", function () {
             showPopupLoader();
-            setSavingInterface();
+            setInterface();
             getFeeds(function (data) {
                 sendFeedsToPopup(data);
             });
@@ -231,10 +232,11 @@ function showPopupLoader() {
     appGlobal.panel.port.emit("showLoader", null);
 }
 
-function setSavingInterface() {
+function setInterface() {
     appGlobal.panel.port.emit("setPopupInterface", {
         abilitySaveFeeds: appGlobal.options.abilitySaveFeeds,
-        popupFontSize: appGlobal.options.popupFontSize
+        popupFontSize: appGlobal.options.popupFontSize,
+        showCategories: appGlobal.options.showCategories
     });
 }
 
@@ -597,7 +599,8 @@ function parseFeeds(feedlyResponse) {
             contentDirection: contentDirection,
             isoDate: item.crawled ? new Date(item.crawled).toISOString() : "",
             date: item.crawled ? new Date(item.crawled) : "",
-            isSaved: isSaved
+            isSaved: isSaved,
+            categories: item.categories
         };
     });
     return feeds;

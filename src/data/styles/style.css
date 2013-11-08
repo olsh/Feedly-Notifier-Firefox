@@ -273,3 +273,21 @@ button::-moz-focus-inner {
     width: 16px;
     height: 16px;
 }
+
+.categories {
+    padding-bottom: 5px;
+}
+
+.categories > span {
+    display: inline-block;
+    color: black;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 4px 8px;
+}
+
+.categories > span.active {
+    background-color: #6ABA45;
+    border-radius: 4px;
+    color: #FFFFFF;
+}

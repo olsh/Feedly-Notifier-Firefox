@@ -30,7 +30,7 @@
 </div>
 <script type="text/x-handlebars-template" id="feed-template">
     {{#feeds}}
-    <div class="item" data-id="{{id}}">
+    <div class="item" data-id="{{id}}" data-categories="{{#categories}}{{id}} {{/categories}}">
         <span class="article-title {{titleDirection}}">
             <a class="title" data-link="{{url}}" href="javascript:void(0)">{{title}} </a>
         </span>
@@ -49,6 +49,14 @@
         <div class="content {{contentDirection}}"></div>
     </div>
     {{/feeds}}
+</script>
+<script type="text/x-handlebars-template" id="categories-template">
+    <div class="categories">
+        <span class="active">All</span>
+    {{#categories}}
+        <span data-id="{{id}}">{{label}}</span>
+    {{/categories}}
+    </div>
 </script>
 </body>
 </html>
