@@ -94,7 +94,7 @@ $("#popup-content").on("click", ".show-content", function () {
 
 $("#popup-content").on("click", "#mark-all-read", function (event) {
     var feedIds = [];
-    $(".item").each(function (key, value) {
+    $(".item:visible").each(function (key, value) {
         feedIds.push($(value).data("id"));
     });
     markAsRead(feedIds);
