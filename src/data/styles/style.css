@@ -67,7 +67,6 @@ body {
 
 .item {
     width: 350px;
-    padding: 2px 0;
 }
 
 .tabs .item{
@@ -151,11 +150,12 @@ body {
 }
 
 #feedly {
-    margin: 0;
     position: fixed;
-    width: 350px;
-    padding: 10px 0 0 0;
     top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 0 0 0;
+    margin: 0 5px;
     background-color: white;
 }
 
@@ -221,7 +221,6 @@ body {
 
 .tabs #feedly {
     border-bottom: 1px solid #6cc655;
-    width: 380px;
 }
 
 .tab {

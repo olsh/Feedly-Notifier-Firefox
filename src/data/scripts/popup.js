@@ -4,7 +4,7 @@ var popupGlobal = {
     feeds: [],
     savedFeeds: [],
     showCategories: false
-}
+};
 
 window.onresize = resizeWindows;
 
@@ -215,12 +215,11 @@ function setSavingAsActiveTab(savingActive){
 function setPopupExpand(isExpand){
     if (isExpand){
         $(".item").css("width", "700px");
-        $("#feedly").css("width", "700px");
         $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "635px" : "650px");
     } else {
-        $(".item").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
-        $("#feedly").css("width", $("#popup-content").hasClass("tabs") ? "380px" : "350px");
-        $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "310px" : "295px");
+        var popupContent = $("#popup-content");
+        $(".item").css("width", popupContent.hasClass("tabs") ? "380px" : "350px");
+        $(".article-title, .blog-title").css("width", popupContent.hasClass("tabs") ? "310px" : "295px");
     }
 }
 
@@ -285,13 +284,14 @@ function getUniqueCategories(feeds){
 
 function resizeWindows() {
     var maxHeight = 600;
-    var width = $("body").outerWidth(true);
-    var height = $("body").outerHeight(true);
+    var body = $("body");
+    var width = body.outerWidth(true);
+    var height = body.outerHeight(true);
     if (height > maxHeight) {
         height = maxHeight;
         width += getScrollbarWidth();
     }
-    var height = height > maxHeight ? maxHeight : height;
+    height = height > maxHeight ? maxHeight : height;
 
     //For fix bug with scroll on Mac
     var margin = 2;
