@@ -7,6 +7,10 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 
 **Changelog**
 
+v2.5.3 (2013.11.18)
+
+* Some bugfixes, nothing new
+
 v2.5.2 (2013.11.11)
 
 * Some UI fixes
