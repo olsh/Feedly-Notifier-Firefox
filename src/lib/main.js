@@ -43,30 +43,33 @@ var appGlobal = {
         showCategories: false,
 
         get maxNumberOfFeeds() {
-            return this._maxNumberOfFeeds;
+            var minimumFeeds = 1;
+            return this._maxNumberOfFeeds >= 1 ? this._maxNumberOfFeeds : minimumFeeds;
         },
         set maxNumberOfFeeds(value) {
-            var defaultValue = 1;
-            this._maxNumberOfFeeds = value ? value >= defaultValue ? value : defaultValue : defaultValue;
+            this._maxNumberOfFeeds = value;
         },
 
         get updateInterval() {
-            return this._updateInterval;
+            var minimumInterval = 1;
+            return this._updateInterval >= 1 ? this._updateInterval : minimumInterval;
         },
         set updateInterval(value) {
-            var defaultValue = 1;
-            return this._updateInterval = value ? value >= defaultValue ? value : defaultValue : defaultValue;
+            return this._updateInterval = value;
         },
         get popupFontSize() {
+            var maxValue = 150;
+            var minValue = 70;
+            if (this._popupFontSize > maxValue ) {
+                return maxValue;
+            }
+            if (this._popupFontSize < minValue){
+                return minValue;
+            }
             return this._popupFontSize;
         },
         set popupFontSize(value) {
-            var maxValue = 150;
-            var minValue = 70;
-            if (value && value <= maxValue && value >= minValue) {
-                this._popupFontSize = value;
-            }
-            return this._popupFontSize;
+            this._popupFontSize = value;
         }
     },
     get globalGroup(){
