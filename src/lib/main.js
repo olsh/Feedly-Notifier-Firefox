@@ -52,7 +52,7 @@ var appGlobal = {
 
         get updateInterval() {
             var minimumInterval = 10;
-            return this._updateInterval >= 1 ? this._updateInterval : minimumInterval;
+            return this._updateInterval >= minimumInterval ? this._updateInterval : minimumInterval;
         },
         set updateInterval(value) {
             return this._updateInterval = value;
