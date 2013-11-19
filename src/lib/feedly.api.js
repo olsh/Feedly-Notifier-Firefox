@@ -2,6 +2,7 @@
 
 var Request = require("sdk/request").Request;
 var xhr = require("sdk/net/xhr");
+var self = require("sdk/self");
 
 var FeedlyApiClient = function (accessToken) {
 
@@ -9,24 +10,21 @@ var FeedlyApiClient = function (accessToken) {
 
     var apiUrl = "http://cloud.feedly.com/v3/";
     var apiSecureUrl = "https://cloud.feedly.com/v3/";
+    var extensionVersion = self.version;
 
     this.getMethodUrl = function (methodName, parameters, useSecureConnection) {
         if (methodName === undefined) {
             return "";
         }
         var methodUrl = (useSecureConnection ? apiSecureUrl : apiUrl) + methodName;
-        var queryString;
-        if (parameters) {
-            queryString = "?";
-            for (var parameterName in parameters) {
-                queryString += parameterName + "=" + parameters[parameterName] + "&";
-            }
-            queryString = queryString.replace(/&$/, "");
-        }
 
-        if (queryString !== undefined) {
-            methodUrl += queryString;
+        var queryString = "?";
+        for (var parameterName in parameters) {
+            queryString += parameterName + "=" + parameters[parameterName] + "&";
         }
+        queryString += "av=f" + extensionVersion;
+
+        methodUrl += queryString;
 
         return methodUrl;
     };
