@@ -16,7 +16,7 @@
             "name": "updateInterval",
             "title": "",
             "type": "integer",
-            "value": 2
+            "value": 10
         },
         {
             "name": "maxNumberOfFeeds",

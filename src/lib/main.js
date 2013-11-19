@@ -25,7 +25,7 @@ var appGlobal = {
         inactive: "images/icon20_inactive.png"
     },
     options: {
-        _updateInterval: 1,
+        _updateInterval: 10,
         _maxNumberOfFeeds: 20,
         _popupFontSize: 100,
 
@@ -51,7 +51,7 @@ var appGlobal = {
         },
 
         get updateInterval() {
-            var minimumInterval = 1;
+            var minimumInterval = 10;
             return this._updateInterval >= 1 ? this._updateInterval : minimumInterval;
         },
         set updateInterval(value) {
