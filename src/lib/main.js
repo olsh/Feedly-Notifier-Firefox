@@ -79,7 +79,7 @@ var appGlobal = {
         return "user/" + ffStorage.storage.feedlyUserId + "/tag/global.saved";
     },
     get feedlyUrl(){
-        return this.options.useSecureConnection ? "https://cloud.feedly.com/" : "http://cloud.feedly.com/"
+        return this.options.useSecureConnection ? "https://feedly.com" : "http://feedly.com"
     },
     subscribeHandlerConstants: {
         titleVal: "Feedly Cloud",
@@ -394,7 +394,7 @@ function removeFeedFromCache(feedId) {
 }
 
 function openFeedlyTab() {
-    if (appGlobal.feedlyTab) {
+    if (appGlobal.feedlyTab && new RegExp(appGlobal.feedlyUrl, "i").test(appGlobal.feedlyTab.url)) {
         appGlobal.feedlyTab.reload();
         appGlobal.feedlyTab.activate();
     } else {
