@@ -588,6 +588,17 @@ function parseFeeds(feedlyResponse) {
             }
         }
 
+        var categories = [];
+        if (item.categories) {
+            categories = item.categories.map(function (category){
+                return {
+                    id: category.id,
+                    encodedId: encodeURI(category.id),
+                    label: category.label
+                };
+            });
+        }
+
         return {
             //Feedly wraps rtl titles in div, we remove div because desktopNotification supports only text
             title: title,
@@ -603,7 +614,7 @@ function parseFeeds(feedlyResponse) {
             isoDate: item.crawled ? new Date(item.crawled).toISOString() : "",
             date: item.crawled ? new Date(item.crawled) : "",
             isSaved: isSaved,
-            categories: item.categories
+            categories: categories
         };
     });
     return feeds;

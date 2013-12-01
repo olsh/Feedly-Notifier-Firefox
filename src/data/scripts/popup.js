@@ -270,14 +270,12 @@ function getUniqueCategories(feeds){
     var categories = [];
     var addedIds = [];
     feeds.forEach(function(feed){
-        if (feed.categories) {
-            feed.categories.forEach(function(category){
-                if(addedIds.indexOf(category.id) === -1){
-                    categories.push(category);
-                    addedIds.push(category.id);
-                }
-            });
-        }
+        feed.categories.forEach(function(category){
+            if(addedIds.indexOf(category.id) === -1){
+                categories.push(category);
+                addedIds.push(category.id);
+            }
+        });
     });
     return categories;
 }
