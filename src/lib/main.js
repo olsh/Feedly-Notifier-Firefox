@@ -201,7 +201,8 @@ function controlsInitialization(showPanel, callback){
         contentURL: self.data.url("widget.html"),
         contentScriptFile: self.data.url("scripts/widget.js"),
         panel: appGlobal.panel,
-        onClick: callback
+        onClick: callback,
+        autoShrink: false
     });
 
     appGlobal.widget.on("attach", function(){
