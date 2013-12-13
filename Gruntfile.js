@@ -41,7 +41,7 @@ module.exports = function (grunt) {
             },
             sandboxLink: {
                 files: {
-                    "<%= pkg.buildPath %>/data/popup.html": "<%= pkg.buildPath %>/data/popup.html"
+                    "<%= pkg.buildPath %>/lib/main.js": "<%= pkg.buildPath %>/lib/main.js"
                 },
                 options: {
                     replacements: [
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         "mozilla-addon-sdk": {
             stable: {
                 options: {
-                    revision: "1.14"
+                    revision: "1.15"
                 }
             }
         },
