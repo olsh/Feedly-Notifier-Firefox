@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title data-l10n-id="Filters"></title>
+    <link rel="stylesheet" type="text/css" href="styles/filters.css"/>
+</head>
+<body>
+    <div id="filters-settings">
+        <h3 data-l10n-id="Filters"></h3>
+        <span class="label" data-l10n-id="UpdateFollowingCategories"></span>
+        <input type="checkbox" id="filters-enabled" /><br>
+        <fieldset id="categories">
+            <legend data-l10n-id="Categories"></legend>
+        </fieldset>
+        <button type="button" id="save" data-l10n-id="Save" class="button"></button>
+    </div>
+
+    <div id="login">
+        <button id="login-btn" class="button" data-l10n-id="Login"></button>
+    </div>
+    <script type="text/x-handlebars-template" id="categories-template">
+            {{#categories}}
+            <div>
+                <span>{{label}}</span>
+                <input type="checkbox" data-id="{{id}}"/>
+            </div>
+            {{/categories}}
+    </script>
+</body>
+</html>

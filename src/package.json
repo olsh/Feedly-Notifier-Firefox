@@ -9,7 +9,7 @@
     "version": "2.5.8",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
-    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck"],
+    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer"],
     "dependencies": ["toolbarwidget", "addon-sdk"],
     "preferences": [
         {
@@ -103,10 +103,16 @@
             "value": true
         },
         {
+            "name": "filters",
+            "title": "",
             "type": "control",
-            "label": "Logout",
+            "label": ""
+        },
+        {
             "name": "logout",
-            "title": ""
+            "title": "",
+            "type": "control",
+            "label": ""
         }
     ]
 }

@@ -20,6 +20,7 @@ var userstyles = require("./userstyles");
 var appGlobal = {
     feedlyApiClient: feedlyApi.getClient(),
     feedlyTab: null,
+    filtersTab: null,
     icons: {
         default: "images/icon20.png",
         inactive: "images/icon20_inactive.png"
@@ -41,6 +42,8 @@ var appGlobal = {
         resetCounterOnClick: false,
         closePopup: false,
         showCategories: false,
+        isFiltersEnabled: false,
+        filters: [],
 
         get maxNumberOfFeeds() {
             var minimumFeeds = 1;
@@ -81,6 +84,9 @@ var appGlobal = {
     get feedlyUrl(){
         return this.options.useSecureConnection ? "https://feedly.com" : "http://feedly.com"
     },
+    get globalUncategorized(){
+        return "user/" + ffStorage.storage.feedlyUserId + "/category/global.uncategorized";
+    },
     subscribeHandlerConstants: {
         titleVal: "Feedly Cloud",
         typeVal: "application/vnd.mozilla.maybe.feed",
@@ -111,6 +117,10 @@ var appGlobal = {
         ffStorage.storage.accessToken = "";
         ffStorage.storage.refreshToken = "";
         initialize();
+    });
+
+    options.on("filters", function () {
+        openFiltersTab();
     });
 })();
 
@@ -394,6 +404,52 @@ function removeFeedFromCache(feedId) {
     }
 }
 
+function openFiltersTab() {
+    var filtersUrl = self.data.url("filters.html");
+    if (appGlobal.filtersTab && new RegExp(appGlobal.filtersTab.url, "i").test(filtersUrl)) {
+        appGlobal.filtersTab.reload();
+        appGlobal.filtersTab.activate();
+    } else {
+        tabs.open({
+            url: filtersUrl,
+            onOpen: function (tab) {
+                appGlobal.filtersTab = tab;
+            },
+            onClose: function () {
+                appGlobal.filtersTab = null;
+            },
+            onReady: function(tab){
+                var worker = tab.attach({
+                    contentScriptFile: [
+                        self.data.url("scripts/jquery-2.0.3.min.js"),
+                        self.data.url("scripts/jquery.mustache.min.js"),
+                        self.data.url("scripts/filters.js")
+                    ]
+                });
+                getCategories(function(categories){
+                    worker.port.emit("getCategories", categories)
+                });
+                worker.port.on("updateToken", function(){
+                    getAccessToken();
+                });
+
+                worker.port.on("getFilters", function(){
+                    worker.port.emit("returnFilters", {filters: appGlobal.options.filters, isFiltersEnabled: appGlobal.options.isFiltersEnabled});
+                });
+
+                worker.port.on("saveFilters", function(filterData){
+                    appGlobal.options.filters = ffStorage.storage.filters = filterData.filters;
+                    if(options.prefs.isFiltersEnabled === filterData.isFiltersEnabled) {
+                        initialize();
+                    } else {
+                        options.prefs.isFiltersEnabled = filterData.isFiltersEnabled;
+                    }
+                });
+            }
+        });
+    }
+}
+
 function openFeedlyTab() {
     if (appGlobal.feedlyTab && new RegExp(appGlobal.feedlyUrl, "i").test(appGlobal.feedlyTab.url)) {
         appGlobal.feedlyTab.reload();
@@ -467,10 +523,42 @@ function updateCounter(callback) {
                 var unreadCounts = response.unreadcounts;
                 var unreadFeedsCount = 0;
 
-                for (var i = 0; i < unreadCounts.length; i++) {
-                    if (appGlobal.globalGroup === unreadCounts[i].id) {
-                        unreadFeedsCount = unreadCounts[i].count;
-                        break;
+                if (appGlobal.options.isFiltersEnabled) {
+                    apiRequestWrapper("subscriptions", {
+                        onSuccess: function (response) {
+                            unreadCounts.forEach(function (element) {
+                                if (appGlobal.options.filters.indexOf(element.id) !== -1) {
+                                    unreadFeedsCount += element.count;
+                                }
+                            });
+
+                            // When feed consists in more than one category, we remove feed which was counted twice or more
+                            response.forEach(function (feed) {
+                                var numberOfDupesCategories = 0;
+                                feed.categories.forEach(function(category){
+                                    if(appGlobal.options.filters.indexOf(category.id) !== -1){
+                                        numberOfDupesCategories++;
+                                    }
+                                });
+                                if(numberOfDupesCategories > 1){
+                                    for (var i = 0; i < unreadCounts.length; i++) {
+                                        if (feed.id === unreadCounts[i].id) {
+                                            unreadFeedsCount -= unreadCounts[i].count * --numberOfDupesCategories;
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
+
+                            sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
+                        }
+                    });
+                } else {
+                    for (var i = 0; i < unreadCounts.length; i++) {
+                        if (appGlobal.globalGroup === unreadCounts[i].id) {
+                            unreadFeedsCount = unreadCounts[i].count;
+                            break;
+                        }
                     }
                 }
                 sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
@@ -487,33 +575,66 @@ function updateCounter(callback) {
  * If silentUpdate is true, then notifications will not be shown
  *  */
 function updateFeeds(callback, silentUpdate) {
-    apiRequestWrapper("streams/" + encodeURIComponent(appGlobal.globalGroup) + "/contents", {
-        parameters: {
-            unreadOnly: true,
-            ranked: appGlobal.options.oldestFeedsFirst ? "oldest" : "newest",
-            count: appGlobal.options.maxNumberOfFeeds
-        },
-        onSuccess: function (response) {
-            appGlobal.cachedFeeds = parseFeeds(response);
-            if (appGlobal.options.showDesktopNotifications) {
-                var newFeeds = filterByNewFeeds(appGlobal.cachedFeeds);
-                if (!silentUpdate) {
-                    sendDesktopNotification(newFeeds);
+    appGlobal.cachedFeeds = [];
+
+    var streamIds = appGlobal.options.isFiltersEnabled ? appGlobal.options.filters : [appGlobal.globalGroup];
+    var requestCount = streamIds.length;
+
+    for (var i = 0; i < streamIds.length; i++) {
+        apiRequestWrapper("streams/" + encodeURIComponent(streamIds[i]) + "/contents", {
+            parameters: {
+                unreadOnly: true,
+                ranked: appGlobal.options.oldestFeedsFirst ? "oldest" : "newest",
+                count: appGlobal.options.maxNumberOfFeeds
+            },
+            onSuccess: function (response) {
+                requestCount--;
+
+                appGlobal.cachedFeeds = appGlobal.cachedFeeds.concat(parseFeeds(response));
+
+                if (requestCount < 1) {
+
+                    // Remove duplicates
+                    appGlobal.cachedFeeds = appGlobal.cachedFeeds.filter(function (value, index, feeds) {
+                        for (var i = ++index; i < feeds.length; i++) {
+                            if (feeds[i].id == value.id) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    });
+
+                    appGlobal.cachedFeeds = appGlobal.cachedFeeds.sort(function (a, b) {
+                        if (a.date > b.date) {
+                            return appGlobal.options.oldestFeedsFirst ? 1 : -1;
+                        } else if (a.date < b.date) {
+                            return appGlobal.options.oldestFeedsFirst ? -1 : 1;
+                        }
+                        return 0;
+                    });
+
+                    appGlobal.cachedFeeds = appGlobal.cachedFeeds.splice(0, appGlobal.options.maxNumberOfFeeds);
+                    if (appGlobal.options.showDesktopNotifications) {
+                        var newFeeds = filterByNewFeeds(appGlobal.cachedFeeds);
+                        if (!silentUpdate) {
+                            sendDesktopNotification(newFeeds);
+                        }
+                        if (appGlobal.options.playSound && newFeeds.length > 0) {
+                            playSound();
+                        }
+                    }
+                    if (typeof callback === "function") {
+                        callback();
+                    }
                 }
-                if(appGlobal.options.playSound && newFeeds.length > 0){
-                    playSound();
+            },
+            onAuthorizationRequired: function () {
+                if (typeof callback === "function") {
+                    callback();
                 }
             }
-            if (typeof callback === "function") {
-                callback();
-            }
-        },
-        onAuthorizationRequired: function () {
-            if (typeof callback === "function") {
-                callback();
-            }
-        }
-    });
+        });
+    }
 }
 
 /* Update saved feeds and stores its in cache */
@@ -648,6 +769,8 @@ function readOptions() {
     for (var optionName in appGlobal.options) {
         appGlobal.options[optionName] = options.prefs[optionName];
     }
+    // options.prefs doesn't support arrays
+    appGlobal.options.filters = ffStorage.storage.filters;
 }
 
 /* Save feed or unsave it.
@@ -683,7 +806,7 @@ function toggleSavedFeed(feedId, saveStatus) {
 }
 
 /* Runs authenticating a user process,
- * then read access token and stores in chrome.storage */
+ * then read access token and stores in the FF storage */
 function getAccessToken() {
     var state = (new Date()).getTime();
     var url = appGlobal.feedlyApiClient.getMethodUrl("auth/auth", {
@@ -796,6 +919,20 @@ function getSavedFeeds(forceUpdate, callback) {
             callback({feeds: appGlobal.cachedSavedFeeds.slice(0), isLoggedIn: appGlobal.isLoggedIn});
         });
     }
+}
+
+/* Gets categories for current user
+ * if user is not logged in, then returns empty array
+ */
+function getCategories(callback){
+    apiRequestWrapper("categories", {
+        onSuccess: function (response) {
+            callback(response);
+        },
+        onAuthorizationRequired: function (){
+            callback([]);
+        }
+    });
 }
 
 function apiRequestWrapper(methodName, settings) {
