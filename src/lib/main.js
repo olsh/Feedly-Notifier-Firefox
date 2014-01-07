@@ -927,6 +927,10 @@ function getSavedFeeds(forceUpdate, callback) {
 function getCategories(callback){
     apiRequestWrapper("categories", {
         onSuccess: function (response) {
+            response.push({
+                id: appGlobal.globalUncategorized,
+                label: "Uncategorized"
+            });
             callback(response);
         },
         onAuthorizationRequired: function (){
