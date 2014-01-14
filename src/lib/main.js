@@ -501,7 +501,7 @@ function setActiveStatus() {
 }
 
 /* Runs feeds update and stores unread feeds in cache
- * Callback will be started after function complete
+ * Callback will be started after the function will be completed
  * */
 function updateCounter(callback) {
     if(appGlobal.options.resetCounterOnClick){
@@ -551,6 +551,10 @@ function updateCounter(callback) {
                             });
 
                             sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
+
+                            if (typeof callback === "function") {
+                                callback();
+                            }
                         }
                     });
                 } else {
@@ -560,10 +564,12 @@ function updateCounter(callback) {
                             break;
                         }
                     }
-                }
-                sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
-                if (typeof callback === "function") {
-                    callback();
+
+                    sendUnreadFeedsCount({unreadFeedsCount: unreadFeedsCount, isLoggedIn: true});
+
+                    if (typeof callback === "function") {
+                        callback();
+                    }
                 }
             }
         });

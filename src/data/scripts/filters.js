@@ -1,6 +1,8 @@
 "use strict";
 
 self.port.on("getCategories", function (categories) {
+    $("#loading").hide();
+
     if(categories.length){
         $("#login").hide();
         $("#filters-settings").show().find("#categories").append($("#categories-template").mustache({categories: categories}));
