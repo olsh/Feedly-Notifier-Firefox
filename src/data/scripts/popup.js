@@ -214,11 +214,11 @@ function setSavingAsActiveTab(savingActive){
 
 function setPopupExpand(isExpand){
     if (isExpand){
-        $(".item").css("width", "700px");
+        $(".item, .categories").css("width", "700px");
         $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "635px" : "650px");
     } else {
         var popupContent = $("#popup-content");
-        $(".item").css("width", popupContent.hasClass("tabs") ? "380px" : "350px");
+        $(".item, .categories").css("width", popupContent.hasClass("tabs") ? "380px" : "350px");
         $(".article-title, .blog-title").css("width", popupContent.hasClass("tabs") ? "310px" : "295px");
     }
 }

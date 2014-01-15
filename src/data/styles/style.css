@@ -91,6 +91,11 @@ body {
     background-color: white;
 }
 
+.item .content,
+.item .content * {
+    -moz-user-select: text;
+}
+
 .content a:link {
     color: #6cc655;
     text-decoration: none;
