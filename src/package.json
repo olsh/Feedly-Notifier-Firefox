@@ -2,7 +2,6 @@
     "name": "feedly-notifier",
     "fullName": "Feedly Notifier",
     "id": "jid1-BOjn8b0IM7kH2w",
-    "description": "Feedly notifier is a tiny extension that keeps you up to date with your feedly subscriptions.",
     "author": "Dmitriy Samodov, Oleg Shevchenko",
     "license": "MPL 2.0",
     "homepage": "http://olsh.github.io/Feedly-Notifier-Firefox",
