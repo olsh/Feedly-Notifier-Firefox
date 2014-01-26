@@ -90,16 +90,74 @@
             "value": false
         },
         {
-            "name": "openSiteOnIconClick",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
             "name": "showCounter",
             "title": "",
             "type": "bool",
             "value": true
+        },
+        {
+            "name": "leftClick",
+            "type": "menulist",
+            "title": "",
+            "value": 0,
+            "options": [
+                {
+                    "value": "0",
+                    "label": "popup"
+                },
+                {
+                    "value": "1",
+                    "label": "site"
+                },
+                {
+                    "value": "2",
+                    "label": "update"
+                },
+                {
+                    "value": "3",
+                    "label": "none"
+                }
+            ]
+        },
+        {
+            "name": "middleClick",
+            "type": "menulist",
+            "title": "",
+            "value": 1,
+            "options": [
+                {
+                    "value": "1",
+                    "label": "site"
+                },
+                {
+                    "value": "2",
+                    "label": "update"
+                },
+                {
+                    "value": "3",
+                    "label": "none"
+                }
+            ]
+        },
+        {
+            "name": "rightClick",
+            "type": "menulist",
+            "title": "",
+            "value": 2,
+            "options": [
+                {
+                    "value": "1",
+                    "label": "site"
+                },
+                {
+                    "value": "2",
+                    "label": "update"
+                },
+                {
+                    "value": "3",
+                    "label": "none"
+                }
+            ]
         },
         {
             "name": "filters",

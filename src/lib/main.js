@@ -44,6 +44,9 @@ var appGlobal = {
         showCategories: false,
         isFiltersEnabled: false,
         filters: [],
+        leftClick: 0,
+        rightClick: 1,
+        middleClick: 2,
 
         get maxNumberOfFeeds() {
             var minimumFeeds = 1;
@@ -73,6 +76,20 @@ var appGlobal = {
         },
         set popupFontSize(value) {
             this._popupFontSize = value;
+        }
+    },
+    clickActions: {
+        get showPopup() {
+            return 0;
+        },
+        get openSite() {
+            return 1;
+        },
+        get update() {
+            return 2;
+        },
+        get none() {
+            return 3;
         }
     },
     get globalGroup(){
@@ -126,9 +143,8 @@ var appGlobal = {
 
 /* Initialization button, panel and callback.
  * @param {Boolean} showPanel, if true, panel will be attached to widget
- * @param {function} if defined, will be attache onClick to widget
  * */
-function controlsInitialization(showPanel, callback){
+function controlsInitialization(showPanel){
 
     if(appGlobal.panel){
         appGlobal.panel.destroy();
@@ -211,7 +227,6 @@ function controlsInitialization(showPanel, callback){
         contentURL: self.data.url("widget.html"),
         contentScriptFile: self.data.url("scripts/widget.js"),
         panel: appGlobal.panel,
-        onClick: callback,
         autoShrink: false
     });
 
@@ -221,20 +236,57 @@ function controlsInitialization(showPanel, callback){
     });
 
     appGlobal.widget.port.on("middle-click", function(){
-        startWidgetUpdateAnimation();
-        updateCounter(function (){
-            stopWidgetUpdateAnimation();
-        });
-        updateFeeds();
-        updateSavedFeeds();
+        executeClickAction(appGlobal.options.middleClick);
     });
 
     appGlobal.widget.port.on("left-click", function(){
-        if (appGlobal.options.resetCounterOnClick){
-            sendUnreadFeedsCount({unreadFeedsCount: 0, isLoggedIn: appGlobal.isLoggedIn});
-            ffStorage.storage.lastCounterResetTime = new Date().getTime();
-        }
+        executeClickAction(appGlobal.options.leftClick);
     });
+
+    appGlobal.widget.port.on("right-click", function(){
+        executeClickAction(appGlobal.options.rightClick);
+    });
+
+    function executeClickAction(action){
+        switch (action){
+            case appGlobal.clickActions.showPopup:
+                resetCounter();
+                break;
+            case appGlobal.clickActions.openSite:
+                openSite();
+                resetCounter();
+                break;
+            case appGlobal.clickActions.update:
+                update();
+                break;
+            case appGlobal.clickActions.none:
+                break;
+        }
+
+        function openSite(){
+            if (appGlobal.isLoggedIn) {
+                openFeedlyTab();
+            } else {
+                getAccessToken();
+            }
+        }
+
+        function update() {
+            startWidgetUpdateAnimation();
+            updateCounter(function () {
+                stopWidgetUpdateAnimation();
+            });
+            updateFeeds();
+            updateSavedFeeds();
+        }
+
+        function resetCounter() {
+            if (appGlobal.options.resetCounterOnClick) {
+                sendUnreadFeedsCount({unreadFeedsCount: 0, isLoggedIn: appGlobal.isLoggedIn});
+                ffStorage.storage.lastCounterResetTime = new Date().getTime();
+            }
+        }
+    }
 }
 
 /* Senders */
@@ -283,14 +335,8 @@ function stopWidgetUpdateAnimation(){
 
 /* Initializes api client, stops scheduler and runs new one */
 function initialize() {
-    if (appGlobal.options.openSiteOnIconClick) {
-        controlsInitialization(false, function () {
-            if (appGlobal.isLoggedIn) {
-                openFeedlyTab();
-            } else {
-                getAccessToken();
-            }
-        });
+    if (appGlobal.options.leftClick !== appGlobal.clickActions.showPopup) {
+        controlsInitialization(false);
     } else {
         controlsInitialization(true);
     }
