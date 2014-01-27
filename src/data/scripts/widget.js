@@ -50,6 +50,9 @@ window.addEventListener("click", function (event) {
         self.port.emit("middle-click", null);
     } else if (event.button === 0){
         self.port.emit("left-click", null);
+    } else {
+        self.port.emit("right-click", null);
     }
+
     event.preventDefault();
 }, true);
