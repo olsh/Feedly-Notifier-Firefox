@@ -512,7 +512,7 @@ function openFeedlyTab() {
         });
     }
 
-    if (appGlobal.panel.isShowing && appGlobal.options.closePopup) {
+    if (appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopup) {
         appGlobal.panel.hide();
     }
 }
@@ -525,7 +525,7 @@ function openFeedTab(url, inBackground, feedId, isSaved) {
             if (appGlobal.options.markReadOnClick && feedId && !isSaved) {
                 markAsRead([feedId]);
             }
-            if (!inBackground && appGlobal.panel.isShowing && appGlobal.options.closePopup) {
+            if (!inBackground && appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopup) {
                 appGlobal.panel.hide();
             }
         }
