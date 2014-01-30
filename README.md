@@ -9,7 +9,7 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
 **Changelog**
 
 Changelog can be found here
-http://olsh.github.io/Feedly-Notifier-Firefox/
+http://olsh.github.io/Feedly-Notifier/changelog/firefox/
 
 **Credits**
 
