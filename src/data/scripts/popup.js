@@ -101,11 +101,11 @@ $("#popup-content").on("click", "#mark-all-read", function (event) {
 });
 
 $("#feedly").on("click", "#btn-feeds-saved", function () {
-    requestSavedFeeds();
+    requestSavedFeeds(true);
 });
 
 $("#feedly").on("click", "#btn-feeds", function () {
-    requestFeeds();
+    requestFeeds(true);
 });
 
 /* Save or unsave feed */
@@ -140,12 +140,12 @@ function openFeedTab(url, inBackground, feedId, isSaved) {
     self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved});
 }
 
-function requestFeeds() {
-    self.port.emit("getFeeds", false);
+function requestFeeds(keepPopup) {
+    self.port.emit("getFeeds", {keepPopup: keepPopup, isSavedFeeds: false});
 }
 
-function requestSavedFeeds() {
-    self.port.emit("getFeeds", true);
+function requestSavedFeeds(keepPopup) {
+    self.port.emit("getFeeds", {keepPopup: keepPopup, isSavedFeeds: true});
 }
 
 function markAsRead(feedIds) {

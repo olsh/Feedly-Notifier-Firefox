@@ -185,16 +185,17 @@ function controlsInitialization(showPanel){
             });
         });
 
-        appGlobal.panel.port.on("getFeeds", function (isSavedFeeds) {
+        appGlobal.panel.port.on("getFeeds", function (data) {
             showPopupLoader();
-            if (isSavedFeeds) {
+            if (data.isSavedFeeds) {
                 getSavedFeeds(false, function (data) {
                     data.isSavedFeeds = true;
                     sendFeedsToPopup(data);
                 });
             } else {
+                var keepPopup = data.keepPopup;
                 getFeeds(function (data) {
-                    if (!data.feeds.length && appGlobal.options.closePopupWhenNoFeeds) {
+                    if (!data.feeds.length && appGlobal.options.closePopupWhenNoFeeds && !keepPopup) {
                         appGlobal.panel.hide();
                     } else {
                         sendFeedsToPopup(data);
