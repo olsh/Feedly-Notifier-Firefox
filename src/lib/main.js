@@ -40,7 +40,8 @@ var appGlobal = {
         abilitySaveFeeds: false,
         useSecureConnection: true,
         resetCounterOnClick: false,
-        closePopup: false,
+        closePopupOnNewsOpen: false,
+        closePopupWhenNoFeeds: false,
         showCategories: false,
         isFiltersEnabled: false,
         filters: [],
@@ -186,14 +187,18 @@ function controlsInitialization(showPanel){
 
         appGlobal.panel.port.on("getFeeds", function (isSavedFeeds) {
             showPopupLoader();
-            if (isSavedFeeds){
+            if (isSavedFeeds) {
                 getSavedFeeds(false, function (data) {
                     data.isSavedFeeds = true;
                     sendFeedsToPopup(data);
                 });
             } else {
                 getFeeds(function (data) {
-                    sendFeedsToPopup(data);
+                    if (!data.feeds.length && appGlobal.options.closePopupWhenNoFeeds) {
+                        appGlobal.panel.hide();
+                    } else {
+                        sendFeedsToPopup(data);
+                    }
                 });
             }
         });
@@ -512,7 +517,7 @@ function openFeedlyTab() {
         });
     }
 
-    if (appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopup) {
+    if (appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopupOnNewsOpen) {
         appGlobal.panel.hide();
     }
 }
@@ -525,7 +530,7 @@ function openFeedTab(url, inBackground, feedId, isSaved) {
             if (appGlobal.options.markReadOnClick && feedId && !isSaved) {
                 markAsRead([feedId]);
             }
-            if (!inBackground && appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopup) {
+            if (!inBackground && appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopupOnNewsOpen) {
                 appGlobal.panel.hide();
             }
         }
