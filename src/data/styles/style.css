@@ -89,6 +89,7 @@ body {
     padding: 5px;
     border-radius: 3px;
     background-color: white;
+    color: black;
 }
 
 .item .content,
