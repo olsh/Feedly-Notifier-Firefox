@@ -98,7 +98,7 @@ popupContent.on("click", ".show-content", function () {
 popupContent.on("click", "#mark-all-read", markAllAsRead);
 
 popupContent.on("click", "#open-all-news", function () {
-    $("#feed").find("a.title[data-link]").each(function (key, value) {
+    $("#feed").find("a.title[data-link]").filter(":visible").each(function (key, value) {
         var news = $(value);
         openFeedTab(news.data("link"), true, news.data("id"), false, true);
     });
