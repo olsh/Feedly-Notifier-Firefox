@@ -175,10 +175,13 @@ body {
     margin-top: 55px;
 }
 
-.tabs #feed,
+.tabs #feed {
+    margin-top: 90px;
+}
+
 .tabs #feed-saved,
 .tabs #feed-empty {
-    margin-top: 90px;
+    margin-top: 70px;
 }
 
 #website,
@@ -199,6 +202,7 @@ body {
 
 #popup-actions {
     float: right;
+    height: 35px;
 }
 
 #popup-actions > div {
@@ -241,12 +245,6 @@ body {
 
 .tabs #feedly {
     border-bottom: 1px solid #6cc655;
-    height: 80px;
-}
-
-#tabs-container {
-    position: absolute;
-    bottom: 0;
 }
 
 .tab {
