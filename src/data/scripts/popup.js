@@ -33,6 +33,7 @@ self.port.on("setPopupInterface", function (interfaceData) {
     $("#feed, #feed-saved").css("font-size", interfaceData.popupFontSize / 100 + "em");
 
     popupGlobal.showCategories = interfaceData.showCategories;
+    resizeWindows();
 });
 
 self.port.on("removeFeedsFromPopup", function (feedIds) {
@@ -119,9 +120,7 @@ $("#popup-content").on("click", ".save-feed", function () {
     $this.toggleClass("saved");
 });
 
-$("#popup-content").on("click", "#website", function(){
-    openFeedlyTab();
-});
+$("#popup-content").on("click", "#website", openFeedlyTab);
 
 $("#popup-content").on("click", ".categories > span", function (){
     $(".categories").find("span").removeClass("active");
@@ -134,6 +133,12 @@ $("#popup-content").on("click", ".categories > span", function (){
         $(".item").show();
     }
     resizeWindows();
+});
+
+$("#popup-content").on("click", "#feedly-logo", function (event) {
+    if (event.ctrlKey) {
+        toggleSavedFeedsInterface();
+    }
 });
 
 function openFeedTab(url, inBackground, feedId, isSaved) {
@@ -158,6 +163,10 @@ function saveFeed(feedId, saveStatus) {
 
 function openFeedlyTab() {
     self.port.emit("openFeedlyTab", null);
+}
+
+function toggleSavedFeedsInterface() {
+    self.port.emit("toggleSavedFeedsInterface", null);
 }
 
 function removeFeedFromList(feedIds) {

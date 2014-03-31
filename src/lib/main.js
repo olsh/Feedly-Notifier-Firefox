@@ -177,13 +177,7 @@ function controlsInitialization(showPanel){
             markAsRead(feedIds);
         });
 
-        appGlobal.panel.on("show", function () {
-            showPopupLoader();
-            setInterface();
-            getFeeds(function (data) {
-                sendFeedsToPopup(data);
-            });
-        });
+        appGlobal.panel.on("show", reloadPanel);
 
         appGlobal.panel.port.on("getFeeds", function (data) {
             showPopupLoader();
@@ -216,9 +210,9 @@ function controlsInitialization(showPanel){
             toggleSavedFeed(data.feedId, data.saveStatus);
         });
 
-        appGlobal.panel.port.on("openFeedlyTab", function () {
-            openFeedlyTab();
-        });
+        appGlobal.panel.port.on("openFeedlyTab", openFeedlyTab);
+
+        appGlobal.panel.port.on("toggleSavedFeedsInterface", toggleSavedFeedsInterface);
     }
 
     appGlobal.widget = widgetSdk.ToolbarWidget({
@@ -502,6 +496,15 @@ function openFiltersTab() {
     }
 }
 
+/**
+ * Enables ability to save feeds if it's disabled and vice versa
+ * and reloads the panel.
+ */
+function toggleSavedFeedsInterface() {
+    appGlobal.options.abilitySaveFeeds = !appGlobal.options.abilitySaveFeeds;
+    reloadPanel();
+}
+
 function openFeedlyTab() {
     if (appGlobal.feedlyTab && new RegExp(appGlobal.feedlyUrl, "i").test(appGlobal.feedlyTab.url)) {
         appGlobal.feedlyTab.reload();
@@ -550,6 +553,17 @@ function setInactiveStatus() {
 /* Sets badge as active */
 function setActiveStatus() {
     appGlobal.isLoggedIn = true;
+}
+
+/**
+ * Reloads the panel.
+ */
+function reloadPanel() {
+    showPopupLoader();
+    setInterface();
+    getFeeds(function (data) {
+        sendFeedsToPopup(data);
+    });
 }
 
 /* Runs feeds update and stores unread feeds in cache
