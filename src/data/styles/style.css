@@ -53,6 +53,11 @@ body {
     margin-right: 5px;
 }
 
+.icon-share {
+    background-position: -120px -72px;
+    margin-right: 5px;
+}
+
 .mark-read:hover {
     background-position: -96px -120px;
 }
@@ -167,24 +172,25 @@ body {
 }
 
 #feed {
-    margin-top: 40px;
+    margin-top: 55px;
 }
 
 .tabs #feed,
 .tabs #feed-saved,
 .tabs #feed-empty {
-    margin-top: 75px;
+    margin-top: 90px;
 }
 
 #website,
-#mark-all-read {
+#popup-actions {
     font-family: sans-serif;
     font-size: 11px;
     text-decoration: none;
     color: black;
 }
 
-#mark-all-read {
+#mark-all-read,
+#open-all-news {
     cursor: pointer;
 }
 
@@ -192,8 +198,13 @@ body {
     float: left;
 }
 
-#all-read-section {
+#popup-actions {
     float: right;
+}
+
+#popup-actions > div {
+    margin-bottom: 5px;
+    vertical-align: middle;
 }
 
 .title {

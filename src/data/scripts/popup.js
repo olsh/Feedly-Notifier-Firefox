@@ -12,7 +12,7 @@ self.port.on("feedsUpdated", function (feedsData) {
     renderFeeds(feedsData);
 });
 
-self.port.on("feedMarkedAsRead", function (feedsData) {
+self.port.on("feedMarkedAsRead", function () {
     if ($("#feed").find(".item").size() === 0) {
         requestFeeds();
     }
@@ -54,12 +54,14 @@ $("#feed, #feed-saved").on("mousedown", "a.title", function (event) {
     openFeedTab(self.data("link"), inBackground, self.closest(".item").data("id"), isSaved);
 });
 
-$("#feed").on("click", ".mark-read", function (event) {
+$("#feed").on("click", ".mark-read", function () {
     var feed = $(this).closest(".item");
     markAsRead([feed.data("id")]);
 });
 
-$("#popup-content").on("click", ".show-content", function () {
+var popupContent = $("#popup-content");
+
+popupContent.on("click", ".show-content", function () {
     var $this = $(this);
     var feed = $this.closest(".item");
     var contentContainer = feed.find(".content");
@@ -93,24 +95,26 @@ $("#popup-content").on("click", ".show-content", function () {
     });
 });
 
-$("#popup-content").on("click", "#mark-all-read", function (event) {
-    var feedIds = [];
-    $(".item:visible").each(function (key, value) {
-        feedIds.push($(value).data("id"));
+popupContent.on("click", "#mark-all-read", markAllAsRead);
+
+popupContent.on("click", "#open-all-news", function () {
+    $("a[data-link]").each(function (key, value) {
+        var news = $(value);
+        openFeedTab(news.data("link"), true, news.data("id"), false, true);
     });
-    markAsRead(feedIds);
+    markAllAsRead();
 });
 
-$("#feedly").on("click", "#btn-feeds-saved", function () {
+popupContent.on("click", "#btn-feeds-saved", function () {
     requestSavedFeeds(true);
 });
 
-$("#feedly").on("click", "#btn-feeds", function () {
+popupContent.on("click", "#btn-feeds", function () {
     requestFeeds(true);
 });
 
 /* Save or unsave feed */
-$("#popup-content").on("click", ".save-feed", function () {
+popupContent.on("click", ".save-feed", function () {
     var $this = $(this);
     var feed = $this.closest(".item");
     var feedId = feed.data("id");
@@ -120,9 +124,9 @@ $("#popup-content").on("click", ".save-feed", function () {
     $this.toggleClass("saved");
 });
 
-$("#popup-content").on("click", "#website", openFeedlyTab);
+popupContent.on("click", "#website", openFeedlyTab);
 
-$("#popup-content").on("click", ".categories > span", function (){
+popupContent.on("click", ".categories > span", function (){
     $(".categories").find("span").removeClass("active");
     var button = $(this).addClass("active");
     var categoryId = button.data("id");
@@ -135,14 +139,14 @@ $("#popup-content").on("click", ".categories > span", function (){
     resizeWindows();
 });
 
-$("#popup-content").on("click", "#feedly-logo", function (event) {
+popupContent.on("click", "#feedly-logo", function (event) {
     if (event.ctrlKey) {
         toggleSavedFeedsInterface();
     }
 });
 
-function openFeedTab(url, inBackground, feedId, isSaved) {
-    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved});
+function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread) {
+    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved, leaveUnread: leaveUnread});
 }
 
 function requestFeeds(keepPopup) {
@@ -181,6 +185,14 @@ function removeFeedFromList(feedIds) {
     }
 }
 
+function markAllAsRead() {
+    var feedIds = [];
+    $(".item:visible").each(function (key, value) {
+        feedIds.push($(value).data("id"));
+    });
+    markAsRead(feedIds);
+}
+
 function showLoader() {
     $("body").children("div").hide();
     $("#loading").show();
@@ -194,20 +206,20 @@ function showLogin() {
 function showEmptyContent() {
     $("body").children("div").hide();
     $("#popup-content").show().children("div").hide().filter("#feed-empty").show();
-    $("#feedly").show().find("#all-read-section").hide();
+    $("#feedly").show().find("#popup-actions").hide();
 }
 
 function showFeeds() {
     $("body").children("div").hide();
     $("#popup-content").show().children("div").hide().filter("#feed").show();
-    $("#feedly").show().find("#all-read-section").show();
+    $("#feedly").show().find("#popup-actions").show();
     setSavingAsActiveTab(false);
 }
 
 function showSavedFeeds() {
     $("body").children("div").hide();
     $("#popup-content").show().children("div").hide().filter("#feed-saved").show().find(".mark-read").hide();
-    $("#feedly").show().find("#all-read-section").hide();
+    $("#feedly").show().find("#popup-actions").hide();
     setSavingAsActiveTab(true);
 }
 

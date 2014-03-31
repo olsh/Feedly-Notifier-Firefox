@@ -8,7 +8,7 @@ var panelSdk = require("sdk/panel");
 var options = require("sdk/simple-prefs");
 var notifications = require("sdk/notifications");
 var _ = require("sdk/l10n").get;
-var pageWorker = require("page-worker");
+var pageWorker = require("sdk/page-worker");
 var chrome = require("chrome");
 var Cc = chrome.Cc;
 var Ci = chrome.Ci;
@@ -203,7 +203,7 @@ function controlsInitialization(showPanel){
         });
 
         appGlobal.panel.port.on("openFeedTab", function (data) {
-            openFeedTab(data.url, data.inBackground, data.feedId, data.isSaved);
+            openFeedTab(data.url, data.inBackground, data.feedId, data.isSaved, data.leaveUnread);
         });
 
         appGlobal.panel.port.on("saveFeed", function (data) {
@@ -399,7 +399,7 @@ function sendDesktopNotification(feeds) {
                 iconURL: feeds[i].blogIcon,
                 data: JSON.stringify(feeds[i]),
                 onClick: function (feed) {
-                    var feed = JSON.parse(feed);
+                    feed = JSON.parse(feed);
                     openFeedTab(feed.url, false, feed.id);
                 }
             });
@@ -526,12 +526,12 @@ function openFeedlyTab() {
     }
 }
 
-function openFeedTab(url, inBackground, feedId, isSaved) {
+function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread) {
     tabs.open({
         url: url,
         inBackground: inBackground,
         onOpen: function(){
-            if (appGlobal.options.markReadOnClick && feedId && !isSaved) {
+            if (!leaveUnread && appGlobal.options.markReadOnClick && feedId && !isSaved) {
                 markAsRead([feedId]);
             }
             if (!inBackground && appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopupOnNewsOpen) {
@@ -725,7 +725,7 @@ function updateSavedFeeds(callback) {
 
 /* Converts feedly response to feeds */
 function parseFeeds(feedlyResponse) {
-    var feeds = feedlyResponse.items.map(function (item) {
+    return feedlyResponse.items.map(function (item) {
         var blogUrl;
         try {
             blogUrl = item.origin.htmlUrl.match(/http(?:s)?:\/\/[^/]+/i).pop();
@@ -786,7 +786,7 @@ function parseFeeds(feedlyResponse) {
 
         var categories = [];
         if (item.categories) {
-            categories = item.categories.map(function (category){
+            categories = item.categories.map(function (category) {
                 return {
                     id: category.id,
                     encodedId: encodeURI(category.id),
@@ -813,7 +813,6 @@ function parseFeeds(feedlyResponse) {
             categories: categories
         };
     });
-    return feeds;
 }
 
 /* Marks feed as read, remove it from the cache and decrement badge.
@@ -857,14 +856,14 @@ function toggleSavedFeed(feedId, saveStatus) {
             body: {
                 entryId: feedId
             },
-            onSuccess: function (response) {
+            onSuccess: function () {
                 updateSavedFeeds();
             }
         });
     } else {
         apiRequestWrapper("tags/" + encodeURIComponent(appGlobal.savedGroup) + "/" + encodeURIComponent(feedId), {
             method: "DELETE",
-            onSuccess: function (response) {
+            onSuccess: function () {
                 updateSavedFeeds();
             }
         });
@@ -1039,7 +1038,7 @@ function apiRequestWrapper(methodName, settings) {
     appGlobal.feedlyApiClient.request(methodName, settings);
 }
 
-exports.main = function (options, callbacks) {
+exports.main = function (options) {
     readOptions();
     initialize();
 
