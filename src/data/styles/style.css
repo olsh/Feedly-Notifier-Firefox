@@ -49,12 +49,12 @@ body {
 }
 
 .icon-ok {
-    background-position: -288px 0;
+    background-position: -285px 2px;
     margin-right: 5px;
 }
 
 .icon-share {
-    background-position: -120px -72px;
+    background-position: -117px -69px;
     margin-right: 5px;
 }
 
@@ -184,12 +184,53 @@ body {
     margin-top: 70px;
 }
 
+.arrow-up {
+    display: none;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #6cc655;
+    position: absolute;
+    top: 36px;
+    right: 1px
+}
+
 #website,
 #popup-actions {
     font-family: sans-serif;
     font-size: 11px;
     text-decoration: none;
     color: black;
+}
+
+#popup-actions > i > span {
+    display: none;
+}
+
+#popup-actions > i {
+    cursor: pointer;
+    border: 1px solid #6cc655;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+#popup-actions > i:hover{
+    background-color: #eaeaea;
+}
+
+#popup-actions > i:hover > span {
+    display: inline-block;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    border-top: 1px solid #6cc655;
+    min-width: 100px;
+    text-align: right;
+}
+
+#popup-actions > i:hover > div {
+    display: inline-block;
 }
 
 #website:hover {
@@ -202,7 +243,7 @@ body {
 
 #popup-actions {
     float: right;
-    height: 35px;
+    height: 37px;
 }
 
 #popup-actions > div {
