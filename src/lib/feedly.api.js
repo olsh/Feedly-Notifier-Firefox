@@ -85,6 +85,7 @@ var FeedlyApiClient = function (accessToken) {
          * */
         else {
             var request = new xhr.XMLHttpRequest();
+            request.timeout = 5000;
             request.open(verb, url, true);
             if (this.accessToken) {
                 request.setRequestHeader("Authorization", "OAuth " + this.accessToken);
@@ -97,7 +98,6 @@ var FeedlyApiClient = function (accessToken) {
 
             request.onreadystatechange = function(){
                 if (request.readyState === 4){
-
                     if (request.status === 200) {
                         if (typeof settings.onSuccess === "function"){
                             settings.onSuccess();
@@ -115,6 +115,12 @@ var FeedlyApiClient = function (accessToken) {
                     if (typeof settings.onComplete === "function"){
                         settings.onComplete();
                     }
+                }
+            };
+
+            request.ontimeout = function (e) {
+                if (typeof settings.onComplete === "function"){
+                    settings.onComplete(e);
                 }
             };
 

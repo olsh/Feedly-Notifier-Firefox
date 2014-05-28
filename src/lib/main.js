@@ -697,12 +697,9 @@ function updateFeeds(callback, silentUpdate) {
                             playSound();
                         }
                     }
-                    if (typeof callback === "function") {
-                        callback();
-                    }
                 }
             },
-            onAuthorizationRequired: function () {
+            onComplete: function () {
                 if (typeof callback === "function") {
                     callback();
                 }
