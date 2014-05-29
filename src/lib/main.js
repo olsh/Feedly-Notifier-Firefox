@@ -656,6 +656,7 @@ function updateFeeds(callback, silentUpdate) {
 
     for (var i = 0; i < streamIds.length; i++) {
         apiRequestWrapper("streams/" + encodeURIComponent(streamIds[i]) + "/contents", {
+            timeout: 7000, // Prevent infinite loading
             parameters: {
                 unreadOnly: true,
                 ranked: appGlobal.options.oldestFeedsFirst ? "oldest" : "newest",
@@ -913,7 +914,6 @@ function getAccessToken() {
             tokenRequestStarted = true;
             appGlobal.feedlyApiClient.request("auth/token", {
                 method: "POST",
-                useSdkRequest: true,
                 useSecureConnection: appGlobal.options.useSecureConnection,
                 parameters: {
                     code: matches[1],
@@ -945,7 +945,6 @@ function refreshAccessToken(){
 
     appGlobal.feedlyApiClient.request("auth/token", {
         method: "POST",
-        useSdkRequest: true,
         useSecureConnection: appGlobal.options.useSecureConnection,
         parameters: {
             refresh_token: ffStorage.storage.refreshToken,

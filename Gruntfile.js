@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         "mozilla-addon-sdk": {
             stable: {
                 options: {
-                    revision: "1.15"
+                    revision: "1.16"
                 }
             }
         },
