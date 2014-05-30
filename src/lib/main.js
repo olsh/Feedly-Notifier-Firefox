@@ -161,7 +161,7 @@ function controlsInitialization(showPanel){
             height: 500,
             contentURL: self.data.url("popup.html"),
             contentScriptFile: [
-                self.data.url("scripts/jquery-2.0.3.min.js"),
+                self.data.url("scripts/jquery-2.1.1.min.js"),
                 self.data.url("scripts/jquery.mustache.min.js"),
                 self.data.url("scripts/timeago/jquery.timeago.js"),
                 self.data.url(_("TimeAgoLocalizedLink")),
@@ -467,7 +467,7 @@ function openFiltersTab() {
             onReady: function(tab){
                 var worker = tab.attach({
                     contentScriptFile: [
-                        self.data.url("scripts/jquery-2.0.3.min.js"),
+                        self.data.url("scripts/jquery-2.1.1.min.js"),
                         self.data.url("scripts/jquery.mustache.min.js"),
                         self.data.url("scripts/filters.js")
                     ]
