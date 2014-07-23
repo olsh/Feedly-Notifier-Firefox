@@ -5,7 +5,7 @@
     "author": "Dmitriy Samodov, Oleg Shevchenko",
     "license": "MPL 2.0",
     "homepage": "http://olsh.github.io/Feedly-Notifier",
-    "version": "2.8.2",
+    "version": "2.8.3",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
     "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer"],

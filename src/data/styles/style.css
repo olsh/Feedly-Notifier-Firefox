@@ -16,6 +16,7 @@ body {
     overflow-x: hidden;
     display: inline-block;
     background-color: white;
+    font-size: 16px;
 }
 
 .button {
