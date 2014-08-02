@@ -32,6 +32,7 @@ self.port.on("setPopupInterface", function (interfaceData) {
 
     $("#feed, #feed-saved").css("font-size", interfaceData.popupFontSize / 100 + "em");
 
+    popupGlobal.expandFeeds = interfaceData.expandFeeds;
     popupGlobal.showCategories = interfaceData.showCategories;
     resizeWindows();
 });
@@ -81,9 +82,9 @@ popupContent.on("click", ".show-content", function () {
             }
         }
     }
-    contentContainer.slideToggle(function () {
+    contentContainer.slideToggle("fast", function () {
         $this.css("background-position", contentContainer.is(":visible") ? "-288px -120px" : "-313px -119px");
-        if (contentContainer.is(":visible") && contentContainer.text().length > 350) {
+        if ($(".content").is(":visible")) {
             setPopupExpand(true);
         } else {
             setPopupExpand(false);
@@ -275,8 +276,15 @@ function renderFeeds(data) {
                 container.append($("#categories-template").mustache({categories: categories}));
             }
 
-            container.append($("#feed-template").mustache({feeds: data.feeds}));
+            if (popupGlobal.expandFeeds) {
+                var partials = { content: $("#feed-content").html() };
+            }
+            container.append($("#feed-template").mustache({feeds: data.feeds}, partials));
             container.find(".timeago").timeago();
+
+            if (popupGlobal.expandFeeds) {
+                container.find(".show-content").click();
+            }
 
             showFunction();
         }

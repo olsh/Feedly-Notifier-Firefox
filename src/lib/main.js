@@ -43,6 +43,7 @@ var appGlobal = {
         closePopupOnNewsOpen: false,
         closePopupWhenNoFeeds: false,
         showCategories: false,
+        expandFeeds: false,
         isFiltersEnabled: false,
         filters: [],
         leftClick: 0,
@@ -302,7 +303,8 @@ function setInterface() {
     appGlobal.panel.port.emit("setPopupInterface", {
         abilitySaveFeeds: appGlobal.options.abilitySaveFeeds,
         popupFontSize: appGlobal.options.popupFontSize,
-        showCategories: appGlobal.options.showCategories
+        showCategories: appGlobal.options.showCategories,
+        expandFeeds: appGlobal.options.expandFeeds
     });
 }
 

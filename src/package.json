@@ -84,6 +84,12 @@
             "value": false
         },
         {
+            "name": "expandFeeds",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "showDesktopNotifications",
             "title": "",
             "type": "bool",
