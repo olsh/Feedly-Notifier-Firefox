@@ -67,21 +67,18 @@ popupContent.on("click", ".show-content", function () {
     var contentContainer = feed.find(".content");
     var feedId = feed.data("id");
     if (contentContainer.html() === "") {
-        var content;
         var feeds = $("#feed").is(":visible") ? popupGlobal.feeds : popupGlobal.savedFeeds;
 
         for (var i = 0; i < feeds.length; i++) {
             if (feeds[i].id === feedId) {
-                content = feeds[i].content
+                contentContainer.html($("#feed-content").mustache(feeds[i]));
+
+                //For open links in new tab
+                contentContainer.find("a").each(function (key, value) {
+                    var link = $(value);
+                    link.attr("target", "_blank");
+                });
             }
-        }
-        if (content) {
-            contentContainer.html(content);
-            //For open links in new tab
-            contentContainer.find("a").each(function (key, value) {
-                var link = $(value);
-                link.attr("target", "_blank");
-            });
         }
     }
     contentContainer.slideToggle(function () {
@@ -318,13 +315,13 @@ function resizeWindows() {
 }
 
 function getScrollbarWidth() {
-    var div = document.createElement('div');
+    var div = document.createElement("div");
 
-    div.style.overflowY = 'scroll';
-    div.style.width =  '50px';
-    div.style.height = '50px';
+    div.style.overflowY = "scroll";
+    div.style.width =  "50px";
+    div.style.height = "50px";
 
-    div.style.visibility = 'hidden';
+    div.style.visibility = "hidden";
 
     document.body.appendChild(div);
     var scrollWidth = div.offsetWidth - div.clientWidth;
