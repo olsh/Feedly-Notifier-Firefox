@@ -31,9 +31,12 @@ self.port.on("setPopupInterface", function (interfaceData) {
     }
 
     $("#feed, #feed-saved").css("font-size", interfaceData.popupFontSize / 100 + "em");
+    setPopupExpand(false);
 
     popupGlobal.expandFeeds = interfaceData.expandFeeds;
     popupGlobal.showCategories = interfaceData.showCategories;
+    popupGlobal.popupWidth = interfaceData.popupWidth;
+    popupGlobal.expandedPopupWidth = interfaceData.expandedPopupWidth;
     resizeWindows();
 });
 
@@ -233,12 +236,9 @@ function setSavingAsActiveTab(savingActive){
 
 function setPopupExpand(isExpand){
     if (isExpand){
-        $(".item, .categories").css("width", "700px");
-        $(".article-title, .blog-title").css("width", $("#popup-content").hasClass("tabs") ? "635px" : "650px");
+        $("#feed, #feed-saved").width(popupGlobal.expandedPopupWidth);
     } else {
-        var popupContent = $("#popup-content");
-        $(".item, .categories").css("width", popupContent.hasClass("tabs") ? "380px" : "350px");
-        $(".article-title, .blog-title").css("width", popupContent.hasClass("tabs") ? "310px" : "295px");
+        $("#feed, #feed-saved").width(popupGlobal.popupWidth);
     }
 }
 

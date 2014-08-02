@@ -72,6 +72,18 @@
             "value": 100
         },
         {
+            "name": "popupWidth",
+            "title": "",
+            "type": "integer",
+            "value": 380
+        },
+        {
+            "name": "expandedPopupWidth",
+            "title": "",
+            "type": "integer",
+            "value": 700
+        },
+        {
             "name": "closePopupOnNewsOpen",
             "title": "",
             "type": "bool",
