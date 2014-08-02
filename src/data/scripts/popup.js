@@ -98,7 +98,7 @@ popupContent.on("click", "#mark-all-read", markAllAsRead);
 popupContent.on("click", "#open-all-news", function () {
     $("#feed").find("a.title[data-link]").filter(":visible").each(function (key, value) {
         var news = $(value);
-        openFeedTab(news.data("link"), true, news.data("id"), false, true);
+        openFeedTab(news.data("link"), true, news.data("id"), false, true, true);
     });
     markAllAsRead();
 });
@@ -143,8 +143,8 @@ popupContent.on("click", "#feedly-logo", function (event) {
     }
 });
 
-function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread) {
-    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved, leaveUnread: leaveUnread});
+function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread, isOpenAll) {
+    self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved, leaveUnread: leaveUnread, isOpenAll: isOpenAll});
 }
 
 function requestFeeds(keepPopup) {

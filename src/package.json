@@ -42,6 +42,12 @@
             "value": true
         },
         {
+            "name": "openFeedsInSameTab",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
             "name": "resetCounterOnClick",
             "title": "",
             "type": "bool",

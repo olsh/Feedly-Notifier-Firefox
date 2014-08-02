@@ -20,6 +20,7 @@ var userstyles = require("./userstyles");
 var appGlobal = {
     feedlyApiClient: feedlyApi.getClient(),
     feedlyTab: null,
+    feedTab: null,
     filtersTab: null,
     icons: {
         default: "images/icon20.png",
@@ -45,6 +46,7 @@ var appGlobal = {
         showCategories: false,
         expandFeeds: false,
         isFiltersEnabled: false,
+        openFeedsInSameTab: false,
         filters: [],
         leftClick: 0,
         rightClick: 1,
@@ -204,7 +206,7 @@ function controlsInitialization(showPanel){
         });
 
         appGlobal.panel.port.on("openFeedTab", function (data) {
-            openFeedTab(data.url, data.inBackground, data.feedId, data.isSaved, data.leaveUnread);
+            openFeedTab(data.url, data.inBackground, data.feedId, data.isSaved, data.leaveUnread, data.isOpenAll);
         });
 
         appGlobal.panel.port.on("saveFeed", function (data) {
@@ -528,19 +530,33 @@ function openFeedlyTab() {
     }
 }
 
-function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread) {
-    tabs.open({
-        url: url,
-        inBackground: inBackground,
-        onOpen: function(){
-            if (!leaveUnread && appGlobal.options.markReadOnClick && feedId && !isSaved) {
-                markAsRead([feedId]);
+function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread, isOpenAll) {
+
+    if (appGlobal.options.openFeedsInSameTab && appGlobal.feedTab && !isOpenAll) {
+        appGlobal.feedTab.url = url;
+        onOpenCallback();
+    } else {
+        tabs.open({
+            url: url,
+            inBackground: inBackground,
+            onOpen: function(tab){
+                appGlobal.feedTab = tab;
+                onOpenCallback();
+            },
+            onClose: function () {
+                appGlobal.feedTab = null;
             }
-            if (!inBackground && appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopupOnNewsOpen) {
-                appGlobal.panel.hide();
-            }
+        });
+    }
+
+    function onOpenCallback() {
+        if (!leaveUnread && appGlobal.options.markReadOnClick && feedId && !isSaved) {
+            markAsRead([feedId]);
         }
-    });
+        if (!inBackground && appGlobal.panel && appGlobal.panel.isShowing && appGlobal.options.closePopupOnNewsOpen) {
+            appGlobal.panel.hide();
+        }
+    }
 }
 
 /* Stops scheduler, sets badge as inactive and resets counter */
