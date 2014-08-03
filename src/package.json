@@ -84,7 +84,19 @@
             "value": 700
         },
         {
+            "name": "popupMaxHeight",
+            "title": "",
+            "type": "integer",
+            "value": 600
+        },
+        {
             "name": "closePopupOnNewsOpen",
+            "title": "",
+            "type": "bool",
+            "value": false
+        },
+        {
+            "name": "openFeedsInBackground",
             "title": "",
             "type": "bool",
             "value": false

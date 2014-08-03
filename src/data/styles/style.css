@@ -158,6 +158,11 @@ body {
 
 .article-title,
 .blog-title {
+    width: calc(100% - 55px);
+}
+
+.tabs .article-title,
+.tabs .blog-title {
     width: calc(100% - 70px);
 }
 

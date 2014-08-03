@@ -37,6 +37,8 @@ self.port.on("setPopupInterface", function (interfaceData) {
     popupGlobal.showCategories = interfaceData.showCategories;
     popupGlobal.popupWidth = interfaceData.popupWidth;
     popupGlobal.expandedPopupWidth = interfaceData.expandedPopupWidth;
+    popupGlobal.popupMaxHeight = interfaceData.popupMaxHeight;
+    popupGlobal.openFeedsInBackground = interfaceData.openFeedsInBackground;
     resizeWindows();
 });
 
@@ -51,7 +53,7 @@ $("#login").click(function () {
 $("#feed, #feed-saved").on("mousedown", "a.title", function (event) {
     var inBackground;
     if (event.which === 1 || event.which === 2) {
-        inBackground = (event.ctrlKey || event.which === 2);
+        inBackground = (event.ctrlKey || event.which === 2 || popupGlobal.openFeedsInBackground);
     }
     var self = $(this);
     var isSaved = self.closest("#feed-saved").size() > 0;
@@ -307,7 +309,7 @@ function getUniqueCategories(feeds){
 }
 
 function resizeWindows() {
-    var maxHeight = 600;
+    var maxHeight = popupGlobal.popupMaxHeight;
     var body = $("body");
     var width = body.outerWidth(true);
     var height = body.outerHeight(true);

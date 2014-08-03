@@ -32,6 +32,7 @@ var appGlobal = {
         _popupFontSize: 100,
         _popupWidth: 380,
         _expandedPopupWidth: 380,
+        _popupMaxHeight: 600,
 
         markReadOnClick: true,
         showDesktopNotifications: true,
@@ -49,6 +50,7 @@ var appGlobal = {
         expandFeeds: false,
         isFiltersEnabled: false,
         openFeedsInSameTab: false,
+        openFeedsInBackground: false,
         filters: [],
         leftClick: 0,
         rightClick: 1,
@@ -110,6 +112,20 @@ var appGlobal = {
         },
         set expandedPopupWidth(value) {
             this._expandedPopupWidth = value;
+        },
+        get popupMaxHeight() {
+            var maxValue = 2000;
+            var minValue = 600;
+            if (this._popupMaxHeight > maxValue ) {
+                return maxValue;
+            }
+            if (this._popupMaxHeight < minValue){
+                return minValue;
+            }
+            return this._popupMaxHeight;
+        },
+        set popupMaxHeight(value) {
+            this._popupMaxHeight = value;
         }
     },
     clickActions: {
@@ -338,7 +354,9 @@ function setInterface() {
         showCategories: appGlobal.options.showCategories,
         expandFeeds: appGlobal.options.expandFeeds,
         popupWidth: appGlobal.options.popupWidth,
-        expandedPopupWidth: appGlobal.options.expandedPopupWidth
+        expandedPopupWidth: appGlobal.options.expandedPopupWidth,
+        popupMaxHeight: appGlobal.options.popupMaxHeight,
+        openFeedsInBackground: appGlobal.options.openFeedsInBackground
     });
 }
 

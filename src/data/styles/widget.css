@@ -1,39 +1,49 @@
-html, body {
+html,
+body {
     height: 100%;
+
     -moz-user-select: none;
 }
 
 #feedly-notifier-container {
     position: relative;
+
     width: 100%;
     height: 100%;
+
     cursor: default;
-    font-size: 16px;
     text-align: center;
+
+    font-size: 16px;
 }
 
 #feedly-notifier-container img {
-    vertical-align: top;
     max-width: 100%;
     max-height: 100%;
+
+    vertical-align: top;
 }
 
 #feedly-notifier-counter {
     position: absolute;
-    bottom: 0;
     right: 0;
+    bottom: 0;
+
+    padding: 0 2px;
+
+    color: white;
+    border-radius: 3px;
+    background-color: #b60c00;
+
     font-family: arial, serif;
     font-size: 0.60em;
     font-weight: bold;
-    background-color: #b60c00;
-    color: white;
-    padding: 0 2px;
-    border-radius: 3px;
     line-height: 1;
 }
 
 #feedly-notifier-loader {
     position: absolute;
-    display: none;
     bottom: 0;
+
+    display: none;
 }
