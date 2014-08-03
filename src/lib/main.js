@@ -31,7 +31,7 @@ var appGlobal = {
         _maxNumberOfFeeds: 20,
         _popupFontSize: 100,
         _popupWidth: 380,
-        _expandedPopupWidth: 380,
+        _expandedPopupWidth: 650,
         _popupMaxHeight: 600,
 
         markReadOnClick: true,

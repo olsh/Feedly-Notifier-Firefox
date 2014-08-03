@@ -81,7 +81,7 @@
             "name": "expandedPopupWidth",
             "title": "",
             "type": "integer",
-            "value": 700
+            "value": 650
         },
         {
             "name": "popupMaxHeight",
