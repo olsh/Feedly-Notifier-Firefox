@@ -8,7 +8,7 @@
     "version": "2.9.0",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
-    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer"],
+    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer", "Jarmo Jõgeva"],
     "dependencies": ["toolbarwidget", "addon-sdk"],
     "preferences": [
         {
