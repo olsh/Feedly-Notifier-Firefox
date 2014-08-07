@@ -464,7 +464,7 @@ function sendDesktopNotification(feeds) {
 /* Plays alert sound */
 function playSound(){
     pageWorker.Page({
-        contentScript: "new Audio('sound/alert.oga').play()",
+        contentScript: "new Audio('sound/alert.mp3').play()",
         contentURL: self.data.url("blank.html")
     });
 }
