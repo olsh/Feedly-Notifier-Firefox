@@ -757,9 +757,11 @@ function updateFeeds(callback, silentUpdate) {
                     });
 
                     appGlobal.cachedFeeds = appGlobal.cachedFeeds.splice(0, appGlobal.options.maxNumberOfFeeds);
-                    if (appGlobal.options.showDesktopNotifications) {
+                    if (!silentUpdate
+                        && (appGlobal.options.playSound || appGlobal.options.showDesktopNotifications)) {
+
                         var newFeeds = filterByNewFeeds(appGlobal.cachedFeeds);
-                        if (!silentUpdate) {
+                        if (appGlobal.options.showDesktopNotifications) {
                             sendDesktopNotification(newFeeds);
                         }
                         if (appGlobal.options.playSound && newFeeds.length > 0) {
