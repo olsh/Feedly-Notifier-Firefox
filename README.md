@@ -22,7 +22,8 @@ Firefox extension for reading news from rss aggregator [Feedly](http://www.feedl
  ```
  
  4. Go to the cloned directory and update submodules
- ```cd Feedly-Notifier-Firefox
+ ```
+ cd Feedly-Notifier-Firefox
  git submodule init
  git submodule update
  ```
