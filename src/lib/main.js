@@ -4,6 +4,7 @@ var self = require("sdk/self");
 var tabs = require("sdk/tabs");
 var ffStorage = require("sdk/simple-storage");
 var timers = require("sdk/timers");
+var { ToggleButton } = require("sdk/ui/button/toggle");
 var panelSdk = require("sdk/panel");
 var options = require("sdk/simple-prefs");
 var notifications = require("sdk/notifications");
@@ -14,8 +15,6 @@ var Cc = chrome.Cc;
 var Ci = chrome.Ci;
 var prefs = require("sdk/preferences/service");
 var feedlyApi = require("./feedly.api");
-var widgetSdk = require("toolbarwidget");
-var userstyles = require("./userstyles");
 
 var appGlobal = {
     feedlyApiClient: feedlyApi.getClient(),
@@ -23,8 +22,14 @@ var appGlobal = {
     feedTab: null,
     filtersTab: null,
     icons: {
-        default: "images/icon20.png",
-        inactive: "images/icon20_inactive.png"
+        default18: "images/icon18.png",
+        default32: "images/icon32.png",
+        default36: "images/icon36.png",
+        default64: "images/icon64.png",
+        inactive18: "images/icon18_inactive.png",
+        inactive32: "images/icon32_inactive.png",
+        inactive36: "images/icon36_inactive.png",
+        inactive64: "images/icon64_inactive.png"
     },
     options: {
         _updateInterval: 10,
@@ -52,9 +57,6 @@ var appGlobal = {
         openFeedsInSameTab: false,
         openFeedsInBackground: false,
         filters: [],
-        leftClick: 0,
-        rightClick: 1,
-        middleClick: 2,
 
         get maxNumberOfFeeds() {
             var minimumFeeds = 1;
@@ -128,20 +130,6 @@ var appGlobal = {
             this._popupMaxHeight = value;
         }
     },
-    clickActions: {
-        get showPopup() {
-            return 0;
-        },
-        get openSite() {
-            return 1;
-        },
-        get update() {
-            return 2;
-        },
-        get none() {
-            return 3;
-        }
-    },
     get globalGroup(){
         return "user/" + ffStorage.storage.feedlyUserId + "/category/global.all";
     },
@@ -154,6 +142,22 @@ var appGlobal = {
     get globalUncategorized(){
         return "user/" + ffStorage.storage.feedlyUserId + "/category/global.uncategorized";
     },
+    get activeIconsSet() {
+        return {
+            "18": self.data.url(appGlobal.icons.default18),
+            "32": self.data.url(appGlobal.icons.default32),
+            "36": self.data.url(appGlobal.icons.default36),
+            "64": self.data.url(appGlobal.icons.default64)
+        };
+    },
+    get inactiveIconsSet() {
+        return {
+            "18": self.data.url(appGlobal.icons.inactive18),
+            "32": self.data.url(appGlobal.icons.inactive32),
+            "36": self.data.url(appGlobal.icons.inactive36),
+            "64": self.data.url(appGlobal.icons.inactive64)
+        };
+    },
     subscribeHandlerConstants: {
         titleVal: "Feedly Cloud",
         typeVal: "application/vnd.mozilla.maybe.feed",
@@ -165,15 +169,13 @@ var appGlobal = {
     cachedSavedFeeds: [],
     isLoggedIn: false,
     intervalIds: [],
-    widget: null,
+    button: null,
     panel: null,
     clientId: "",
     clientSecret: ""
 };
 
 (function(){
-    userstyles.load(self.data.url("styles/button.css"));
-
     options.on("", function (optionName) {
         appGlobal.options[optionName] = options.prefs[optionName];
         options.prefs[optionName] = appGlobal.options[optionName];
@@ -192,7 +194,7 @@ var appGlobal = {
 })();
 
 /* Initialization button, panel and callback.
- * @param {Boolean} showPanel, if true, panel will be attached to widget
+ * @param {Boolean} showPanel, if true, panel will be attached to button
  * */
 function controlsInitialization(showPanel){
 
@@ -200,8 +202,8 @@ function controlsInitialization(showPanel){
         appGlobal.panel.destroy();
     }
 
-    if(appGlobal.widget){
-        appGlobal.widget.destroy();
+    if(appGlobal.button){
+        appGlobal.button.destroy();
     }
 
     if(showPanel){
@@ -226,7 +228,14 @@ function controlsInitialization(showPanel){
             markAsRead(feedIds);
         });
 
-        appGlobal.panel.on("show", reloadPanel);
+        appGlobal.panel.on("show", function() {
+            reloadPanel();
+            appGlobal.button.state("window", {checked: true});
+        });
+
+        appGlobal.panel.on("hide", function() {
+            appGlobal.button.state("window", {checked: false});
+        });
 
         appGlobal.panel.port.on("getFeeds", function (data) {
             showPopupLoader();
@@ -264,76 +273,47 @@ function controlsInitialization(showPanel){
         appGlobal.panel.port.on("toggleSavedFeedsInterface", toggleSavedFeedsInterface);
     }
 
-    appGlobal.widget = widgetSdk.ToolbarWidget({
-        toolbarID: "nav-bar",
-        insertbefore: [ "search-container", "downloads-button", "home-button" ],
-        forceMove: false,
-        height: 20,
-        width: 28,
-        id: "main-widget",
+    appGlobal.button = ToggleButton({
+        id: "main-button",
         label: "Feedly Notifier",
-        tooltip: "Feedly Notifier",
-        contentURL: self.data.url("widget.html"),
-        contentScriptFile: self.data.url("scripts/widget.js"),
-        panel: appGlobal.panel,
-        autoShrink: false
+        icon: appGlobal.inactiveIconsSet,
+        onChange: handleChange,
+        onClick: handleClick
     });
 
-    appGlobal.widget.on("attach", function(){
-        updateCounter();
-        updateFeeds();
-    });
-
-    appGlobal.widget.port.on("middle-click", function(){
-        executeClickAction(appGlobal.options.middleClick);
-    });
-
-    appGlobal.widget.port.on("left-click", function(){
-        executeClickAction(appGlobal.options.leftClick);
-    });
-
-    appGlobal.widget.port.on("right-click", function(){
-        executeClickAction(appGlobal.options.rightClick);
-    });
-
-    function executeClickAction(action){
-        switch (action){
-            case appGlobal.clickActions.showPopup:
+    function handleChange(state) {
+        if (!appGlobal.options.openSiteOnIconClick) {
+            if (state.checked) {
+                appGlobal.panel.show({
+                    position: appGlobal.button
+                });
                 resetCounter();
-                break;
-            case appGlobal.clickActions.openSite:
-                openSite();
-                resetCounter();
-                break;
-            case appGlobal.clickActions.update:
-                update();
-                break;
-            case appGlobal.clickActions.none:
-                break;
-        }
-
-        function openSite(){
-            if (appGlobal.isLoggedIn) {
-                openFeedlyTab();
             } else {
-                getAccessToken();
+                appGlobal.panel.hide();
             }
         }
+    }
 
-        function update() {
-            startWidgetUpdateAnimation();
-            updateCounter(function () {
-                stopWidgetUpdateAnimation();
-            });
-            updateFeeds();
-            updateSavedFeeds();
+    function handleClick() {
+        if (appGlobal.options.openSiteOnIconClick) {
+            openSite();
+            resetCounter();
+            appGlobal.button.state("window", {checked: false});
         }
+    }
 
-        function resetCounter() {
-            if (appGlobal.options.resetCounterOnClick) {
-                sendUnreadFeedsCount({unreadFeedsCount: 0, isLoggedIn: appGlobal.isLoggedIn});
-                ffStorage.storage.lastCounterResetTime = new Date().getTime();
-            }
+    function openSite(){
+        if (appGlobal.isLoggedIn) {
+            openFeedlyTab();
+        } else {
+            getAccessToken();
+        }
+    }
+
+    function resetCounter() {
+        if (appGlobal.options.resetCounterOnClick) {
+            sendUnreadFeedsCount({unreadFeedsCount: 0, isLoggedIn: appGlobal.isLoggedIn});
+            ffStorage.storage.lastCounterResetTime = new Date().getTime();
         }
     }
 }
@@ -364,32 +344,38 @@ function sendMarkAsReadResult(feedIds) {
     appGlobal.panel.port.emit("feedMarkedAsRead", feedIds);
 }
 
-function sendUnreadFeedsCount(unreadFeedsData) {
-    if(!appGlobal.options.showCounter) unreadFeedsData.unreadFeedsCount = 0;
-    appGlobal.widget.port.emit("onFeedsUpdate", unreadFeedsData);
-}
-
-function decrementFeedsCount(number){
-    appGlobal.widget.port.emit("decrementFeedsCount", number);
-}
-
 function sendRemoveFeedsFromPopup(feedIds){
     appGlobal.panel.port.emit("removeFeedsFromPopup", feedIds);
 }
 
-function startWidgetUpdateAnimation(){
-    appGlobal.widget.port.emit("startWidgetUpdateAnimation");
+function sendUnreadFeedsCount(unreadFeedsData) {
+    if(!appGlobal.options.showCounter) unreadFeedsData.unreadFeedsCount = 0;
+
+    if (unreadFeedsData.unreadFeedsCount === 0) {
+        appGlobal.button.badge = null;
+    }
+    else {
+        appGlobal.button.badge = unreadFeedsData.unreadFeedsCount;
+    }
+    if (unreadFeedsData.isLoggedIn) {
+        appGlobal.button.icon = appGlobal.activeIconsSet;
+    } else {
+        appGlobal.button.icon = appGlobal.inactiveIconsSet;
+    }
 }
 
-function stopWidgetUpdateAnimation(){
-    appGlobal.widget.port.emit("stopWidgetUpdateAnimation");
+function decrementFeedsCount(number){
+    appGlobal.button.badge = appGlobal.button.badge - number;
+    if (appGlobal.button.badge <= 0) {
+        appGlobal.button.badge = null;
+    }
 }
 
 /* Core functional */
 
 /* Initializes api client, stops scheduler and runs new one */
 function initialize() {
-    if (appGlobal.options.leftClick !== appGlobal.clickActions.showPopup) {
+    if (appGlobal.options.openSiteOnIconClick) {
         controlsInitialization(false);
     } else {
         controlsInitialization(true);
@@ -443,7 +429,7 @@ function sendDesktopNotification(feeds) {
         notifications.notify({
             title: _("NewFeeds"),
             text: _("YouHaveNewFeeds", count),
-            iconURL: self.data.url(appGlobal.icons.default)
+            iconURL: self.data.url(appGlobal.icons.default32)
         });
     } else {
         for (var i = 0; i < feeds.length; i++) {
