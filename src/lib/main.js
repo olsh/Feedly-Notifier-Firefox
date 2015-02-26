@@ -240,13 +240,13 @@ function controlsInitialization(showPanel){
         appGlobal.panel.port.on("getFeeds", function (data) {
             showPopupLoader();
             if (data.isSavedFeeds) {
-                getSavedFeeds(false, function (data) {
+                getSavedFeeds(data.force, function (data) {
                     data.isSavedFeeds = true;
                     sendFeedsToPopup(data);
                 });
             } else {
                 var keepPopup = data.keepPopup;
-                getFeeds(function (data) {
+                getFeeds(data.force, function (data) {
                     if (!data.feeds.length && appGlobal.options.closePopupWhenNoFeeds && !keepPopup) {
                         appGlobal.panel.hide();
                     } else {
@@ -597,7 +597,6 @@ function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread, isOpenAll)
 
 /* Stops scheduler, sets badge as inactive and resets counter */
 function setInactiveStatus() {
-    stopWidgetUpdateAnimation();
     sendUnreadFeedsCount({unreadFeedsCount: 0, isLoggedIn: false});
     appGlobal.cachedFeeds = [];
     appGlobal.isLoggedIn = false;
@@ -615,7 +614,7 @@ function setActiveStatus() {
 function reloadPanel() {
     showPopupLoader();
     setInterface();
-    getFeeds(function (data) {
+    getFeeds(false, function (data) {
         sendFeedsToPopup(data);
     });
 }
@@ -765,7 +764,7 @@ function updateFeeds(callback, silentUpdate) {
     }
 }
 
-/* Update saved feeds and stores its in cache */
+/* Updates saved feeds and stores them in the cache */
 function updateSavedFeeds(callback) {
     apiRequestWrapper("streams/" + encodeURIComponent(appGlobal.savedGroup) + "/contents", {
         onSuccess: function (response) {
@@ -1020,10 +1019,12 @@ function refreshAccessToken(){
     });
 }
 
-/* Returns feeds from the cache.
- If the cache is empty, then it will be updated before return */
-function getFeeds(callback) {
-    if (appGlobal.cachedFeeds.length > 0) {
+/* Returns feeds from the cache.updaupda
+ * If the cache is empty, then it will be updated before return
+ * forceUpdate, when is true, then cache will be updated
+ */
+function getFeeds(forceUpdate, callback) {
+    if (appGlobal.cachedFeeds.length > 0 && !forceUpdate) {
         callback({feeds: appGlobal.cachedFeeds.slice(0), isLoggedIn: appGlobal.isLoggedIn});
     } else {
         updateFeeds(function () {

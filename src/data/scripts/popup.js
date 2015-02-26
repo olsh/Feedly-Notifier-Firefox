@@ -108,6 +108,10 @@ popupContent.on("click", "#open-all-news", function () {
     markAllAsRead();
 });
 
+$("#feedly").on("click", "#update-feeds", function () {
+    requestFeeds(true, true);
+});
+
 popupContent.on("click", "#btn-feeds-saved", function () {
     requestSavedFeeds(true);
 });
@@ -152,12 +156,12 @@ function openFeedTab(url, inBackground, feedId, isSaved, leaveUnread, isOpenAll)
     self.port.emit("openFeedTab", {url: url, inBackground: inBackground, feedId: feedId, isSaved: isSaved, leaveUnread: leaveUnread, isOpenAll: isOpenAll});
 }
 
-function requestFeeds(keepPopup) {
-    self.port.emit("getFeeds", {keepPopup: keepPopup, isSavedFeeds: false});
+function requestFeeds(keepPopup, force) {
+    self.port.emit("getFeeds", {keepPopup: keepPopup, isSavedFeeds: false, force: force});
 }
 
-function requestSavedFeeds(keepPopup) {
-    self.port.emit("getFeeds", {keepPopup: keepPopup, isSavedFeeds: true});
+function requestSavedFeeds(keepPopup, force) {
+    self.port.emit("getFeeds", {keepPopup: keepPopup, isSavedFeeds: true, force: force});
 }
 
 function markAsRead(feedIds) {
