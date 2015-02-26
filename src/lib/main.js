@@ -858,7 +858,7 @@ function parseFeeds(feedlyResponse) {
             blogUrl: blogUrl,
             blogIcon: "https://www.google.com/s2/favicons?domain=" + blogUrl + "&alt=feed",
             id: item.id,
-            content: content,
+            content: parseHTML(content),
             contentDirection: contentDirection,
             isoDate: item.crawled ? new Date(item.crawled).toISOString() : "",
             date: item.crawled ? new Date(item.crawled) : "",
@@ -1090,6 +1090,11 @@ function apiRequestWrapper(methodName, settings) {
     };
 
     appGlobal.feedlyApiClient.request(methodName, settings);
+}
+
+function parseHTML(html) {
+    var parser = Cc["@mozilla.org/parserutils;1"].getService(Ci.nsIParserUtils);
+    return parser.sanitize(html, parser.SanitizerAllowStyle);
 }
 
 exports.main = function (options) {
