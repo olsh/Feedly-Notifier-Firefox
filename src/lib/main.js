@@ -22,11 +22,11 @@ var appGlobal = {
     feedTab: null,
     filtersTab: null,
     icons: {
-        default18: "images/icon18.png",
+        default16: "images/icon16.png",
         default32: "images/icon32.png",
         default36: "images/icon36.png",
         default64: "images/icon64.png",
-        inactive18: "images/icon18_inactive.png",
+        inactive16: "images/icon16_inactive.png",
         inactive32: "images/icon32_inactive.png",
         inactive36: "images/icon36_inactive.png",
         inactive64: "images/icon64_inactive.png"
@@ -144,7 +144,7 @@ var appGlobal = {
     },
     get activeIconsSet() {
         return {
-            "18": self.data.url(appGlobal.icons.default18),
+            "18": self.data.url(appGlobal.icons.default16),
             "32": self.data.url(appGlobal.icons.default32),
             "36": self.data.url(appGlobal.icons.default36),
             "64": self.data.url(appGlobal.icons.default64)
@@ -152,7 +152,7 @@ var appGlobal = {
     },
     get inactiveIconsSet() {
         return {
-            "18": self.data.url(appGlobal.icons.inactive18),
+            "18": self.data.url(appGlobal.icons.inactive16),
             "32": self.data.url(appGlobal.icons.inactive32),
             "36": self.data.url(appGlobal.icons.inactive36),
             "64": self.data.url(appGlobal.icons.inactive64)
