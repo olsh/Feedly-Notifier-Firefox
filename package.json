@@ -17,5 +17,7 @@
     "url": "https://github.com/olsh/Feedly-Notifier-Firefox/issues"
   },
   "sourcePath": "src",
-  "buildPath": "build"
+  "buildPath": "build",
+  "bowerPath": "bower_components"
+
 }

@@ -75,9 +75,11 @@ popupContent.on("click", ".show-content", function () {
     if (contentContainer.html() === "") {
         var feeds = $("#feed").is(":visible") ? popupGlobal.feeds : popupGlobal.savedFeeds;
 
+        var template = $("#feed-content").html();
+        Mustache.parse(template);
         for (var i = 0; i < feeds.length; i++) {
             if (feeds[i].id === feedId) {
-                contentContainer.html($("#feed-content").mustache(feeds[i]));
+                contentContainer.html(Mustache.render(template, feeds[i]));
 
                 //For open links in new tab
                 contentContainer.find("a").each(function (key, value) {
@@ -279,13 +281,17 @@ function renderFeeds(data) {
 
             if (popupGlobal.showCategories) {
                 var categories = getUniqueCategories(data.feeds);
-                container.append($("#categories-template").mustache({categories: categories}));
+                var template = $("#categories-template").html();
+                Mustache.parse(template);
+                container.append(Mustache.render(template, {categories: categories}));
             }
 
             if (popupGlobal.expandFeeds) {
                 var partials = { content: $("#feed-content").html() };
             }
-            container.append($("#feed-template").mustache({feeds: data.feeds}, partials));
+            var feedTemplate = $("#feed-template").html();
+            Mustache.parse(feedTemplate);
+            container.append(Mustache.render(feedTemplate, {feeds: data.feeds}, partials));
             container.find(".timeago").timeago();
 
             if (popupGlobal.expandFeeds) {

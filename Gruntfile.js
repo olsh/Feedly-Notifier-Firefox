@@ -6,6 +6,23 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: '<%= pkg.sourcePath %>/', src: ['**'], dest: '<%= pkg.buildPath %>/'}
                 ]
+            },
+            bower: {
+                files: [
+                    {src: '<%= pkg.bowerPath %>/jquery/dist/jquery.min.js', dest: '<%= pkg.buildPath %>/data/scripts/jquery.min.js'},
+
+                    {src: '<%= pkg.bowerPath %>/mustache/mustache.min.js', dest: '<%= pkg.buildPath %>/data/scripts/mustache.min.js'},
+
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/jquery.timeago.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/jquery.timeago.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.cs.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.de.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.cs.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.en.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.cs.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.et.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.fr.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.fr.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.it.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.it.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.pt-br.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.pt-br.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.ru.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.ru.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.ru.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.zh-CN.js'}
+                ]
             }
         },
         "string-replace": {
