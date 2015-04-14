@@ -852,7 +852,7 @@ function parseFeeds(feedlyResponse) {
             //Feedly wraps rtl titles in div, we remove div because desktopNotification supports only text
             title: title,
             titleDirection: titleDirection,
-            url: item.alternate ? item.alternate[0] ? item.alternate[0].href : "" : "",
+            url: (item.alternate ? item.alternate[0] ? item.alternate[0].href : "" : "") || blogUrl,
             blog: blog,
             blogTitleDirection: blogTitleDirection,
             blogUrl: blogUrl,

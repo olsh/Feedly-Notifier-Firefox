@@ -5,7 +5,9 @@ self.port.on("getCategories", function (categories) {
 
     if(categories.length){
         $("#login").hide();
-        $("#filters-settings").show().find("#categories").append($("#categories-template").mustache({categories: categories}));
+        var template = $("#categories-template").html();
+        Mustache.parse(template);
+        $("#filters-settings").show().find("#categories").append(Mustache.render(template, {categories: categories}));
         self.port.emit("getFilters", null);
     }
     else {
