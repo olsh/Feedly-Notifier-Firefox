@@ -8,6 +8,7 @@
     "version": "2.10.4",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
+    "permissions": {"private-browsing": true},
     "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer", "Jarmo Jõgeva", "yfdyh000"],
     "preferences": [
         {
