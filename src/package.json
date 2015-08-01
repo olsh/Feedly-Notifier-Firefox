@@ -5,11 +5,11 @@
     "author": "Dmitriy Samodov, Oleg Shevchenko",
     "license": "MPL 2.0",
     "homepage": "http://olsh.github.io/Feedly-Notifier",
-    "version": "2.10.6",
+    "version": "2.10.7",
     "icon": "data/images/icon48.png",
     "icon64": "data/images/icon64.png",
     "permissions": {"private-browsing": true},
-    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer", "Jarmo Jõgeva", "yfdyh000", "Łukasz"],
+    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer", "Jarmo Jõgeva", "yfdyh000", "Łukasz", "pollti"],
     "preferences": [
         {
             "name": "updateInterval",
