@@ -72,36 +72,16 @@ module.exports = function (grunt) {
                 }
             }
         },
-        "mozilla-addon-sdk": {
-            stable: {
-                options: {
-                    revision: "1.17"
-                }
-            }
-        },
-        "mozilla-cfx-xpi": {
-            stable: {
-                options: {
-                    "mozilla-addon-sdk": "stable",
-                    extension_dir: "<%= pkg.buildPath %>",
-                    dist_dir: "<%= pkg.buildPath %>"
-                }
-            }
-        },
-        "mozilla-cfx": {
-            custom_command: {
-                options: {
-                    "mozilla-addon-sdk": "stable",
-                    extension_dir: "<%= pkg.buildPath %>",
-                    command: "run",
-                    arguments: "-p developer_profile"
-                }
+        "jpm": {
+            options: {
+                src: "<%= pkg.buildPath %>",
+                xpi: "<%= pkg.buildPath %>"
             }
         },
         clean: {
             build: {
                 files: [
-                    {expand: true, cwd: "<%= pkg.buildPath %>", src: ["*", "!*.xpi", "!*developer_profile"]}
+                    {expand: true, cwd: "<%= pkg.buildPath %>", src: ["*", "!*.xpi"]}
                 ]
             }
         }
@@ -109,10 +89,10 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks('grunt-string-replace');
-    grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
+    grunt.loadNpmTasks('grunt-jpm');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask("build", ["copy", "string-replace:keys", "mozilla-addon-sdk", "mozilla-cfx-xpi", "clean"]);
-    grunt.registerTask("sandbox", ["copy", "string-replace", "mozilla-addon-sdk", "mozilla-cfx"]);
-    grunt.registerTask("default", ["copy", "string-replace:keys", "mozilla-addon-sdk", "mozilla-cfx"]);
+    grunt.registerTask("build", ["copy", "string-replace:keys", "jpm:xpi", "clean"]);
+    grunt.registerTask("sandbox", ["copy", "string-replace", "jpm:run", "mozilla-cfx"]);
+    grunt.registerTask("default", ["copy", "string-replace:keys", "jpm:run"]);
 };

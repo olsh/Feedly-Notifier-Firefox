@@ -1,159 +1,173 @@
 {
-    "name": "feedly-notifier",
-    "fullName": "Feedly Notifier",
-    "id": "jid1-BOjn8b0IM7kH2w",
-    "author": "Dmitriy Samodov, Oleg Shevchenko",
-    "license": "MPL 2.0",
-    "homepage": "http://olsh.github.io/Feedly-Notifier",
-    "version": "2.10.8",
-    "icon": "data/images/icon48.png",
-    "icon64": "data/images/icon64.png",
-    "permissions": {"private-browsing": true},
-    "translators": ["Jérémy Hagège", "Jucá Costa", "Giuliano Masseroni", "fang5566", "CannyDuck", "João G. Packer", "Jarmo Jõgeva", "yfdyh000", "Łukasz", "pollti", "Daniel Martínez"],
-    "preferences": [
-        {
-            "name": "updateInterval",
-            "title": "",
-            "type": "integer",
-            "value": 10
-        },
-        {
-            "name": "maxNumberOfFeeds",
-            "title": "",
-            "type": "integer",
-            "value": 20
-        },
-        {
-            "name": "oldestFeedsFirst",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "abilitySaveFeeds",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "markReadOnClick",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "name": "openFeedsInSameTab",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "resetCounterOnClick",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "useSecureConnection",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "name": "showFullFeedContent",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "popupFontSize",
-            "title": "",
-            "type": "integer",
-            "value": 100
-        },
-        {
-            "name": "popupWidth",
-            "title": "",
-            "type": "integer",
-            "value": 380
-        },
-        {
-            "name": "expandedPopupWidth",
-            "title": "",
-            "type": "integer",
-            "value": 650
-        },
-        {
-            "name": "popupMaxHeight",
-            "title": "",
-            "type": "integer",
-            "value": 600
-        },
-        {
-            "name": "closePopupOnNewsOpen",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "openFeedsInBackground",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "closePopupWhenNoFeeds",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "showCategories",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "expandFeeds",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "showDesktopNotifications",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "name": "playSound",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "showCounter",
-            "title": "",
-            "type": "bool",
-            "value": true
-        },
-        {
-            "name": "openSiteOnIconClick",
-            "title": "",
-            "type": "bool",
-            "value": false
-        },
-        {
-            "name": "filters",
-            "title": "",
-            "type": "control",
-            "label": ""
-        },
-        {
-            "name": "logout",
-            "title": "",
-            "type": "control",
-            "label": ""
-        }
-    ]
+  "name": "feedly-notifier",
+  "title": "Feedly Notifier",
+  "id": "jid1-BOjn8b0IM7kH2w@jetpack",
+  "main": "lib/main.js",
+  "author": "Dmitriy Samodov, Oleg Shevchenko",
+  "license": "MPL 2.0",
+  "homepage": "http://olsh.github.io/Feedly-Notifier",
+  "version": "2.10.9",
+  "icon": "data/images/icon48.png",
+  "permissions": {
+    "private-browsing": true
+  },
+  "translators": [
+    "Jérémy Hagège",
+    "Jucá Costa",
+    "Giuliano Masseroni",
+    "fang5566",
+    "CannyDuck",
+    "João G. Packer",
+    "Jarmo Jõgeva",
+    "yfdyh000",
+    "Łukasz",
+    "pollti",
+    "Daniel Martínez"
+  ],
+  "preferences": [
+    {
+      "name": "updateInterval",
+      "title": "Interval period (min.)",
+      "type": "integer",
+      "value": 10
+    },
+    {
+      "name": "maxNumberOfFeeds",
+      "title": "Max number of feeds in the popup",
+      "type": "integer",
+      "value": 20
+    },
+    {
+      "name": "oldestFeedsFirst",
+      "title": "Oldest feeds first",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "abilitySaveFeeds",
+      "title": "Ability to save feeds",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "markReadOnClick",
+      "title": "Ability to save feeds",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "openFeedsInSameTab",
+      "title": "Open feeds in the same tab",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "resetCounterOnClick",
+      "title": "Reset counter when extension button clicked",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "useSecureConnection",
+      "title": "Use secure connection (https)",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "showFullFeedContent",
+      "title": "Show full content of article in the expanded feed (if possible)",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "popupFontSize",
+      "title": "Popup font size in percent",
+      "type": "integer",
+      "value": 100
+    },
+    {
+      "name": "popupWidth",
+      "title": "Popup width",
+      "type": "integer",
+      "value": 380
+    },
+    {
+      "name": "expandedPopupWidth",
+      "title": "Expanded popup width",
+      "type": "integer",
+      "value": 650
+    },
+    {
+      "name": "popupMaxHeight",
+      "title": "Popup max height",
+      "type": "integer",
+      "value": 600
+    },
+    {
+      "name": "closePopupOnNewsOpen",
+      "title": "Close popup on news open",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "openFeedsInBackground",
+      "title": "Open feeds in background tab",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "closePopupWhenNoFeeds",
+      "title": "Close popup when no feeds",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "showCategories",
+      "title": "Show categories in popup",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "expandFeeds",
+      "title": "Expand all feeds when popup is opened",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "showDesktopNotifications",
+      "title": "Show desktop notifications",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "playSound",
+      "title": "Play alert sound on new feeds",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "showCounter",
+      "title": "Show counter",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "openSiteOnIconClick",
+      "title": "Open Feedly site on icon click (don't show popup)",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "filters",
+      "title": "Filters",
+      "type": "control",
+      "label": "Filters..."
+    },
+    {
+      "name": "logout",
+      "title": "Logout",
+      "type": "control",
+      "label": "Logout"
+    }
+  ]
 }
