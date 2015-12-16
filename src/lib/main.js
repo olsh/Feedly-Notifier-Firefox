@@ -935,7 +935,7 @@ function toggleSavedFeed(feedId, saveStatus) {
 /* Runs authenticating a user process,
  * then read access token and stores in the FF storage */
 function getAccessToken() {
-    var redirectUri = "https://olsh.github.io/Feedly-Notifier";
+    var redirectUri = "https://olsh.github.io/Feedly-Notifier/";
     var state = (new Date()).getTime();
     var url = appGlobal.feedlyApiClient.getMethodUrl("auth/auth", {
         response_type: "code",
@@ -988,7 +988,6 @@ function getAccessToken() {
                     tabs.removeListener("load", requestToken);
                     tabs.removeListener("pageshow", requestToken);
 
-                    tab.close();
                     initialize();
                 }
             });
