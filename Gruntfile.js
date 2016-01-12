@@ -94,6 +94,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask("build", ["copy", "string-replace:keys", "jpm:xpi", "clean"]);
-    grunt.registerTask("sandbox", ["copy", "string-replace", "jpm:run", "mozilla-cfx"]);
+    grunt.registerTask("sandbox", ["copy", "string-replace", "jpm:run"]);
     grunt.registerTask("default", ["copy", "string-replace:keys", "jpm:run"]);
 };
