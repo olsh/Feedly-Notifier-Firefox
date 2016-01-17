@@ -27,8 +27,36 @@ module.exports = function (grunt) {
                     {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.ru.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.ru.js'},
                     {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.zh-CN.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.zh-CN.js'}
                 ]
+            },
+            "arabic-locale": {
+                src: '<%= pkg.sourcePath %>/locale/ar.properties',
+                dest: '<%= pkg.buildPath %>/locale/ar.properties'
             }
         },
+        multidest: {
+            arabic: {
+                tasks: ['copy:arabic-locale'],
+                dest: [
+                    '<%= pkg.buildPath %>/locale/ar-SA.properties',
+                    '<%= pkg.buildPath %>/locale/ar-IQ.properties',
+                    '<%= pkg.buildPath %>/locale/ar-EG.properties',
+                    '<%= pkg.buildPath %>/locale/ar-LY.properties',
+                    '<%= pkg.buildPath %>/locale/ar-DZ.properties',
+                    '<%= pkg.buildPath %>/locale/ar-MA.properties',
+                    '<%= pkg.buildPath %>/locale/ar-TN.properties',
+                    '<%= pkg.buildPath %>/locale/ar-OM.properties',
+                    '<%= pkg.buildPath %>/locale/ar-YE.properties',
+                    '<%= pkg.buildPath %>/locale/ar-SY.properties',
+                    '<%= pkg.buildPath %>/locale/ar-JO.properties',
+                    '<%= pkg.buildPath %>/locale/ar-LB.properties',
+                    '<%= pkg.buildPath %>/locale/ar-KW.properties',
+                    '<%= pkg.buildPath %>/locale/ar-AE.properties',
+                    '<%= pkg.buildPath %>/locale/ar-BH.properties',
+                    '<%= pkg.buildPath %>/locale/ar-QA.properties'
+                ]
+            }
+        }
+        ,
         "string-replace": {
             keys: {
                 files: {
@@ -90,11 +118,12 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-multi-dest");
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-jpm');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask("build", ["copy", "string-replace:keys", "jpm:xpi", "clean"]);
-    grunt.registerTask("sandbox", ["copy", "string-replace", "jpm:run"]);
-    grunt.registerTask("default", ["copy", "string-replace:keys", "jpm:run"]);
+    grunt.registerTask("build", ["copy", "multidest", "string-replace:keys", "jpm:xpi", "clean"]);
+    grunt.registerTask("sandbox", ["copy", "multidest", "string-replace", "jpm:run"]);
+    grunt.registerTask("default", ["copy", "multidest", "string-replace:keys", "jpm:run"]);
 };

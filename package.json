@@ -6,6 +6,7 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-jpm": "~0.1.2",
+    "grunt-multi-dest": "^1.0.0",
     "grunt-string-replace": "~0.2.4"
   },
   "repository": {

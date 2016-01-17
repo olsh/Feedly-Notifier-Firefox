@@ -6,7 +6,7 @@
   "author": "Dmitriy Samodov, Oleg Shevchenko",
   "license": "MPL 2.0",
   "homepage": "http://olsh.github.io/Feedly-Notifier",
-  "version": "2.10.11",
+  "version": "2.10.12",
   "icon": "data/images/icon48.png",
   "permissions": {
     "private-browsing": true
@@ -24,7 +24,8 @@
     "pollti",
     "Daniel Martínez",
     "Christian",
-    "Horaian"
+    "Horaian",
+    "Issam Abidi"
   ],
   "preferences": [
     {
