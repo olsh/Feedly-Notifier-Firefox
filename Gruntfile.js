@@ -25,6 +25,7 @@ module.exports = function (grunt) {
                     {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.pl.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.pl.js'},
                     {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.pt-br.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.pt-br.js'},
                     {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.ru.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.ru.js'},
+                    {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.uk.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.uk.js'},
                     {src: '<%= pkg.bowerPath %>/jquery-timeago/locales/jquery.timeago.zh-CN.js', dest: '<%= pkg.buildPath %>/data/scripts/timeago/locales/jquery.timeago.zh-CN.js'}
                 ]
             },
