@@ -235,6 +235,8 @@ function controlsInitialization(showPanel){
 
         appGlobal.panel.on("hide", function() {
             appGlobal.button.state("window", {checked: false});
+            // Workaround to show the loading on the next show event
+            showPopupLoader();
         });
 
         appGlobal.panel.port.on("getFeeds", function (data) {
