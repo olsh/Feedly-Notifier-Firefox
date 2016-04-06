@@ -156,6 +156,12 @@
       "value": true
     },
     {
+      "name": "grayIconColorIfNoUnread",
+      "title": "Gray icon color if no unread",
+      "type": "bool",
+      "value": false
+    },
+    {
       "name": "openSiteOnIconClick",
       "title": "Open Feedly site on icon click (don't show popup)",
       "type": "bool",

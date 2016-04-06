@@ -56,6 +56,7 @@ var appGlobal = {
         isFiltersEnabled: false,
         openFeedsInSameTab: false,
         openFeedsInBackground: false,
+        grayIconColorIfNoUnread: false,
         filters: [],
 
         get maxNumberOfFeeds() {
@@ -359,10 +360,12 @@ function sendUnreadFeedsCount(unreadFeedsData) {
     else {
         appGlobal.button.badge = unreadFeedsData.unreadFeedsCount;
     }
-    if (unreadFeedsData.isLoggedIn) {
-        appGlobal.button.icon = appGlobal.activeIconsSet;
-    } else {
+
+    if (!unreadFeedsData.isLoggedIn ||
+        unreadFeedsData.unreadFeedsCount === 0 && appGlobal.options.grayIconColorIfNoUnread) {
         appGlobal.button.icon = appGlobal.inactiveIconsSet;
+    } else {
+        appGlobal.button.icon = appGlobal.activeIconsSet;
     }
 }
 
