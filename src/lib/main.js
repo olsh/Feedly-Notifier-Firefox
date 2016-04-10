@@ -352,9 +352,7 @@ function sendRemoveFeedsFromPopup(feedIds){
 }
 
 function sendUnreadFeedsCount(unreadFeedsData) {
-    if(!appGlobal.options.showCounter) unreadFeedsData.unreadFeedsCount = 0;
-
-    if (unreadFeedsData.unreadFeedsCount === 0) {
+    if (unreadFeedsData.unreadFeedsCount === 0 || !appGlobal.options.showCounter) {
         appGlobal.button.badge = null;
     }
     else {
