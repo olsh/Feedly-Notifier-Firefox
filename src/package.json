@@ -6,8 +6,8 @@
   "author": "Dmitriy Samodov, Oleg Shevchenko",
   "license": "MPL 2.0",
   "homepage": "http://olsh.github.io/Feedly-Notifier",
-  "version": "2.11.1",
-  "icon": "data/images/icon48.png",
+  "version": "2.11.2",
+  "icon": "resource://jid1-bojn8b0im7kh2w-at-jetpack/data/images/icon48.png",
   "permissions": {
     "private-browsing": true
   },
